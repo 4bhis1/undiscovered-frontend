@@ -5,14 +5,17 @@ import {BrowserRouter} from 'react-router-dom';
 import {ThemeProvider, createTheme} from '@mui/material';
 
 import theme from './theme/MaterialTheme';
+import {Theme} from '@radix-ui/themes';
 
 function App() {
   return (
     <>
       <ThemeProvider theme={createTheme(theme)}>
-        <BrowserRouter basename="/">
-          <AppNavigator />
-        </BrowserRouter>
+        <Theme>
+          <BrowserRouter basename="/">
+            <AppNavigator />
+          </BrowserRouter>
+        </Theme>
       </ThemeProvider>
     </>
   );
