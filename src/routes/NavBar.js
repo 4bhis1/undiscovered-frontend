@@ -14,11 +14,12 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import mascot from '../assets/mascot.svg';
 import {useNavigate} from 'react-router-dom';
+import {useAuth} from '../modules/user-management/hooks/useAuth';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-function ResponsiveAppBar() {
+function ResponsiveAppBar({isPublic}) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
@@ -36,6 +37,8 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const {logout} = useAuth();
 
   return (
     <AppBar position="static" sx={{bgcolor: '#88cc00'}}>
@@ -134,9 +137,15 @@ function ResponsiveAppBar() {
             ))}
           </Box>
           <Box sx={{flexGrow: 0}}>
-            <div className="login" onClick={() => navigate('/login')}>
-              <button className="login-button">Login</button>
-            </div>
+            {isPublic ? (
+              <div className="login" onClick={() => navigate('/login')}>
+                <button className="login-button">Login</button>
+              </div>
+            ) : (
+              <div className="login" onClick={() => logout()}>
+                <button className="login-button">Logout</button>
+                </div>
+            )}
             {/* <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />

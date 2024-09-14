@@ -57,7 +57,7 @@ const StackScreens = props => {
       path: path,
       element: (
         <RouteHandler isPublic={isPublic}>
-          <ResponsiveAppBar />
+          <ResponsiveAppBar isPublic={isPublic} />
           <Component navigation={navigation} params={propParams} />
         </RouteHandler>
       ),
