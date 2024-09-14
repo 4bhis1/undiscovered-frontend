@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import data from './data.json';
 import axios from 'axios';
@@ -10,18 +10,19 @@ const useGetImage = ({location}) => {
   const [loading, updateLoading] = useState(true);
   const [imageurl, updateImageUrl] = useState();
 
-  //   axios
-  //     .get(`http://172.18.0.71:4010/v1/itinerary/image?location=${location}`, {
-  //       params: {},
-  //     })
-  //     .then(({data}) => {
-  //       updateImageUrl(data.url);
-  //       updateLoading(false);
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching autocomplete suggestions:', error);
-  //     });
-
+  useEffect(() => {
+    axios
+      .get(`http://172.18.0.71:4010/v1/itinerary/image?location=${location}`, {
+        params: {},
+      })
+      .then(({data}) => {
+        updateImageUrl(data.url);
+        updateLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching autocomplete suggestions:', error);
+      });
+  }, []);
   return {loading, imageurl};
 };
 
