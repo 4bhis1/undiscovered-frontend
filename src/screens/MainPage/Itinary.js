@@ -114,6 +114,7 @@ const Itinary = () => {
     <div>
       <TopContainer destination={destination} />
       <DescriptionCard />
+      <HR />
     </div>
   );
 };
