@@ -1,6 +1,9 @@
 .who-container {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 .people-box {
   height: 100px;
@@ -21,6 +24,24 @@
 
 .people-box:hover {
   border-color: black;
+}
+
+.image-card {
+  margin: 10px;
+  cursor: pointer;
+}
+
+.place-image {
+  height: 100px;
+  width: 100px;
+
+  border-radius: 8px;
+  border-color: #c0c0c0;
+  border-width: 2px;
+  border-style: solid;
+
+  margin-bottom: 10px;
+  overflow: hidden;
 }
 
 .active {
