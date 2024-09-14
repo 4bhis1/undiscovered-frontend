@@ -1,12 +1,12 @@
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { Box, Stack } from '@mui/joy';
-import { Button, TextField } from '@mui/material';
-import { makeStyles } from '@mui/styles';
-import { GoogleLogin } from '@react-oauth/google';
-import React, { useContext } from 'react';
-import { AuthContext } from '../../../context/auth/AuthContext';
+import {Box, Stack} from '@mui/joy';
+import {Button, TextField} from '@mui/material';
+import {makeStyles} from '@mui/styles';
+import {GoogleLogin} from '@react-oauth/google';
+import React, {useContext} from 'react';
+import {AuthContext} from '../../../context/auth/AuthContext';
 import HttpAuth from '../../../services/HttpAuthService';
-import { useLogin } from '../hooks/useLogin';
+import {useLogin} from '../hooks/useLogin';
 
 const useStyles = makeStyles(theme => {
   return {
@@ -46,51 +46,74 @@ const Login = props => {
   const isLoginActionDisabled = !email?.trim() || !password?.trim() || loading;
   const {setAuth} = useContext(AuthContext);
   return (
-    <Stack className={classes.container}>
-      <Box className={classes.avatar}>
-        <LockOutlinedIcon className={classes.lockIcon} />
-      </Box>
-      <Box>Login</Box>
-      <Box>
-        <TextField
-          label="Email"
-          variant="outlined"
-          name="email"
-          value={email}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          label="Password"
-          variant="outlined"
-          type="password"
-          name="password"
-          value={password}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-        />
-        <Button
-          onClick={onLogin}
-          disabled={isLoginActionDisabled}
-          loading={loading}
-          type="submit"
-          variant="contained"
-          color="primary">
-          Login
-        </Button>
-      </Box>
-      <Stack gap={4}>
-        <Button
-          variant="contained"
-          color="newVariant"
-          onClick={() => {
-            navigation.navigate('register');
-          }}>
-          Register Now
-        </Button>
-        {/* <Button
+    <>
+      <div
+        style={{
+          width: '100%',
+          height: '100vh',
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+        }}></div>
+      <div
+        style={{
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          padding: '2rem',
+          borderRadius: '8px',
+          maxWidth: '400px',
+          margin: 'auto',
+          position: 'relative',
+          top: '50%',
+          transform: 'translateY(-50%)',
+        }}>
+        <Stack className={classes.container}>
+          <Box className={classes.avatar}>
+            <LockOutlinedIcon className={classes.lockIcon} />
+          </Box>
+          <Box>Login</Box>
+          <Box>
+            <TextField
+              label="Email"
+              variant="outlined"
+              name="email"
+              value={email}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Password"
+              variant="outlined"
+              type="password"
+              name="password"
+              value={password}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+            />
+          </Box>
+          <Stack gap={1}>
+            <Button
+              onClick={onLogin}
+              disabled={isLoginActionDisabled}
+              loading={loading}
+              type="submit"
+              variant="contained"
+              color="primary">
+              Login
+            </Button>
+            <Button
+              variant="contained"
+              color="newVariant"
+              onClick={() => {
+                navigation.navigate('register');
+              }}>
+              Register Now
+            </Button>
+            {/* <Button
           variant="contained"
           color="primary"
           onClick={() => {
@@ -98,24 +121,29 @@ const Login = props => {
           }}>
           Forgot Password
         </Button> */}
-        <GoogleLogin
-          onSuccess={async (credentialResponse) => {
-            const {user,tokens} = await HttpAuth.post('/v1/auth/google-login', {
-              idToken: credentialResponse.credential
-            })
-            const {access,refresh} = tokens;
-            localStorage.setItem('access_token', JSON.stringify(access));
-            localStorage.setItem('refresh_token', JSON.stringify(refresh));
-            HttpAuth.access_token = access;
-            HttpAuth.refresh_token = refresh;
-            setAuth({user: user});
-          }}
-          onError={() => {
-            console.log('Login Failed');
-          }}
-        />
-      </Stack>
-    </Stack>
+            <GoogleLogin
+              onSuccess={async credentialResponse => {
+                const {user, tokens} = await HttpAuth.post(
+                  '/v1/auth/google-login',
+                  {
+                    idToken: credentialResponse.credential,
+                  },
+                );
+                const {access, refresh} = tokens;
+                localStorage.setItem('access_token', JSON.stringify(access));
+                localStorage.setItem('refresh_token', JSON.stringify(refresh));
+                HttpAuth.access_token = access;
+                HttpAuth.refresh_token = refresh;
+                setAuth({user: user});
+              }}
+              onError={() => {
+                console.log('Login Failed');
+              }}
+            />
+          </Stack>
+        </Stack>
+      </div>
+    </>
   );
 };
 

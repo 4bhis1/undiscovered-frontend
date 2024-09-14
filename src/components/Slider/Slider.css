@@ -1,0 +1,64 @@
+/* Slider.css */
+.slider-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.slider-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin: 0 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.dot.active {
+  background-color: #007bff;
+  transform: scale(1.2); /* Enlarge the active dot */
+}
+
+.line {
+  width: 40px;
+  height: 4px;
+  background-color: #ccc;
+  transition: background-color 0.3s ease;
+}
+
+.line.active {
+  background-color: #007bff;
+}
+
+.slider-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.slider-controls button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.slider-controls button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+.slider-controls button:not(:disabled):hover {
+  background-color: #0056b3;
+}
