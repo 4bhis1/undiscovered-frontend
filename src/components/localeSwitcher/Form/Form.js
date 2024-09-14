@@ -16,6 +16,8 @@ import {Button} from '../../Button';
 import moment from 'moment';
 import DatePickerComponent, {arrangeDates} from '../Date/DatePicker';
 
+import axios from 'axios';
+
 const PlaceCard = ({title, imagePath, selectedValues, onClick}) => {
   let className = 'place-image';
 
@@ -37,32 +39,66 @@ export const Search = ({value, onChange, ...props}) => {
   return <TextField.Root value={value} onChange={onChange} {...props} />;
 };
 
+const City = ({text = 'park', countryCode}) => {
+  console.log('>>> called it baby');
+
+  // const access_token =
+  //   'pk.eyJ1Ijoicml0ZXNocDExMiIsImEiOiJjbTEyMDZ5ZGgweDJjMm1xMXBsanEzdGVjIn0.JEwfT3BZW7FBuQeD1gw5gA';
+  let access_token =
+    'pk.eyJ1Ijoic3ppbGFyZG1hdGUiLCJhIjoiY2xycXRqNjA4MDd1MDJrcWx0amRoYXp6ZyJ9.JoEWVmK7_7O4hhWySeP_Ag';
+  axios
+    .get(`https://api.mapbox.com/search/geocode/v6/forward`, {
+      params: {
+        q: text,
+        access_token,
+        limit: 10,
+        country: countryCode,
+        types: ['place', 'locality'],
+      },
+    })
+    .then(response => {
+      console.log('🚀 ~ file: Form.js:57 ~ City ~ response:', response);
+
+      const {features} = response.data;
+      // setSuggestions(features);
+    })
+    .catch(error => {
+      console.error('Error fetching autocomplete suggestions:', error);
+    });
+
+  return <div>Hello;</div>;
+};
+
 const Place = ({formState, updateFormState}) => {
-  const [_, updateState] = useState();
+  const [countryCode, updateState] = useState();
   const value = 'where';
 
   return (
-    <div className={'who-container'}>
-      {ContinentArray.map(({title, imagePath}) => {
-        return (
-          <PlaceCard
-            key={title}
-            title={title}
-            imagePath={imagePath}
-            onClick={() => {
-              updateFormState(formState => {
-                if (!formState[value]) {
-                  formState[value] = {};
-                }
-                formState[value][title] = 1;
-                updateState(title);
-                return formState;
-              });
-            }}
-            selectedValues={formState[value]}
-          />
-        );
-      })}
+    <div className={'who-container'} style={{flexDirection: 'column'}}>
+      <div style={{padding: 20}}>Where would you like to go ?</div>
+      <div style={{display: 'flex', flexDirection: 'row'}}>
+        {ContinentArray.map(({title, imagePath, code}) => {
+          return (
+            <PlaceCard
+              key={title}
+              title={title}
+              imagePath={imagePath}
+              onClick={() => {
+                updateFormState(formState => {
+                  if (!formState[value]) {
+                    formState[value] = {};
+                  }
+                  formState[value][title] = 1;
+                  updateState(code);
+                  return formState;
+                });
+              }}
+              selectedValues={formState[value]}
+            />
+          );
+        })}
+      </div>
+      {/* {formState[value] && <City countryCode={countryCode} />} */}
     </div>
   );
 };
@@ -136,8 +172,6 @@ const Date = ({formState, updateFormState}) => {
       )}
     </div>
   );
-
-  // return <BasicDateRangeCalendar />;
 };
 
 const Card = ({Icon, title, additionalText, selectedValue, onClick, multi}) => {
