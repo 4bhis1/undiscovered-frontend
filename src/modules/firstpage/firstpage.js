@@ -33,7 +33,7 @@ const FirstPage = () => {
     <div className="container">
       {/* Navbar */}
       <header className="header">
-        <nav className="navbar">
+        {/* <nav className="navbar">
           <div className="logo">
             <img src={mascot} alt="undiscover logo" />
             <text>Undiscover</text>
@@ -41,7 +41,7 @@ const FirstPage = () => {
           <div className="login" onClick={() => navigate('/login')}>
             <button className="login-button">Login</button>
           </div>
-        </nav>
+        </nav> */}
 
         {/* Main Content */}
         <h1>Explore like the world is your oyster</h1>

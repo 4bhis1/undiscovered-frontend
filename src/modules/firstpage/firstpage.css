@@ -37,19 +37,21 @@
   border-radius: 62.2px;
   border: 1px 0px 0px 0px;
   opacity: 0px;
-  background: #000000;
-  border: 1px solid #71e6d3;
+  background: #88cc00;
+  border: 1px solid #ffffff;
   color: #ffffff;
 }
 
 .header {
   background-image: url('../../assets/headerbackground.svg');
   background-size: cover;
-  padding-bottom: 32px;
+  padding-bottom: 52px;
 }
 
 .header h1 {
-  font-size: 2.5rem;
+  /* font-size: 2.5rem; */
+  margin-top: 0px;
+  padding-top: 40px;
   color: #ffffff;
 }
 
