@@ -1,0 +1,129 @@
+{
+  "_id": "66e5e649c5058b43cc12ce0c",
+  "destination": {
+    "number_of_days": 3,
+    "destination_cities": ["Istanbul"],
+    "destination_country": "Turkey",
+    "currency": "TRY",
+    "one_dollar_in_local_currency": 27,
+    "languages_spoken": ["Turkish", "English"],
+    "time_format": "UTC + 3",
+    "capital_of_country": "Ankara",
+    "local_weather": "Mediterranean",
+    "temparature_range": "5°C to 30°C",
+    "short_desc": "Turkey offers a rich tapestry of history, culture, and stunning landscapes. Istanbul, with its blend of ancient and modern, is the perfect starting point for exploration.",
+    "short_history": "Istanbul, historically known as Byzantium and Constantinople, has been a significant cultural and political center for centuries, bridging Europe and Asia. Its rich history is reflected in its diverse architecture and vibrant culture.",
+    "start_date": "2024-12-12T00:00:00.000Z",
+    "end_date": "2024-12-15T00:00:00.000Z"
+  },
+  "itinerary": [
+    {
+      "day_no": 1,
+      "date": "2024-12-12T00:00:00.000Z",
+      "program": [
+        {
+          "_id": "66e5e65bc5058b43cc12ce11",
+          "place": "Hagia Sophia",
+          "estimated_time": "2 hours",
+          "location": "Sultanahmet",
+          "coordinate": ["28.9794", "41.0082"],
+          "description": "A former Greek Orthodox Christian basilica, later an Ottoman imperial mosque and now a museum, Hagia Sophia is a masterpiece of Byzantine architecture.",
+          "cost": 200,
+          "type": "activity"
+        },
+        {
+          "_id": "66e5e65bc5058b43cc12ce13",
+          "place": "Topkapi Palace",
+          "estimated_time": "3 hours",
+          "location": "Sultanahmet",
+          "coordinate": ["28.9834", "41.0104"],
+          "description": "The former residence of the Ottoman sultans, Topkapi Palace is filled with exquisite artifacts and beautiful gardens.",
+          "cost": 300,
+          "type": "activity"
+        },
+        {
+          "_id": "66e5e65bc5058b43cc12ce15",
+          "place": "Dinner at a Local Restaurant",
+          "estimated_time": "2 hours",
+          "location": "Sultanahmet",
+          "coordinate": ["28.9794", "41.0082"],
+          "description": "Enjoy traditional Turkish cuisine at a local restaurant, featuring dishes like kebabs, mezes, and baklava.",
+          "cost": 1500,
+          "type": "dining"
+        }
+      ]
+    },
+    {
+      "day_no": 2,
+      "date": "2024-12-13T00:00:00.000Z",
+      "program": [
+        {
+          "_id": "66e5e65bc5058b43cc12ce19",
+          "place": "Basilica Cistern",
+          "estimated_time": "1.5 hours",
+          "location": "Sultanahmet",
+          "coordinate": ["28.977", "41.0089"],
+          "description": "An ancient underground water reservoir, the Basilica Cistern is known for its stunning columns and atmospheric lighting.",
+          "cost": 200,
+          "type": "activity"
+        },
+        {
+          "_id": "66e5e65bc5058b43cc12ce1b",
+          "place": "Grand Bazaar",
+          "estimated_time": "2 hours",
+          "location": "Beyazit",
+          "coordinate": ["28.9654", "41.0105"],
+          "description": "One of the largest and oldest covered markets in the world, the Grand Bazaar is a vibrant place to shop for souvenirs, textiles, and jewelry.",
+          "cost": 0,
+          "type": "activity"
+        },
+        {
+          "_id": "66e5e65bc5058b43cc12ce1d",
+          "place": "Istanbul Nightlife Tour",
+          "estimated_time": "3 hours",
+          "location": "Beyoğlu",
+          "coordinate": ["28.9795", "41.0328"],
+          "description": "Experience the vibrant nightlife of Istanbul with a guided tour, visiting bars and clubs popular among locals.",
+          "cost": 2000,
+          "type": "activity"
+        }
+      ]
+    },
+    {
+      "day_no": 3,
+      "date": "2024-12-14T00:00:00.000Z",
+      "program": [
+        {
+          "_id": "66e5e65bc5058b43cc12ce21",
+          "place": "Dolmabahçe Palace",
+          "estimated_time": "2 hours",
+          "location": "Besiktas",
+          "coordinate": ["29.0019", "41.201"],
+          "description": "This opulent palace served as the main administrative center of the Ottoman Empire in the 19th century, showcasing stunning architecture and gardens.",
+          "cost": 300,
+          "type": "activity"
+        },
+        {
+          "_id": "66e5e65bc5058b43cc12ce23",
+          "place": "Bosphorus Cruise",
+          "estimated_time": "1.5 hours",
+          "location": "Eminönü",
+          "coordinate": ["28.977", "41.0128"],
+          "description": "Enjoy a scenic cruise on the Bosphorus, taking in views of the city's skyline and historic landmarks from the water.",
+          "cost": 500,
+          "type": "activity"
+        },
+        {
+          "_id": "66e5e65bc5058b43cc12ce25",
+          "place": "Farewell Dinner",
+          "estimated_time": "2 hours",
+          "location": "Kadikoy",
+          "coordinate": ["29.022", "40.9983"],
+          "description": "Celebrate the end of your trip with a farewell dinner at a restaurant overlooking the Bosphorus, enjoying local dishes and drinks.",
+          "cost": 2000,
+          "type": "dining"
+        }
+      ]
+    }
+  ]
+}
