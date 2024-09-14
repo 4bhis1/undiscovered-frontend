@@ -2,6 +2,30 @@ import React from 'react';
 import './firstpage.css'; // For your CSS styling
 import {useNavigate} from 'react-router-dom';
 import mascot from '../../assets/mascot.svg';
+import Modal from '@mui/material/Modal';
+import MainForm from '../../components/localeSwitcher/Form/Form';
+
+const PlanATrip = () => {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  return (
+    <div className="action-buttons">
+      <button className="plan-button" onClick={handleOpen}>
+        Plan a trip &rarr;
+      </button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description">
+        <MainForm handleClose={handleClose} />
+      </Modal>
+      <button className="discover-button">Discover on the go &rarr;</button>
+    </div>
+  );
+};
 
 const FirstPage = () => {
   const navigate = useNavigate();
@@ -21,10 +45,7 @@ const FirstPage = () => {
 
         {/* Main Content */}
         <h1>Explore like the world is your oyster</h1>
-        <div className="action-buttons">
-          <button className="plan-button">Plan a trip &rarr;</button>
-          <button className="discover-button">Discover on the go &rarr;</button>
-        </div>
+        <PlanATrip />
       </header>
 
       {/* Features Section */}
