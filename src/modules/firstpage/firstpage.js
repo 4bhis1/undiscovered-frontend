@@ -12,7 +12,7 @@ const FirstPage = () => {
         <nav className="navbar">
           <div className="logo">
             <img src={mascot} alt="undiscover logo" />
-            <text>undiscover</text>
+            <text>Undiscover</text>
           </div>
           <div className="login" onClick={() => navigate('/login')}>
             <button className="login-button">Login</button>
@@ -30,28 +30,28 @@ const FirstPage = () => {
       {/* Features Section */}
       <section className="features">
         <div className="feature-box">
-          <h3>plan & save with ease</h3>
+          <h3>Plan & save with ease</h3>
           <p>
             Bookmark destinations and create your personalized itinerary
             effortlessly.
           </p>
         </div>
         <div className="feature-box">
-          <h3>hassle-free booking</h3>
+          <h3>Hassle-free booking</h3>
           <p>
             Book flights, stays, and activities in one place while AI finds the
             best deals.
           </p>
         </div>
         <div className="feature-box">
-          <h3>discover on the go</h3>
+          <h3>Discover on the go</h3>
           <p>
             Get personalized local recommendations from our AI chatbot, tailored
             to your location and interests.
           </p>
         </div>
         <div className="feature-box">
-          <h3>stay updated</h3>
+          <h3>Stay updated</h3>
           <p>
             Receive real-time itinerary alerts and travel notifications for a
             smooth trip.
