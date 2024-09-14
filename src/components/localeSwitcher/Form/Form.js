@@ -48,14 +48,14 @@ const Date = () => {
   );
 };
 
-const NumberOfPeopleTraining = () => {};
+const NumberOfPeopleGoing = () => {};
 const BudgetRange = () => {};
 const ActivitiesYouWant = () => {};
 
 const ComponentIndex = [
   Place,
   Date,
-  NumberOfPeopleTraining,
+  NumberOfPeopleGoing,
   BudgetRange,
   ActivitiesYouWant,
 ];
@@ -76,7 +76,6 @@ const MainForm = () => {
       <Flex>
         {sliderCount > 0 && (
           <Box
-            width="64px"
             height="64px"
             onClick={() => {
               // if (sliderCount > 0) {
@@ -85,12 +84,11 @@ const MainForm = () => {
               });
               // }
             }}>
-            Prev
+            Back
           </Box>
         )}
         {sliderCount < ComponentIndex.length - 1 && (
           <Box
-            width="64px"
             height="64px"
             onClick={() => {
               // if (sliderCount < ComponentIndex.length - 1) {
@@ -99,7 +97,7 @@ const MainForm = () => {
               });
               // }
             }}>
-            Next
+            Continue
           </Box>
         )}
       </Flex>
