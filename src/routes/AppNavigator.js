@@ -12,6 +12,7 @@ import {useNavigate} from 'react-router-dom';
 import AuthRoutes from '../modules/user-management/Auth.Routes';
 import TaskRoutes from '../modules/sample-module/Task.Routes';
 import HomeRoutes from '../modules/home/Home.Routes';
+import ResponsiveAppBar from './NavBar';
 
 const RouteHandler = ({children, isPublic}) => {
   let {isAuthenticated} = useAuth();
@@ -56,6 +57,7 @@ const StackScreens = props => {
       path: path,
       element: (
         <RouteHandler isPublic={isPublic}>
+          <ResponsiveAppBar />
           <Component navigation={navigation} params={propParams} />
         </RouteHandler>
       ),
@@ -65,7 +67,6 @@ const StackScreens = props => {
 };
 
 export const AppNavigator = () => {
-
   const {loading, isAuthenticated} = useAuth();
   if (loading) {
     return <LoadingScreen />;
