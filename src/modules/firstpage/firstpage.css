@@ -115,10 +115,24 @@
   overflow: hidden;
 }
 
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .globe img {
   width: 1, 280px;
   height: 622px;
   left: 0.31px;
   opacity: 0px;
   transform: scaleX(-1);
+  animation: rotate 2s infinite linear;
+  box-shadow: '6px 6px 6px black';
 }
