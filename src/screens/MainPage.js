@@ -13,7 +13,7 @@ const sideNavBarItem = [
 const MainPage = () => {
   return (
     <div>
-      <LeftNav data={sideNavBarItem} />
+      {/* <LeftNav data={sideNavBarItem} /> */}
       <Itinary />
       <Map />
     </div>
