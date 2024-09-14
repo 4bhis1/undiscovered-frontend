@@ -19,7 +19,7 @@ const RouteHandler = ({children, isPublic}) => {
   // isAuthenticated = true;
 
   if (!isAuthenticated && !isPublic) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/welcome" />;
   }
 
   if (isAuthenticated && isPublic) {

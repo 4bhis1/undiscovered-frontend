@@ -1,10 +1,16 @@
 // import ChangePassword from './screens/ChangePassword-Router';
 // import ForgotPassword from './screens/ForgotPassword-Router';
 // import ResetPassword from './screens/ResetPassword-Router';
+import FirstPage from '../firstpage/firstpage';
 import Login from './screens/LoginForm';
 import RegisterForm from './screens/RegisterForm';
 
 const stackRoutes = [
+  {
+    name: 'Undiscover',
+    path: '/welcome',
+    component: FirstPage,
+  },
   {
     name: 'login',
     path: '/login',
