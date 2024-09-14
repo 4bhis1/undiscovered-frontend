@@ -204,6 +204,8 @@ const ComponentIndex = [
   ActivitiesYouWant,
 ];
 
+const ShowMagic = () => {};
+
 const MainForm = () => {
   const [sliderCount, updateSliderCount] = useState(0);
 
@@ -235,7 +237,11 @@ const MainForm = () => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Slider totalSteps={ComponentIndex.length} currentStep={sliderCount} />
+        <Slider
+          totalSteps={ComponentIndex.length}
+          currentStep={sliderCount}
+          updateSliderCount={updateSliderCount}
+        />
         <Text
           style={{
             display: 'flex',
@@ -243,7 +249,13 @@ const MainForm = () => {
           }}>
           Plan Your Next Trip
         </Text>
-        <div style={{height: '80%'}}>
+        <div
+          style={{
+            height: '80%',
+            width: '80%',
+            display: 'flex',
+            flexDirection: 'column',
+          }}>
           <Component formState={formState} updateFormState={updateFormState} />
         </div>
         <div
@@ -284,6 +296,25 @@ const MainForm = () => {
                 // }
               }}>
               Continue
+            </Box>
+          )}
+
+          {sliderCount === ComponentIndex.length - 1 && (
+            <Box
+              style={{
+                borderRadius: '10px',
+                boxShadow: '6px 6px 10px rgba(0, 0, 0, 0.2)',
+                overflow: 'hidden',
+                justifyContent: 'center',
+                alignItems: 'center',
+                display: 'flex',
+                padding: '10px',
+              }}
+              height="50px"
+              onClick={() => {
+                ShowMagic();
+              }}>
+              Lets Generate
             </Box>
           )}
         </div>
