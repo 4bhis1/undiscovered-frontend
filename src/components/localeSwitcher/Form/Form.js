@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 
 import {Box, Flex, Text, TextField} from '@radix-ui/themes';
+import {IoIosClose} from 'react-icons/io';
 
 import './form.css';
 import BasicDateRangeCalendar from './DateCalendar';
@@ -72,7 +73,6 @@ const Place = ({formState, updateFormState}) => {
 };
 
 const Date = ({formState, updateFormState}) => {
-  console.log('🚀 ~ file: Form.js:88 ~ Date ~ formState:', formState);
   const value = 'when';
 
   const [dateDiff, updateDateDiff] = useState();
@@ -256,7 +256,9 @@ const ShowMagic = ({formState}) => {
   console.log('>>> formState', formState);
 };
 
-const MainForm = () => {
+const MainForm = props => {
+  const {handleClose} = props;
+
   const [sliderCount, updateSliderCount] = useState(0);
   const [formState, updateFormState] = useState({});
   const Component = ComponentIndex[sliderCount];
@@ -282,7 +284,27 @@ const MainForm = () => {
           borderRadius: '10px',
           boxShadow: '6px 6px 10px rgba(0, 0, 0, 0.2)',
           overflow: 'hidden',
+          position: 'relative',
         }}>
+        <div
+          style={{
+            cursor: 'pointer',
+            position: 'absolute',
+            top: 10,
+            right: 10,
+            height: 20,
+            width: 20,
+            backgroundColor: '#c0c0c0',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 10,
+          }}
+          onClick={() => {
+            handleClose();
+          }}>
+          <IoIosClose />
+        </div>
         <div
           style={{
             height: '100%',
@@ -291,23 +313,26 @@ const MainForm = () => {
             alignItems: 'center',
             position: 'relative',
           }}>
+          <Text
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              margin: 20,
+            }}>
+            Plan Your Next Trip
+          </Text>
           <Slider
             totalSteps={ComponentIndex.length}
             currentStep={sliderCount}
             updateSliderCount={updateSliderCount}
           />
-          <Text
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-            }}>
-            Plan Your Next Trip
-          </Text>
+
           <div
             style={{
               display: 'flex',
               flexDirection: 'column',
               flex: 1,
+              marginTop: 10,
             }}>
             <Component
               formState={formState}
