@@ -26,7 +26,7 @@ const useGetImage = ({location}) => {
   return {loading, imageurl};
 };
 
-const HR = (
+const HR = () => (
   <div
     style={{
       borderColor: '#c0c0c0',
@@ -34,8 +34,7 @@ const HR = (
       borderStyle: 'solid',
       display: 'flex',
       flex: 1,
-    }}
-  />
+    }}></div>
 );
 
 const TopContainer = ({destination}) => {
