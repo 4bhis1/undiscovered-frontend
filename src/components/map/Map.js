@@ -1,438 +1,403 @@
-import MapboxGeocoding from "@mapbox/mapbox-sdk/services/geocoding";
-import axios from "axios";
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
-import React, { useEffect, useRef, useState } from "react";
-import { AiFillHome } from "react-icons/ai";
-import { GiWideArrowDunk } from "react-icons/gi";
-import { MdLocationOn } from "react-icons/md";
-import "./Map.scss";
+import MapboxGeocoding from '@mapbox/mapbox-sdk/services/geocoding';
+import axios from 'axios';
+import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import React, {useEffect, useRef, useState} from 'react';
+import {AiFillHome} from 'react-icons/ai';
+import {GiWideArrowDunk} from 'react-icons/gi';
+import {MdLocationOn} from 'react-icons/md';
+import './Map.scss';
 
-const Direction = () => {
+function getColorForRoute(index) {
+  const colors = ['#FF5733', '#33FF57', '#3357FF', '#F1C40F', '#8E44AD']; // Define your colors here
+  return colors[index % colors.length]; // Cycle through colors
+}
+
+const tempData = {
+  destination: {
+    numberOfDays: 3,
+    destinationCities: ['Istanbul', 'Cappadocia'],
+    destinationCountry: 'Turkey',
+    currency: 'Turkish Lira',
+    oneDollarInLocalCurrency: 24.5,
+    languagesSpoken: ['Turkish', 'English'],
+    timeThereInUtcFormat: 'UTC + 3',
+    capitalOfTheCountry: 'Ankara',
+    localWeather: 'Continental',
+    temperatureRangeThroughTheYear: '0°C to 35°C',
+    shortDescription:
+      'Turkey offers a rich mix of history, culture, and natural beauty. From the bustling streets of Istanbul to the unique landscapes of Cappadocia, there is something for everyone.',
+    shortHistory:
+      'Turkey has a rich history that spans thousands of years, acting as a bridge between Europe and Asia. It was once home to empires such as the Byzantines and Ottomans, leaving behind a legacy of stunning architecture and cultural diversity.',
+    startDate: '2024-12-12',
+    endDate: '2024-12-14',
+  },
+  itinerary: [
+    {
+      day: 1,
+      date: '2024-12-12',
+      program: [
+        {
+          id: 1,
+          programOrPlaceName: 'Hagia Sophia',
+          timeSpentThere: '1.5 hours',
+          location: 'Istanbul',
+          coordinateOfEvent: [28.9795, 41.0082],
+          shortDescriptionOfProgram:
+            'A stunning architectural marvel that has served as a cathedral and mosque throughout its history. Visitors can marvel at its grand dome and exquisite mosaics.',
+          cost: 200,
+          type: 'activity',
+        },
+        {
+          id: 2,
+          programOrPlaceName: 'Grand Bazaar',
+          timeSpentThere: '2 hours',
+          location: 'Istanbul',
+          coordinateOfEvent: [28.9714, 41.0106],
+          shortDescriptionOfProgram:
+            'One of the largest and oldest covered markets in the world, great for shopping souvenirs and experiencing local culture.',
+          cost: 0,
+          type: 'activity',
+        },
+        {
+          id: 3,
+          programOrPlaceName: 'Dinner at a Local Restaurant',
+          timeSpentThere: '2 hours',
+          location: 'Istanbul',
+          coordinateOfEvent: [28.9795, 41.0082],
+          shortDescriptionOfProgram:
+            'Enjoy a traditional Turkish dinner featuring kebabs, mezes, and baklava.',
+          cost: 1500,
+          type: 'dining',
+        },
+        {
+          id: 4,
+          programOrPlaceName: 'Nightlife in Taksim Square',
+          timeSpentThere: '3 hours',
+          location: 'Istanbul',
+          coordinateOfEvent: [28.9791, 41.0348],
+          shortDescriptionOfProgram:
+            'Explore vibrant nightlife with cafes and bars, and enjoy live music.',
+          cost: 500,
+          type: 'activity',
+        },
+      ],
+    },
+    {
+      day: 2,
+      date: '2024-12-13',
+      program: [
+        {
+          id: 5,
+          programOrPlaceName: 'Travel to Cappadocia',
+          timeSpentThere: '2 hours',
+          location: 'Cappadocia',
+          coordinateOfEvent: [34.8504, 38.645],
+          shortDescriptionOfProgram:
+            'Take a scenic drive or flight to Cappadocia, known for its fairy chimneys and unique landscapes.',
+          cost: 5000,
+          type: 'transportation',
+        },
+        {
+          id: 6,
+          programOrPlaceName: 'Göreme Open-Air Museum',
+          timeSpentThere: '2 hours',
+          location: 'Cappadocia',
+          coordinateOfEvent: [34.8314, 38.6439],
+          shortDescriptionOfProgram:
+            "Explore an area filled with rock-cut churches and stunning frescoes, showcasing the region's Christian heritage.",
+          cost: 150,
+          type: 'activity',
+        },
+        {
+          id: 7,
+          programOrPlaceName: 'Dinner in Göreme',
+          timeSpentThere: '2 hours',
+          location: 'Cappadocia',
+          coordinateOfEvent: [34.8314, 38.6439],
+          shortDescriptionOfProgram:
+            'Taste local dishes like pottery kebab in a traditional setting.',
+          cost: 1200,
+          type: 'dining',
+        },
+        {
+          id: 8,
+          programOrPlaceName: 'Cappadocia Night Tour',
+          timeSpentThere: '2 hours',
+          location: 'Cappadocia',
+          coordinateOfEvent: [34.8504, 38.645],
+          shortDescriptionOfProgram:
+            'Discover the enchanting views of Cappadocia under the stars.',
+          cost: 300,
+          type: 'activity',
+        },
+      ],
+    },
+    {
+      day: 3,
+      date: '2024-12-14',
+      program: [
+        {
+          id: 9,
+          programOrPlaceName: 'Hot Air Balloon Ride',
+          timeSpentThere: '3 hours',
+          location: 'Cappadocia',
+          coordinateOfEvent: [34.8478, 38.6572],
+          shortDescriptionOfProgram:
+            "Experience a breathtaking hot air balloon ride over Cappadocia's unique landscape early in the morning.",
+          cost: 12000,
+          type: 'activity',
+        },
+        {
+          id: 10,
+          programOrPlaceName: 'Visit Uchisar Castle',
+          timeSpentThere: '1.5 hours',
+          location: 'Cappadocia',
+          coordinateOfEvent: [34.8077, 38.6289],
+          shortDescriptionOfProgram:
+            'Climb to the top of this ancient fortress for panoramic views of the region.',
+          cost: 100,
+          type: 'activity',
+        },
+        {
+          id: 11,
+          programOrPlaceName: 'Lunch at a Local Restaurant',
+          timeSpentThere: '2 hours',
+          location: 'Cappadocia',
+          coordinateOfEvent: [34.8314, 38.6439],
+          shortDescriptionOfProgram:
+            'Enjoy traditional Cappadocian cuisine, perfect for winding down your trip.',
+          cost: 1000,
+          type: 'dining',
+        },
+        {
+          id: 12,
+          programOrPlaceName: 'Return to Istanbul',
+          timeSpentThere: '2 hours',
+          location: 'Cappadocia',
+          coordinateOfEvent: [34.8504, 38.645],
+          shortDescriptionOfProgram:
+            'Travel back to Istanbul for your departure.',
+          cost: 5000,
+          type: 'transportation',
+        },
+      ],
+    },
+  ],
+  estimatedCosts: [
+    {
+      category: 'Accommodation',
+      hostelCostPerNight: 400,
+      hotelCostPerNight: 2000,
+      luxuryHotelCostPerNight: 6000,
+      airbnbCostPerNight: 1500,
+    },
+    {
+      category: 'Transportation',
+      busCost: 200,
+      taxiCost: 150,
+      trainCost: 300,
+      rentalCost: 800,
+    },
+    {
+      category: 'Food',
+      streetFoodCost: 50,
+      budgetRestaurantCost: 300,
+      fancyRestaurantCost: 1500,
+      traditionalFoodCost: 800,
+    },
+    {
+      category: 'Activities',
+      mainActivityForEachDay: [
+        {
+          mainActivityName: 'Hagia Sophia and Grand Bazaar',
+          costOfProgram: 1700,
+        },
+        {
+          mainActivityName: 'Göreme Open-Air Museum',
+          costOfProgram: 150,
+        },
+        {
+          mainActivityName: 'Hot Air Balloon Ride',
+          costOfProgram: 12000,
+        },
+      ],
+    },
+  ],
+};
+
+const Direction = props => {
+  const {data = tempData} = props;
   const mapContainerRef = useRef(null);
   const [mapStyle, setMapStyle] = useState(
-    "mapbox://styles/mapbox/streets-v11"
+    'mapbox://styles/mapbox/streets-v11',
   );
-  const [isFocused, setIsFocused] = useState(false);
-  const [origin, setOrigin] = useState("");
-  const destination = [88.3639, 22.5726];
-  const [routeGeometry, setRouteGeometry] = useState(null);
-  const [originCord, setOriginCord] = useState([]);
-  let originCoordinates = [];
-  const [routeInfo, setRouteInfo] = useState([]);
-  const [suggestions, setSuggestions] = useState([]);
-
-  const [expand, setExpand] = useState(false);
-  const initialItemCount = 4;
-  const directions = routeInfo.length > 0 ? routeInfo[0].legs[0].steps : [];
-  const displayedDirections = expand
-    ? directions
-    : directions.slice(0, initialItemCount);
-
-  const handleToggleExpand = () => {
-    setExpand(!expand);
-  };
-
-  const geocodingClient = MapboxGeocoding({
-    accessToken: process.env.REACT_APP_RVITE_MAP_BOX_ACCESS_TOKEN,
-  });
-
-  console.log("routeInfo==>", routeInfo);
-
-  useEffect(() => {
-    localStorage.setItem("mode", "driving");
-  }, []);
-
+  const [day, setDay] = useState(0);
   useEffect(() => {
     mapboxgl.accessToken = process.env.REACT_APP_RVITE_MAP_BOX_ACCESS_TOKEN;
+
+    const allCoordinates = [];
+
+    data.itinerary[day].program.forEach(program => {
+      allCoordinates.push({
+        cordinates: program.coordinateOfEvent,
+        name: program.programOrPlaceName,
+        shortDescriptionOfProgram: program.shortDescriptionOfProgram,
+        timeSpentThere: program.timeSpentThere,
+      });
+    });
+
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: mapStyle,
-      center: [88.3639, 22.5726], // longitude and latitude
-      zoom: 12,
+      center: allCoordinates?.[0]?.cordinates || [],
       attributionControl: false,
     });
 
-    map.on("style.load", () => {
-      // Add the compass control
-      const compassControl = new mapboxgl.NavigationControl({
-        showCompass: true,
+    map.on('style.load', () => {
+      allCoordinates.forEach((coord, index) => {
+        new mapboxgl.Marker({
+          element: document.getElementById(
+            'custom-marker' + 'day' + day + 'index' + index,
+          ),
+        })
+          .setLngLat(coord.cordinates)
+          .addTo(map)
+          .setPopup(
+            new mapboxgl.Popup({closeButton: true}).setHTML(
+              `<div class="location-details">
+            <div class="location-info">
+              <h2>${coord.name}</h3>
+              <p>${coord.timeSpentThere}</p>
+            </div>
+              <p>${coord.shortDescriptionOfProgram}</p>
+            </div>`,
+            ),
+          );
       });
-      map.addControl(compassControl, "top-right");
 
-      // Create a marker with a custom icon
-      const marker = new mapboxgl.Marker({
-        element: document.getElementById("custom-marker"),
-      })
-        .setLngLat([88.3639, 22.5726]) // longitude and latitude
-        .addTo(map)
-        .setPopup(
-          new mapboxgl.Popup({ closeButton: true }).setHTML(
-            `
-          <div class="location-details">
-            <span><strong>City:</strong> Kolkata</span><br>
-            <span><strong>State:</strong> West Bengal</span><br>
-            <span><strong>Country:</strong> INDIA</span></div>
-          </div>
-          `
-          )
-        );
-
-      // Create a marker at the starting position
-      const startMarker = new mapboxgl.Marker()
-        .setLngLat(originCord)
-        .addTo(map);
-
-      if (routeGeometry) {
-        map.addSource("route", {
-          type: "geojson",
-          data: {
-            type: "Feature",
-            geometry: routeGeometry,
-          },
-        });
-
-        map.addLayer({
-          id: "route",
-          type: "line",
-          source: "route",
-          layout: {
-            "line-join": "round",
-            "line-cap": "round",
-          },
-          paint: {
-            "line-color": "#3b9ddd",
-            "line-width": 6,
-          },
-        });
-      }
-      // Get the route bounds
-      const bounds = routeGeometry.coordinates.reduce(
-        (bounds, coord) => bounds.extend(coord),
-        new mapboxgl.LngLatBounds()
+      const bounds = allCoordinates.reduce(
+        (bounds, coord) => bounds.extend(coord.cordinates.map(Number)),
+        new mapboxgl.LngLatBounds(),
       );
 
-      // Zoom out to fit the route within the map view
+      map.addControl(new mapboxgl.NavigationControl());
+
       map.fitBounds(bounds, {
         padding: 50,
       });
+
+      const allCoordinatesAtoB = [];
+      allCoordinates.forEach((coord, index) => {
+        if (index < allCoordinates.length - 1) {
+          allCoordinatesAtoB.push([
+            coord.cordinates.map(Number),
+            allCoordinates[index + 1].cordinates.map(Number),
+          ]);
+        }
+      });
+      for (let i = 0; i < allCoordinatesAtoB.length; i++) {
+        const routeCoordinates = allCoordinatesAtoB?.[i]
+          .map(coord => coord.join(','))
+          .join(';');
+        const directionsUrl = `https://api.mapbox.com/directions/v5/mapbox/walking/${routeCoordinates}?geometries=geojson&access_token=${mapboxgl.accessToken}`;
+
+        fetch(directionsUrl)
+          .then(response => response.json())
+          .then(data => {
+            const route = data.routes[0].geometry.coordinates;
+            if (map.getSource('route' + i)) {
+              map.removeLayer('route' + i);
+              map.removeSource('route' + i);
+            }
+
+            // Define a color based on the current index
+            const color = getColorForRoute(i);
+            map.addSource('route' + i, {
+              type: 'geojson',
+              data: {
+                type: 'Feature',
+                geometry: {
+                  type: 'LineString',
+                  coordinates: route,
+                },
+              },
+            });
+
+            map.addLayer({
+              id: 'route' + i,
+              type: 'line',
+              source: 'route' + i,
+              layout: {
+                'line-join': 'round',
+                'line-cap': 'round',
+              },
+              paint: {
+                'line-color': color, // Use the determined color
+                'line-width': 8,
+              },
+            });
+
+            // Fit the map to the route
+            const bounds = new mapboxgl.LngLatBounds();
+            route.forEach(point => bounds.extend(point));
+            map.fitBounds(bounds, {padding: 20});
+          })
+          .catch(error => console.error('Error fetching directions:', error));
+      }
     });
 
-    // return () => {
-    //   map.remove();
-    // };
-  }, [mapStyle, routeGeometry]);
+    return () => {
+      map.remove();
+    };
+  }, [mapStyle, day]);
 
-  const handleMapStyleChange = (event) => {
+  const handleMapStyleChange = event => {
     setMapStyle(event.target.value);
   };
 
-  const handleInputChange = (event) => {
-    const { value } = event.target;
-    setOrigin(value);
-
-    // Call the autocomplete API to get suggestions
-    axios
-      .get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${value}.json`, {
-        params: {
-          access_token: mapboxgl.accessToken,
-          autocomplete: true,
-          types: ["place"],
-          limit: 5,
-        },
-      })
-      .then((response) => {
-        const { features } = response.data;
-        setSuggestions(features);
-      })
-      .catch((error) => {
-        console.error("Error fetching autocomplete suggestions:", error);
-      });
-  };
-
-  const handleSelectSuggestion = (suggestion) => {
-    setOrigin(suggestion.place_name);
-    setOriginCord(suggestion.center);
-    setSuggestions([]); // Clear the suggestions
-  };
-
-  // calculate direction
-  const calcRouteDirection = async () => {
-    if (origin.length > 2) {
-      try {
-        const origin = document.getElementById("fromAddress").value;
-        if (origin.length > 2) {
-          try {
-            const response = await geocodingClient
-              .forwardGeocode({
-                query: origin,
-                types: ["place"],
-                limit: 1,
-              })
-              .send();
-
-            const destinationCoordinates = response.body.features[0].center;
-            originCoordinates = destinationCoordinates;
-            setOriginCord(destinationCoordinates);
-          } catch (error) {
-            console.error("Error calculating directions:", error);
-            throw error;
-          }
-        }
-        const response = await axios.get(
-          `https://api.mapbox.com/directions/v5/mapbox/${localStorage.getItem(
-            "mode"
-          )}/${originCoordinates[0]},${originCoordinates[1]};${
-            destination[0]
-          },${destination[1]}?steps=true&geometries=geojson&access_token=${
-            process.env.REACT_APP_RVITE_MAP_BOX_ACCESS_TOKEN
-          }`
-        );
-
-        const routes = response.data.routes;
-        console.log("routes=>", routes);
-        setRouteInfo(routes);
-        // Check if any routes are returned
-        if (routes.length > 0) {
-          const { distance, duration, geometry } = routes[0];
-
-          // Valid directions, use the distance and duration for further processing
-          const directions = {
-            distance,
-            duration,
-          };
-          localStorage.setItem("fromLocation", origin);
-          setRouteGeometry(geometry); // Set the route geometry
-          return directions;
-        } else {
-          // No routes found
-          throw new Error("Unable to calculate directions");
-        }
-      } catch (error) {
-        // Handle error
-        console.error("Error calculating directions:", error);
-        throw error;
-      }
-    }
-  };
-
-  const handleInputBlur = () => {
-    // Use setTimeout to allow the click event to be registered before clearing suggestions
-    setTimeout(() => {
-      setIsFocused(false);
-      setSuggestions([]);
-    }, 200);
-  };
-
-  // console.log("routeGeometry==>", routeGeometry);
-
   return (
-    <div className="container-fluid direction">
-      <div className="col-lg-12 col-sm-12 text-center">
-        <h1 className="primary-title text-center" id="info">
-          Map and Directions to Kolkata, West Bengal, India
-        </h1>
-      </div>
-
-      <div className="F18 MB15">
-        <div className="col-lg-12 map_to_box col-xs-12 col-sm-12 text-xs-center text-center">
-          <div id="from" className="mx-auto">
-            <strong style={{ color: "white" }}>From</strong>
-            <label htmlFor="fromAddress" style={{ display: "none" }}>
-              From label
-            </label>
-            <input
-              type="text"
-              className={isFocused ? "input-focused" : ""}
-              name="fromAddress"
-              id="fromAddress"
-              placeholder="Example: Bidhannagar West Bengal, India"
-              value={origin}
-              onChange={(e) => {
-                handleInputChange(e);
-              }}
-              onFocus={() => setIsFocused(true)}
-              onBlur={handleInputBlur}
-              autoComplete="off"
-            />
-          </div>
-          {isFocused && suggestions.length > 0 && (
-            <div className="suggestions mx-auto text-start">
-              {suggestions.map((suggestion) => (
-                <div
-                  className="suggestion-item"
-                  key={suggestion.id}
-                  onClick={() => handleSelectSuggestion(suggestion)}
-                >
-                  {suggestion.place_name}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-        {/* <div ref={mapContainerRef} className="map-container" /> */}
-
-        <div className="col-lg-12 map_trans col-xs-12 col-sm-12  text-xs-center text-center">
-          <a
-            className={
-              localStorage.getItem("mode") === "driving"
-                ? `car car_active`
-                : `car`
-            }
-            title="Driving"
-            id="DRIVING"
-            onClick={() => {
-              localStorage.setItem("mode", "driving");
-              calcRouteDirection();
-            }}
-          >
-            <span className="hide">Car Driving Directions</span>
-          </a>
-          <a
-            className={
-              localStorage.getItem("mode") === "walking"
-                ? `walk walk_active`
-                : `walk`
-            }
-            title="Walking"
-            id="WALKING"
-            onClick={() => {
-              localStorage.setItem("mode", "walking");
-              calcRouteDirection();
-            }}
-          >
-            <span className="hide">Walking Directions</span>
-          </a>
-          <a
-            className={
-              localStorage.getItem("mode") === "cycling"
-                ? `cycle cycle_active`
-                : `cycle`
-            }
-            title="Bicycling"
-            id="BICYCLING"
-            onClick={() => {
-              localStorage.setItem("mode", "cycling");
-              calcRouteDirection();
-            }}
-          >
-            <span className="hide">Bicycling Directions</span>
-          </a>
-
-          <input id="modeType" type="hidden" value="" />
-        </div>
-
-        <div className="col-lg-12 col-xs-12 PT5 col-sm-12 text-xs-center PB10 notranslate text-center">
-          <div className="book_btn">
-            <input
-              onClick={() => calcRouteDirection()}
-              type="button"
-              className="btns btn-grey"
-              value="Get Directions"
-            />
-          </div>
-        </div>
-
-        {routeInfo.length > 0 && (
-          <div className="col-12 row mt-5 mx-auto shadow bg-light">
-            <div
-              className="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-center mobile-shadow"
-              id="direction_div_show"
-            >
-              <h2 className="M10 F25">
-                <MdLocationOn className="MR10 F30" />
-                <span id="from_address_show">
-                  {localStorage
-                    .getItem("fromLocation")
-                    .replace(/\b\w/g, (match) => match.toUpperCase())}
-                </span>
-                <span className="hide">from location</span>
-              </h2>
-              <GiWideArrowDunk className="F82" />
-              <h2 className="M10 F25">
-                <AiFillHome className="MR10 F30" />
-                <span id="to_address_show">Kolkata, West Bengal, India</span>
-                <span className="hide">to location</span>
-              </h2>
-            </div>
-            <div
-              id="bor_left"
-              className="col-lg-6 col-md-6 col-sm-6 initialdhide MB20 mt-4 mt-md-0 mobile-shadow"
-              style={{ display: "block", minHeight: "198px" }}
-            >
-              <span className="duration">
-                Trip duration:{" "}
-                {routeInfo.length > 0 && Math.floor(routeInfo[0].duration / 60)}{" "}
-                mins for{" "}
-                {routeInfo.length > 0 && routeInfo[0].weight_name === "auto"
-                  ? "Driving"
-                  : routeInfo.length > 0 &&
-                    routeInfo[0].weight_name === "pedestrian"
-                  ? "Walking"
-                  : routeInfo.length > 0 &&
-                    routeInfo[0].weight_name === "cyclability"
-                  ? "Cycling"
-                  : null}
-              </span>
-              <br /> <br />
-              <ul className={`directions-list ${expand ? "expanded" : ""}`}>
-                {displayedDirections.map((item) => (
-                  <li className="pb-2">{item.maneuver.instruction}</li>
-                ))}
-              </ul>
-              <br />
-              <div className="moreDirection">
-                {!expand && (
-                  <button
-                    className="moreDirection__btn"
-                    id="showMoreDirection"
-                    title="View More"
-                    onClick={handleToggleExpand}
-                  >
-                    View More
-                  </button>
-                )}
-                {expand && (
-                  <button
-                    className="moreDirection__btn"
-                    id="showLessDirection"
-                    title="View Less"
-                    onClick={handleToggleExpand}
-                  >
-                    View Less
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      <div className="col-lg-12 map_trans col-xs-12 col-sm-12  text-xs-center text-center">
-        <div
-          ref={mapContainerRef}
-          style={{
-            width: "100%",
-            height: "70vh",
-            border: "1px solid",
-            marginBottom: "3rem",
-          }}
-        />
-        <select
-          className="map-style-dropdown"
-          value={mapStyle}
-          onChange={handleMapStyleChange}
-          id="map_type"
-        >
-          <option value="mapbox://styles/mapbox/streets-v11">MAP</option>
-          <option value="mapbox://styles/mapbox/satellite-v9">SATELLITE</option>
-        </select>
-      </div>
+    <div {...props}>
       <div
-        id="custom-marker"
-        className="mapboxgl-marker mapboxgl-marker-anchor-center"
-        tabIndex="0"
-      ></div>
+        ref={mapContainerRef}
+        style={{
+          width: '100%',
+          height: '70vh',
+          border: '1px solid',
+          marginBottom: '3rem',
+        }}
+      />
+      <select
+        className="map-style-dropdown"
+        value={mapStyle}
+        onChange={handleMapStyleChange}
+        id="map_type"
+        key={'map_style_dropdown'}>
+        <option value="mapbox://styles/mapbox/streets-v11">MAP</option>
+        <option value="mapbox://styles/mapbox/satellite-v9">SATELLITE</option>
+      </select>
+      <select
+        className="map-day-dropdown"
+        value={day}
+        onChange={e => setDay(e.target.value)}
+        id="map_day"
+        key={'map_day_dropdown'}>
+        {data.itinerary.map((_, index) => (
+          <option key={index} value={index}>
+            Day {index + 1}
+          </option>
+        ))}
+      </select>
+      {data.itinerary[day].program.map((coord, index) => (
+        <div
+          key={index}
+          id={'custom-marker' + 'day' + day + 'index' + index}
+          className="mapboxgl-marker mapboxgl-marker-anchor-center"
+          style={{
+            backgroundColor: getColorForRoute(index),
+          }}
+          tabIndex={'0'}></div>
+      ))}
     </div>
   );
 };
