@@ -12,25 +12,21 @@ import {useNavigate} from 'react-router-dom';
 import AuthRoutes from '../modules/user-management/Auth.Routes';
 import TaskRoutes from '../modules/sample-module/Task.Routes';
 import HomeRoutes from '../modules/home/Home.Routes';
-import Home from '../modules/home/screens/Home2';
 
 const RouteHandler = ({children, isPublic}) => {
   let {isAuthenticated} = useAuth();
 
   // isAuthenticated = true;
 
-  // if (!isAuthenticated && !isPublic) {
-  //   return <Navigate to="/login" />;
-  // }
   if (!isAuthenticated && !isPublic) {
     return <Navigate to="/welcome" />;
   }
 
-  // if (isAuthenticated && isPublic) {
-  return <Navigate to="/home" />;
-  // }
+  if (isAuthenticated && isPublic) {
+    return <Navigate to="/home" />;
+  }
 
-  // return children;
+  return children;
 };
 
 const ErrorBoundary = props => {
@@ -69,39 +65,37 @@ const StackScreens = props => {
 };
 
 export const AppNavigator = () => {
-  return <Home />;
+  const {loading, isAuthenticated} = useAuth();
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
-  // const {loading, isAuthenticated} = useAuth();
-  // if (loading) {
-  //   return <LoadingScreen />;
-  // }
+  const navigate = useNavigate();
 
-  // const navigate = useNavigate();
+  const navigation = {
+    navigate: (path, props = {}) => {
+      navigate(path, {state: props});
+    },
+  };
 
-  // const navigation = {
-  //   navigate: (path, props = {}) => {
-  //     navigate(path, {state: props});
-  //   },
-  // };
+  const screenRoutes = [
+    ...StackScreens({
+      screens: AuthRoutes.stack,
+      navigation,
+      isPublic: true,
+    }),
+    ...StackScreens({
+      screens: [...TaskRoutes.stack, ...HomeRoutes.stack],
+      navigation,
+    }),
+  ];
 
-  // const screenRoutes = [
-  //   ...StackScreens({
-  //     screens: AuthRoutes.stack,
-  //     navigation,
-  //     isPublic: true,
-  //   }),
-  //   ...StackScreens({
-  //     screens: [...TaskRoutes.stack, ...HomeRoutes.stack],
-  //     navigation,
-  //   }),
-  // ];
-
-  // return useRoutes([
-  //   {path: '/', element: <Navigate to={'/home'} />},
-  //   ...screenRoutes,
-  //   {
-  //     path: '*',
-  //     element: <div>Wrong URL</div>,
-  //   },
-  // ]);
+  return useRoutes([
+    {path: '/', element: <Navigate to={'/home'} />},
+    ...screenRoutes,
+    {
+      path: '*',
+      element: <div>Wrong URL</div>,
+    },
+  ]);
 };
