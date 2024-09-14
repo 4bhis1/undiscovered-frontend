@@ -16,7 +16,7 @@ import mascot from '../assets/mascot.svg';
 import {useNavigate} from 'react-router-dom';
 import {useAuth} from '../modules/user-management/hooks/useAuth';
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = [];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar({isPublic}) {
@@ -136,7 +136,7 @@ function ResponsiveAppBar({isPublic}) {
               </Button>
             ))}
           </Box>
-          <Box sx={{flexGrow: 0}}>
+          <Box sx={{flexGrow: 0, marginRight: -2}}>
             {isPublic ? (
               <div className="login" onClick={() => navigate('/login')}>
                 <button className="login-button">Login</button>
@@ -144,7 +144,7 @@ function ResponsiveAppBar({isPublic}) {
             ) : (
               <div className="login" onClick={() => logout()}>
                 <button className="login-button">Logout</button>
-                </div>
+              </div>
             )}
             {/* <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
