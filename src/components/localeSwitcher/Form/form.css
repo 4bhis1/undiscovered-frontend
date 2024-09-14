@@ -1,0 +1,28 @@
+.who-container {
+    display: flex;
+    flex-direction: row;
+}
+.people-box {
+  height: 100px;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 20px;
+  cursor: pointer;
+
+  border-radius: 10px;
+  border-width: 2px;
+  border-color: #c0c0c0;
+  border-style: solid;
+
+  padding: 20px;
+}
+
+.people-box:hover {
+  border-color: black;
+}
+
+.active {
+  border-color: black;
+}
