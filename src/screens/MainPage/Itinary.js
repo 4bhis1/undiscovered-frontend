@@ -12,6 +12,7 @@ import {
   FaTemperatureHigh,
 } from 'react-icons/fa';
 import moment from 'moment';
+import Itinarycard from './Itinarycard';
 
 const useGetImage = ({location}) => {
   const [loading, updateLoading] = useState(true);
@@ -268,12 +269,13 @@ const DescriptionCard = ({destination}) => {
 };
 
 const Itinary = () => {
-  const {destination} = data;
+  const {destination, itinerary} = data;
   return (
     <div>
       <TopContainer destination={destination} />
       <DescriptionCard />
       <HR />
+      <Itinarycard itinerary={itinerary} />
     </div>
   );
 };
