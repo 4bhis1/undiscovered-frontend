@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box} from '@radix-ui/themes';
-import {IoMdArrowDropright} from 'react-icons/io';
+import {IoMdArrowDropleft, IoMdArrowDropright} from 'react-icons/io';
 
 export const Button = props => {
   const {onClick = () => {}, title} = props;
@@ -21,8 +21,9 @@ export const Button = props => {
       }}
       height="48px"
       onClick={onClick}>
+      {title === 'Back' && <IoMdArrowDropleft />}
       {title}
-      <IoMdArrowDropright />
+      {title === 'Next' && <IoMdArrowDropright />}
     </Box>
   );
 };
