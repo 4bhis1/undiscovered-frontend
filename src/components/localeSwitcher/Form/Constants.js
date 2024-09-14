@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   FaBook,
   FaCloudMoon,
@@ -13,6 +14,13 @@ import {MdOutlineFamilyRestroom, MdSportsHandball} from 'react-icons/md';
 import {FaRegCreditCard} from 'react-icons/fa6';
 import {HiLibrary} from 'react-icons/hi';
 import {RiFlowerFill} from 'react-icons/ri';
+
+import All from '../../../assets/All.jpg';
+import Europe from '../../../assets/europe.webp';
+import Indonesia from '../../../assets/indonesia.webp';
+import SEA from '../../../assets/SEA.webp';
+import UK from '../../../assets/UK.webp';
+import US from '../../../assets/US.webp';
 
 export const NumberOfPeople = [
   {title: 'Solo', icon: FaUser},
@@ -40,4 +48,16 @@ export const ActivitiesArray = [
   {title: 'Sight Seeing', icon: HiLibrary},
   {title: 'Wellness', icon: RiFlowerFill},
   {title: 'Shopping', icon: FaShoppingBag},
+];
+
+export const ContinentArray = [
+  {title: `I'm flexible`, imagePath: All},
+  {title: 'Europe', imagePath: Europe},
+  {title: 'Indonesia', imagePath: Indonesia},
+  {title: 'South-East Asia', imagePath: SEA},
+  {title: 'United-Kingdom', imagePath: UK},
+  {
+    title: 'United-State',
+    imagePath: US,
+  },
 ];

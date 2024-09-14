@@ -5,7 +5,12 @@ import {Box, Flex, Text, TextField} from '@radix-ui/themes';
 import './form.css';
 import BasicDateRangeCalendar from './DateCalendar';
 import Slider from '../../Slider/Slider';
-import {ActivitiesArray, BudgetArray, NumberOfPeople} from './Constants';
+import {
+  ActivitiesArray,
+  BudgetArray,
+  ContinentArray,
+  NumberOfPeople,
+} from './Constants';
 
 const map = {
   text: TextField.Root,
@@ -26,22 +31,62 @@ export const Search = () => {
   );
 };
 
-const HR = (
-  <div
-    style={{
-      height: 2,
-      width: '100%',
-      backgroundColor: '#c0c0c0',
-    }}
-  />
-);
+const PlaceCard = ({title, imagePath, selectedValues, onClick}) => {
+  console.log(
+    '🚀 ~ file: Form.js:35 ~ PlaceCard ~ selectedValue:',
+    selectedValues,
+    title,
+    selectedValues && Object.keys(selectedValues).includes(title),
+  );
+  let className = 'place-image';
+
+  if (selectedValues && Object.keys(selectedValues).includes(title)) {
+    className += ' active';
+  }
+
+  return (
+    <div
+      key={title}
+      className="image-card"
+      onClick={() => {
+        console.log('>>> hello');
+        onClick();
+      }}>
+      <div className={className}>
+        <img src={imagePath} height={100} width={100} />
+      </div>
+      <div>{title}</div>
+    </div>
+  );
+};
 
 const Place = ({formState, updateFormState}) => {
+  const [_, updateState] = useState();
+  const value = 'where';
+
   return (
-    <>
-      <Text>Where would you like to go?</Text>
-      <Search />
-    </>
+    <div className={'who-container'}>
+      {ContinentArray.map(({title, imagePath}) => {
+        return (
+          <PlaceCard
+            key={title}
+            title={title}
+            imagePath={imagePath}
+            onClick={() => {
+              updateFormState(formState => {
+                if (!formState[value]) {
+                  formState[value] = {};
+                }
+                formState[value][title] = 1;
+                updateState(formState[value]);
+                return formState;
+              });
+            }}
+            selectedValues={formState[value]}
+          />
+        );
+      })}
+    </div>
   );
 };
 
@@ -73,13 +118,12 @@ const NumberOfPeopleGoing = ({formState, updateFormState}) => {
     <div className={'who-container'}>
       {NumberOfPeople.map(({title, icon}) => {
         const Icon = icon;
-        const who = formState[value];
         return (
           <Card
             key={title}
             Icon={Icon}
             title={title}
-            selectedValue={who}
+            selectedValue={formState[value]}
             onClick={() => {
               updateFormState(formState => {
                 formState[value] = title;
@@ -161,7 +205,7 @@ const ComponentIndex = [
 ];
 
 const MainForm = () => {
-  const [sliderCount, updateSliderCount] = useState(1);
+  const [sliderCount, updateSliderCount] = useState(0);
 
   const [formState, updateFormState] = useState({});
 
