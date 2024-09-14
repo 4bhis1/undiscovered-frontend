@@ -10,7 +10,7 @@ export const Button = props => {
         borderRadius: '63px',
         boxShadow: '6px 6px 6px black',
         overflow: 'hidden',
-        width: '100px',
+        width: '150px',
         justifyContent: 'center',
         alignItems: 'center',
         display: 'flex',
@@ -18,6 +18,7 @@ export const Button = props => {
         font: 'poppins',
         fontWeight: 400,
         fontSize: '15px',
+        cursor: 'pointer',
       }}
       height="48px"
       onClick={onClick}>

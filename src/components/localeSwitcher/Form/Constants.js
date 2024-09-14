@@ -30,9 +30,9 @@ export const NumberOfPeople = [
 ];
 
 export const BudgetArray = [
-  {title: 'Economy', additionalText: '0 - 1000 INR', icon: FaRegCreditCard},
-  {title: 'Mid', additionalText: '1000 - 2500 INR', icon: FaRegCreditCard},
-  {title: 'Luxury', additionalText: '2500 INR', icon: FaRegCreditCard},
+  {title: 'Economy', icon: FaRegCreditCard},
+  {title: 'Mid', icon: FaRegCreditCard},
+  {title: 'Luxury', icon: FaRegCreditCard},
 ];
 
 export const ActivitiesArray = [

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {Box, Flex, Text, TextField} from '@radix-ui/themes';
 
@@ -12,33 +12,9 @@ import {
   NumberOfPeople,
 } from './Constants';
 import {Button} from '../../Button';
-
-const map = {
-  text: TextField.Root,
-};
-
-export const Search = () => {
-  const SearchComponent = map['text'];
-  const [text, updateText] = useState();
-
-  return (
-    <SearchComponent
-      value={text}
-      onChange={({target}) => {
-        console.log('🚀 ~ file: Form.js:17 ~ Search ~ props:', target.value);
-        updateText(target.value);
-      }}
-    />
-  );
-};
+import moment from 'moment';
 
 const PlaceCard = ({title, imagePath, selectedValues, onClick}) => {
-  console.log(
-    '🚀 ~ file: Form.js:35 ~ PlaceCard ~ selectedValue:',
-    selectedValues,
-    title,
-    selectedValues && Object.keys(selectedValues).includes(title),
-  );
   let className = 'place-image';
 
   if (selectedValues && Object.keys(selectedValues).includes(title)) {
@@ -46,19 +22,23 @@ const PlaceCard = ({title, imagePath, selectedValues, onClick}) => {
   }
 
   return (
-    <div
-      key={title}
-      className="image-card"
-      onClick={() => {
-        console.log('>>> hello');
-        onClick();
-      }}>
+    <div key={title} className="image-card" onClick={onClick}>
       <div className={className}>
         <img src={imagePath} height={100} width={100} />
       </div>
       <div>{title}</div>
     </div>
   );
+};
+
+const map = {
+  text: TextField.Root,
+};
+
+export const Search = ({value, onChange, ...props}) => {
+  const SearchComponent = map['text'];
+
+  return <SearchComponent value={value} onChange={onChange} {...props} />;
 };
 
 const Place = ({formState, updateFormState}) => {
@@ -79,7 +59,7 @@ const Place = ({formState, updateFormState}) => {
                   formState[value] = {};
                 }
                 formState[value][title] = 1;
-                updateState(formState[value]);
+                updateState(title);
                 return formState;
               });
             }}
@@ -91,13 +71,77 @@ const Place = ({formState, updateFormState}) => {
   );
 };
 
-const Date = () => {
-  return <BasicDateRangeCalendar />;
+const Date = ({formState, updateFormState}) => {
+  console.log('🚀 ~ file: Form.js:88 ~ Date ~ formState:', formState);
+  const value = 'when';
+
+  const [dateDiff, updateDateDiff] = useState();
+
+  const calculateDifference = () => {
+    if (formState[value]?.from && formState[value]?.to) {
+      const from = moment(formState[value]?.from);
+      const to = moment(formState[value]?.to);
+      updateDateDiff(to.diff(from, 'days'));
+    }
+  };
+
+  useEffect(() => {
+    calculateDifference();
+  }, [formState[value]]);
+
+  return (
+    <div className="who-container">
+      <div
+        style={{
+          display: 'flex',
+          gap: 50,
+        }}>
+        <Search
+          type={'date'}
+          style={{height: 80, width: 250}}
+          value={formState[value]?.from}
+          onChange={({target}) => {
+            updateFormState(formState => {
+              if (!formState[value]) {
+                formState[value] = {};
+              }
+              formState[value].from = target.value;
+              return formState;
+            });
+            console.log('>>> from', target.value);
+          }}
+        />
+        <Search
+          type={'date'}
+          style={{height: 80, width: 250}}
+          value={formState[value]?.to}
+          onChange={({target}) => {
+            updateFormState(formState => {
+              if (!formState[value]) {
+                formState[value] = {};
+              }
+              formState[value].to = target.value;
+              return formState;
+            });
+            console.log('>>> to', target.value);
+          }}
+        />
+      </div>
+      <div>{dateDiff}</div>
+    </div>
+  );
+
+  // return <BasicDateRangeCalendar />;
 };
 
-const Card = ({Icon, title, additionalText, selectedValue, onClick}) => {
+const Card = ({Icon, title, additionalText, selectedValue, onClick, multi}) => {
   let className = 'people-box';
-  if (title === selectedValue) {
+
+  if (multi) {
+    if (selectedValue && Object.keys(selectedValue).includes(title)) {
+      className += ' active';
+    }
+  } else if (title === selectedValue) {
     className += ' active';
   }
 
@@ -182,9 +226,13 @@ const ActivitiesYouWant = ({formState, updateFormState}) => {
             Icon={Icon}
             title={title}
             selectedValue={who}
+            multi
             onClick={() => {
               updateFormState(formState => {
-                formState[value] = title;
+                if (!formState[value]) {
+                  formState[value] = {};
+                }
+                formState[value][title] = 1;
                 updateState(title);
                 return formState;
               });
@@ -204,112 +252,111 @@ const ComponentIndex = [
   ActivitiesYouWant,
 ];
 
-const ShowMagic = () => {};
+const ShowMagic = ({formState}) => {
+  console.log('>>> formState', formState);
+};
 
 const MainForm = () => {
   const [sliderCount, updateSliderCount] = useState(0);
-
   const [formState, updateFormState] = useState({});
-
   const Component = ComponentIndex[sliderCount];
-
   return (
-    <Flex
-      direction={'column'}
+    <div
       style={{
+        height: '100vh',
+        width: '100vw',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        border: '1px solid rgba(0, 0, 0, 0.2)',
-        padding: '50px',
-        marginLeft: '50vh',
-        marginRight: '50vh',
-        marginTop: '8vh',
-        marginBottom: '50vh',
-        borderRadius: '10px',
-        boxShadow: '6px 6px 10px rgba(0, 0, 0, 0.2)',
-        overflow: 'hidden',
-        height: '80vh',
       }}>
       <div
         style={{
-          height: '100%',
+          backgroundColor: 'white',
+          display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          border: '1px solid rgba(0, 0, 0, 0.2)',
+          padding: '50px',
+          height: '80vh',
+          width: '80vw',
+          borderRadius: '10px',
+          boxShadow: '6px 6px 10px rgba(0, 0, 0, 0.2)',
+          overflow: 'hidden',
         }}>
-        <Slider
-          totalSteps={ComponentIndex.length}
-          currentStep={sliderCount}
-          updateSliderCount={updateSliderCount}
-        />
-        <Text
+        <div
           style={{
-            display: 'flex',
+            height: '100%',
+            width: '100%',
             justifyContent: 'center',
+            alignItems: 'center',
+            position: 'relative',
           }}>
-          Plan Your Next Trip
-        </Text>
-        <div
-          style={{
-            height: '80%',
-            width: '80%',
-            display: 'flex',
-            flexDirection: 'column',
-          }}>
-          <Component formState={formState} updateFormState={updateFormState} />
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            margin: '0 10px 0 10px',
-          }}>
-          {sliderCount > 0 && (
-            <Button
-              onClick={() => {
-                // if (sliderCount > 0) {
-                updateSliderCount(count => {
-                  return count - 1;
-                });
-                // }
-              }}
-              title="Back"
+          <Slider
+            totalSteps={ComponentIndex.length}
+            currentStep={sliderCount}
+            updateSliderCount={updateSliderCount}
+          />
+          <Text
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+            }}>
+            Plan Your Next Trip
+          </Text>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              flex: 1,
+            }}>
+            <Component
+              formState={formState}
+              updateFormState={updateFormState}
             />
-          )}
-          {sliderCount < ComponentIndex.length - 1 && (
-            <Button
-              onClick={() => {
-                // if (sliderCount < ComponentIndex.length - 1) {
-                updateSliderCount(count => {
-                  return count + 1;
-                });
-                // }
-              }}
-              title="Next"
-            />
-          )}
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              margin: '0 10px 0 10px',
+              position: 'absolute',
+              width: '100%',
+              bottom: '10px',
+              gap: 40,
+            }}>
+            {sliderCount > 0 && (
+              <Button
+                onClick={() => {
+                  updateSliderCount(count => {
+                    return count - 1;
+                  });
+                }}
+                title="Back"
+              />
+            )}
+            {sliderCount < ComponentIndex.length - 1 && (
+              <Button
+                onClick={() => {
+                  updateSliderCount(count => {
+                    return count + 1;
+                  });
+                }}
+                title="Next"
+              />
+            )}
 
-          {sliderCount === ComponentIndex.length - 1 && (
-            <Box
-              style={{
-                borderRadius: '10px',
-                boxShadow: '6px 6px 10px rgba(0, 0, 0, 0.2)',
-                overflow: 'hidden',
-                justifyContent: 'center',
-                alignItems: 'center',
-                display: 'flex',
-                padding: '10px',
-              }}
-              height="50px"
-              onClick={() => {
-                ShowMagic();
-              }}>
-              Lets Generate
-            </Box>
-          )}
+            {sliderCount === ComponentIndex.length - 1 && (
+              <Button
+                title="Lets Generate"
+                onClick={() => {
+                  ShowMagic({formState});
+                }}
+              />
+            )}
+          </div>
         </div>
       </div>
-    </Flex>
+    </div>
   );
 };
 
