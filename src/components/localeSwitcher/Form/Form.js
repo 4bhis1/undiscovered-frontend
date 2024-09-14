@@ -6,6 +6,7 @@ import './form.css';
 import BasicDateRangeCalendar from './DateCalendar';
 import Slider from '../../Slider/Slider';
 import {ActivitiesArray, BudgetArray, NumberOfPeople} from './Constants';
+import {Button} from '../../Button';
 
 const map = {
   text: TextField.Root,
@@ -51,7 +52,6 @@ const Date = () => {
 
 const Card = ({Icon, title, additionalText, selectedValue, onClick}) => {
   let className = 'people-box';
-
   if (title === selectedValue) {
     className += ' active';
   }
@@ -170,41 +170,80 @@ const MainForm = () => {
   return (
     <Flex
       direction={'column'}
-      style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-      <Slider totalSteps={ComponentIndex.length} currentStep={sliderCount} />
-
-      <Text>Plan Your Next Trip</Text>
-
-      <Component formState={formState} updateFormState={updateFormState} />
-
-      <Flex>
-        {sliderCount > 0 && (
-          <Box
-            height="64px"
-            onClick={() => {
-              // if (sliderCount > 0) {
-              updateSliderCount(count => {
-                return count - 1;
-              });
-              // }
-            }}>
-            Back
-          </Box>
-        )}
-        {sliderCount < ComponentIndex.length - 1 && (
-          <Box
-            height="64px"
-            onClick={() => {
-              // if (sliderCount < ComponentIndex.length - 1) {
-              updateSliderCount(count => {
-                return count + 1;
-              });
-              // }
-            }}>
-            Continue
-          </Box>
-        )}
-      </Flex>
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        border: '1px solid rgba(0, 0, 0, 0.2)',
+        padding: '50px',
+        marginLeft: '50vh',
+        marginRight: '50vh',
+        marginTop: '8vh',
+        marginBottom: '50vh',
+        borderRadius: '10px',
+        boxShadow: '6px 6px 10px rgba(0, 0, 0, 0.2)',
+        overflow: 'hidden',
+        height: '80vh',
+      }}>
+      <div
+        style={{
+          height: '100%',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Slider totalSteps={ComponentIndex.length} currentStep={sliderCount} />
+        <Text
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+          }}>
+          Plan Your Next Trip
+        </Text>
+        <div style={{height: '80%'}}>
+          <Component formState={formState} updateFormState={updateFormState} />
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            margin: '0 10px 0 10px',
+          }}>
+          {sliderCount > 0 && (
+            <Button
+              onClick={() => {
+                // if (sliderCount > 0) {
+                updateSliderCount(count => {
+                  return count - 1;
+                });
+                // }
+              }}
+              title="Back"
+            />
+          )}
+          {sliderCount < ComponentIndex.length - 1 && (
+            <Box
+              style={{
+                borderRadius: '10px',
+                boxShadow: '6px 6px 10px rgba(0, 0, 0, 0.2)',
+                overflow: 'hidden',
+                width: '100px',
+                justifyContent: 'center',
+                alignItems: 'center',
+                display: 'flex',
+              }}
+              height="50px"
+              onClick={() => {
+                // if (sliderCount < ComponentIndex.length - 1) {
+                updateSliderCount(count => {
+                  return count + 1;
+                });
+                // }
+              }}>
+              Continue
+            </Box>
+          )}
+        </div>
+      </div>
     </Flex>
   );
 };
