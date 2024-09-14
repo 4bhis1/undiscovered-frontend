@@ -13,6 +13,7 @@ import AuthRoutes from '../modules/user-management/Auth.Routes';
 import TaskRoutes from '../modules/sample-module/Task.Routes';
 import HomeRoutes from '../modules/home/Home.Routes';
 import ResponsiveAppBar from './NavBar';
+import FirstPage from '../modules/firstpage/firstpage';
 
 const RouteHandler = ({children, isPublic}) => {
   let {isAuthenticated} = useAuth();
@@ -87,7 +88,13 @@ export const AppNavigator = () => {
       isPublic: true,
     }),
     ...StackScreens({
-      screens: [...TaskRoutes.stack, ...HomeRoutes.stack],
+      screens: [
+        {
+          name: 'Undiscover',
+          path: '/home',
+          component: FirstPage,
+        },
+      ],
       navigation,
     }),
   ];
