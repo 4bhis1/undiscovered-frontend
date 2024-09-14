@@ -277,26 +277,16 @@ const MainForm = () => {
             />
           )}
           {sliderCount < ComponentIndex.length - 1 && (
-            <Box
-              style={{
-                borderRadius: '10px',
-                boxShadow: '6px 6px 10px rgba(0, 0, 0, 0.2)',
-                overflow: 'hidden',
-                width: '100px',
-                justifyContent: 'center',
-                alignItems: 'center',
-                display: 'flex',
-              }}
-              height="50px"
+            <Button
               onClick={() => {
                 // if (sliderCount < ComponentIndex.length - 1) {
                 updateSliderCount(count => {
                   return count + 1;
                 });
                 // }
-              }}>
-              Continue
-            </Box>
+              }}
+              title="Next"
+            />
           )}
 
           {sliderCount === ComponentIndex.length - 1 && (
