@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {TextField, Button} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import {Box, Stack} from '@mui/joy';
 import {useLogin} from '../hooks/useLogin';
-
+import {GoogleLogin} from '@react-oauth/google';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import HttpAuth from '../../../services/HttpAuthService';
+import { AuthContext } from '../../../context/auth/AuthContext';
 
 const useStyles = makeStyles(theme => {
   return {
@@ -42,7 +44,7 @@ const Login = props => {
 
   const classes = useStyles();
   const isLoginActionDisabled = !email?.trim() || !password?.trim() || loading;
-
+  const {setAuth} = useContext(AuthContext);
   return (
     <Stack className={classes.container}>
       <Box className={classes.avatar}>
@@ -96,6 +98,17 @@ const Login = props => {
           }}>
           Forgot Password
         </Button> */}
+        <GoogleLogin
+          onSuccess={async (credentialResponse) => {
+            const {user} = await HttpAuth.post('/v1/auth/google-login', {
+              idToken: credentialResponse.credential
+            })
+            setAuth({user: user});
+          }}
+          onError={() => {
+            console.log('Login Failed');
+          }}
+        />
       </Stack>
     </Stack>
   );
