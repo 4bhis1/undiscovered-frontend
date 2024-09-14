@@ -13,6 +13,7 @@ import AuthRoutes from '../modules/user-management/Auth.Routes';
 import TaskRoutes from '../modules/sample-module/Task.Routes';
 import HomeRoutes from '../modules/home/Home.Routes';
 import ResponsiveAppBar from './NavBar';
+import MainPage from '../screens/MainPage';
 
 const RouteHandler = ({children, isPublic}) => {
   let {isAuthenticated} = useAuth();
@@ -67,37 +68,39 @@ const StackScreens = props => {
 };
 
 export const AppNavigator = () => {
-  const {loading, isAuthenticated} = useAuth();
-  if (loading) {
-    return <LoadingScreen />;
-  }
+  return <MainPage />;
 
-  const navigate = useNavigate();
+  // const {loading, isAuthenticated} = useAuth();
+  // if (loading) {
+  //   return <LoadingScreen />;
+  // }
 
-  const navigation = {
-    navigate: (path, props = {}) => {
-      navigate(path, {state: props});
-    },
-  };
+  // const navigate = useNavigate();
 
-  const screenRoutes = [
-    ...StackScreens({
-      screens: AuthRoutes.stack,
-      navigation,
-      isPublic: true,
-    }),
-    ...StackScreens({
-      screens: [...TaskRoutes.stack, ...HomeRoutes.stack],
-      navigation,
-    }),
-  ];
+  // const navigation = {
+  //   navigate: (path, props = {}) => {
+  //     navigate(path, {state: props});
+  //   },
+  // };
 
-  return useRoutes([
-    {path: '/', element: <Navigate to={'/welcome'} />},
-    ...screenRoutes,
-    {
-      path: '*',
-      element: <div>Wrong URL</div>,
-    },
-  ]);
+  // const screenRoutes = [
+  //   ...StackScreens({
+  //     screens: AuthRoutes.stack,
+  //     navigation,
+  //     isPublic: true,
+  //   }),
+  //   ...StackScreens({
+  //     screens: [...TaskRoutes.stack, ...HomeRoutes.stack],
+  //     navigation,
+  //   }),
+  // ];
+
+  // return useRoutes([
+  //   {path: '/', element: <Navigate to={'/welcome'} />},
+  //   ...screenRoutes,
+  //   {
+  //     path: '*',
+  //     element: <div>Wrong URL</div>,
+  //   },
+  // ]);
 };
