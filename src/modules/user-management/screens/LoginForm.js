@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
-import {TextField, Button} from '@mui/material';
-import {makeStyles} from '@mui/styles';
-import {Box, Stack} from '@mui/joy';
-import {useLogin} from '../hooks/useLogin';
-import {GoogleLogin} from '@react-oauth/google';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import HttpAuth from '../../../services/HttpAuthService';
+import { Box, Stack } from '@mui/joy';
+import { Button, TextField } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import { GoogleLogin } from '@react-oauth/google';
+import React, { useContext } from 'react';
 import { AuthContext } from '../../../context/auth/AuthContext';
+import HttpAuth from '../../../services/HttpAuthService';
+import { useLogin } from '../hooks/useLogin';
 
 const useStyles = makeStyles(theme => {
   return {
@@ -100,9 +100,14 @@ const Login = props => {
         </Button> */}
         <GoogleLogin
           onSuccess={async (credentialResponse) => {
-            const {user} = await HttpAuth.post('/v1/auth/google-login', {
+            const {user,tokens} = await HttpAuth.post('/v1/auth/google-login', {
               idToken: credentialResponse.credential
             })
+            const {access,refresh} = tokens;
+            localStorage.setItem('access_token', JSON.stringify(access));
+            localStorage.setItem('refresh_token', JSON.stringify(refresh));
+            HttpAuth.access_token = access;
+            HttpAuth.refresh_token = refresh;
             setAuth({user: user});
           }}
           onError={() => {

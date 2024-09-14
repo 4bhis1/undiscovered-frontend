@@ -65,6 +65,7 @@ const StackScreens = props => {
 };
 
 export const AppNavigator = () => {
+
   const {loading, isAuthenticated} = useAuth();
   if (loading) {
     return <LoadingScreen />;
@@ -91,7 +92,7 @@ export const AppNavigator = () => {
   ];
 
   return useRoutes([
-    {path: '/', element: <Navigate to={'/home'} />},
+    {path: '/', element: <Navigate to={'/welcome'} />},
     ...screenRoutes,
     {
       path: '*',

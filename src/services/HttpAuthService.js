@@ -23,9 +23,13 @@ const debounceRequests = (fn, delay = 500) => {
 };
 
 export default class HttpAuth {
+  static access_token = {};
+  static refresh_token = {};
   // Function to refresh the access token, debounced
   static refreshTokens = debounceRequests(async () => {
-    return await this.post(`/v1/auth/refresh-tokens`);
+    return await this.post(`/v1/auth/refresh-tokens`,{
+      refresh_token: HttpAuth.access_token?.token
+    });
   });
 
   static async errorHandler(error, retryRequest, retryCount) {
@@ -47,10 +51,13 @@ export default class HttpAuth {
   }
 
   static async get(_url, {retryCount = 0, ...config} = {}) {
+    const {headers={}} = config || {};
+    headers.Authorization = `Bearer ${HttpAuth.access_token?.token}`
     try {
       return await Http.get(_url, {
         ...config,
         withCredentials: true,
+        headers
       });
     } catch (error) {
       return await this.errorHandler(
@@ -62,10 +69,13 @@ export default class HttpAuth {
   }
 
   static async post(_url, data, {retryCount = 0, ...config} = {}) {
+     const {headers={}} = config;
+    headers.Authorization = `Bearer ${HttpAuth.access_token?.token}`
     try {
       return await Http.post(_url, data, {
         ...config,
         withCredentials: true,
+        headers
       });
     } catch (error) {
       return await this.errorHandler(
@@ -81,10 +91,13 @@ export default class HttpAuth {
   }
 
   static async put(_url, data, {retryCount = 0, ...config} = {}) {
+     const {headers={}} = config;
+    headers.Authorization = `Bearer ${HttpAuth.access_token?.token}`
     try {
       return await Http.put(_url, data, {
         ...config,
         withCredentials: true,
+        headers
       });
     } catch (error) {
       return await this.errorHandler(
@@ -100,10 +113,13 @@ export default class HttpAuth {
   }
 
   static async delete(_url, {retryCount = 0, ...config} = {}) {
+    const {headers={}} = config;
+    headers.Authorization = `Bearer ${HttpAuth.access_token?.token}`
     try {
       return await Http.delete(_url, {
         ...config,
         withCredentials: true,
+        headers
       });
     } catch (error) {
       return await this.errorHandler(
@@ -119,10 +135,13 @@ export default class HttpAuth {
   }
 
   static async upload(_url, file, {retryCount = 0, ...config} = {}) {
+    const {headers={}} = config;
+    headers.Authorization = `Bearer ${HttpAuth.access_token?.token}`
     try {
       return await Http.upload(_url, file, {
         ...config,
         withCredentials: true,
+        headers
       });
     } catch (error) {
       return await this.errorHandler(
@@ -138,10 +157,13 @@ export default class HttpAuth {
   }
 
   static async download(_url, {retryCount = 0, ...config} = {}) {
+    const {headers={}} = config;
+    headers.Authorization = `Bearer ${HttpAuth.access_token?.token}`
     try {
       return await Http.download(_url, {
         ...config,
         withCredentials: true,
+        headers
       });
     } catch (error) {
       return await this.errorHandler(

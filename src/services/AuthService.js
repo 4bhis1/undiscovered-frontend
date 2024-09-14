@@ -16,14 +16,22 @@ export default class AuthService {
 
   // Function to refresh the access token
   static async verifyToken() {
-    const response = await HttpAuth.get('/v1/auth/verify-token');
+    const access_token = JSON.parse(localStorage.getItem('access_token'));
+    const refresh_token = JSON.parse(localStorage.getItem('refresh_token'));
+    HttpAuth.refresh_token = refresh_token;
+    HttpAuth.access_token = access_token;
+    const response = await HttpAuth.get('/v1/users/verify-token');
     return response?.data;
   }
 
   // Function to handle user logout
   static async logout() {
     // Perform API call to logout endpoint if necessary
-    const response = await HttpAuth.post('/v1/auth/logout');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    const response = await HttpAuth.post('/v1/auth/logout', {
+      refreshToken: HttpAuth.refresh_token?.token,
+    });
     return response;
   }
 

@@ -1,5 +1,6 @@
 import React, {useEffect, useReducer} from 'react';
 import {UserService} from '../../services';
+import HttpAuth from '../../services/HttpAuthService';
 import {
   AuthContext,
   CLEAR_AUTH,
