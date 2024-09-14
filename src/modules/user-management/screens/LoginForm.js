@@ -7,6 +7,7 @@ import React, {useContext} from 'react';
 import {AuthContext} from '../../../context/auth/AuthContext';
 import HttpAuth from '../../../services/HttpAuthService';
 import {useLogin} from '../hooks/useLogin';
+import backgroundImage from '../../../assets/loginImage.jpg';
 
 const useStyles = makeStyles(theme => {
   return {
