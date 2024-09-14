@@ -1,0 +1,122 @@
+.container {
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo img {
+  width: 50px;
+  height: 50px;
+  padding: 1px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  resize: both;
+}
+
+.logo text {
+  color: #ffffff;
+}
+
+.login-button {
+  width: 112px;
+  height: 39px;
+  padding: 8px 36px 8px 36px;
+  gap: 0px;
+  border-radius: 62.2px;
+  border: 1px 0px 0px 0px;
+  opacity: 0px;
+  background: #000000;
+  border: 1px solid #71e6d3;
+  color: #ffffff;
+}
+
+.header {
+  background-image: url('../../assets/headerbackground.svg');
+  background-size: cover;
+  padding-bottom: 32px;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  color: #ffffff;
+}
+
+.action-buttons {
+  gap: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  padding-right: 8px;
+  padding-left: 8px;
+}
+
+.plan-button {
+  border: 1px solid #72ac00;
+  width: 280px;
+  height: 44px;
+  padding: 12px 28px 12px 36px;
+  gap: 0px;
+  border-radius: 62.2px;
+  border: 1px;
+  background: #88cc00;
+}
+
+.discover-button {
+  background: #000000;
+  width: 280px;
+  height: 44px;
+  padding: 12px 28px 12px 36px;
+  gap: 0px;
+  border-radius: 62.2px;
+  border: 1px;
+  border: 1px solid #72ac00;
+  color: #ffffff;
+}
+
+.features {
+  display: flex;
+  justify-content: space-around;
+  gap: 8px;
+  margin-top: 16px;
+  border-radius: 400px;
+  flex-wrap: wrap;
+  padding-right: 8px;
+  padding-left: 8px;
+}
+
+.feature-box {
+  padding: 40px 36px 40px 36px;
+  gap: 4px;
+  border-radius: 32px;
+  opacity: 0px;
+  box-shadow: 0px 4px 20px 0px #00000014;
+  background-color: #ffffff;
+  width: 220px;
+}
+
+.globe {
+  max-height: 400px;
+  overflow: hidden;
+}
+
+.globe img {
+  width: 1, 280px;
+  height: 622px;
+  top: 210px;
+  left: 0.31px;
+  opacity: 0px;
+  transform: scaleX(-1);
+}
