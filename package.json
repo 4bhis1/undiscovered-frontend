@@ -29,6 +29,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
+    "date-fns": "3.6.0",
     "hybrid-crypto-js": "^0.2.4",
     "js-base64": "^3.7.6",
     "mapbox-gl": "^3.6.0",
