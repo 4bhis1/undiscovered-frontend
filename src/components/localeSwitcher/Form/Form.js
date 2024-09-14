@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
-import {FaUser, FaUserFriends} from 'react-icons/fa';
-import {FaPeopleGroup} from 'react-icons/fa6';
-import {MdOutlineFamilyRestroom} from 'react-icons/md';
+
 import {Box, Flex, Text, TextField} from '@radix-ui/themes';
 
 import './form.css';
 import BasicDateRangeCalendar from './DateCalendar';
 import Slider from '../../Slider/Slider';
+import {ActivitiesArray, BudgetArray, NumberOfPeople} from './Constants';
 
 const map = {
   text: TextField.Root,
@@ -50,49 +49,108 @@ const Date = () => {
   return <BasicDateRangeCalendar />;
 };
 
-const NumberOfPeople = [
-  {title: 'Solo', icon: FaUser},
-  {title: 'Couple', icon: FaUserFriends},
-  {title: 'Friends', icon: FaPeopleGroup},
-  {title: 'Family', icon: MdOutlineFamilyRestroom},
-];
+const Card = ({Icon, title, additionalText, selectedValue, onClick}) => {
+  let className = 'people-box';
+
+  if (title === selectedValue) {
+    className += ' active';
+  }
+
+  return (
+    <div className={className} key={title} onClick={onClick}>
+      <Icon />
+      {title}
+      {additionalText}
+    </div>
+  );
+};
 
 const NumberOfPeopleGoing = ({formState, updateFormState}) => {
   const [_, updateState] = useState();
   const value = 'who';
+
   return (
     <div className={'who-container'}>
       {NumberOfPeople.map(({title, icon}) => {
         const Icon = icon;
         const who = formState[value];
-
-        let className = 'people-box';
-
-        if (title === who) {
-          className += ' active';
-        }
-
         return (
-          <div
-            className={className}
+          <Card
             key={title}
+            Icon={Icon}
+            title={title}
+            selectedValue={who}
             onClick={() => {
               updateFormState(formState => {
                 formState[value] = title;
                 updateState(title);
                 return formState;
               });
-            }}>
-            <Icon />
-            {title}
-          </div>
+            }}
+          />
         );
       })}
     </div>
   );
 };
-const BudgetRange = () => {};
-const ActivitiesYouWant = () => {};
+
+const BudgetRange = ({formState, updateFormState}) => {
+  const [_, updateState] = useState();
+  const value = 'budget';
+
+  return (
+    <div className={'who-container'}>
+      {BudgetArray.map(({title, icon, additionalText}) => {
+        const Icon = icon;
+        const who = formState[value];
+        return (
+          <Card
+            key={title}
+            Icon={Icon}
+            title={title}
+            selectedValue={who}
+            onClick={() => {
+              updateFormState(formState => {
+                formState[value] = title;
+                updateState(title);
+                return formState;
+              });
+            }}
+            additionalText={additionalText}
+          />
+        );
+      })}
+    </div>
+  );
+};
+const ActivitiesYouWant = ({formState, updateFormState}) => {
+  const [_, updateState] = useState();
+  const value = 'activities';
+
+  return (
+    <div className={'who-container'}>
+      {ActivitiesArray.map(({title, icon}) => {
+        const Icon = icon;
+        const who = formState[value];
+        return (
+          <Card
+            key={title}
+            Icon={Icon}
+            title={title}
+            selectedValue={who}
+            onClick={() => {
+              updateFormState(formState => {
+                formState[value] = title;
+                updateState(title);
+                return formState;
+              });
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+};
 
 const ComponentIndex = [
   Place,
