@@ -5,6 +5,7 @@ import axios from 'axios';
 import {Skeleton} from '@mui/material';
 import {FaCalendar} from 'react-icons/fa';
 import moment from 'moment';
+import Itinarycard from './Itinarycard';
 
 const useGetImage = ({location}) => {
   const [loading, updateLoading] = useState(true);
@@ -108,12 +109,13 @@ const DescriptionCard = () => {
 };
 
 const Itinary = () => {
-  const {destination} = data;
+  const {destination, itinerary} = data;
   return (
     <div>
       <TopContainer destination={destination} />
       <DescriptionCard />
       <HR />
+      <Itinarycard itinerary={itinerary} />
     </div>
   );
 };
