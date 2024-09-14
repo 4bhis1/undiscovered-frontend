@@ -110,7 +110,9 @@ const MainForm = () => {
   const Component = ComponentIndex[sliderCount];
 
   return (
-    <Flex direction={'column'}>
+    <Flex
+      direction={'column'}
+      style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
       <Slider totalSteps={ComponentIndex.length} currentStep={sliderCount} />
 
       <Text>Plan Your Next Trip</Text>

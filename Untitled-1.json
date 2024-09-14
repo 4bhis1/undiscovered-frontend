@@ -1,0 +1,198 @@
+{
+  "destination": {
+    "numberOfDays": 3,
+    "destinationCity": "Rome",
+    "destinationCountry": "Italy",
+    "currency": "Euro",
+    "oneDollarInLocalCurrency": 0.94,
+    "languagesSpoken": ["Italian"],
+    "timeThereInUtcFormat": "UTC +1",
+    "capitalOfTheCountry": "Rome",
+    "localWeather": "Mediterranean",
+    "temperatureRangeThroughTheYear": "3°C to 30°C",
+    "shortDescription": "Rome, the Eternal City, is filled with ancient history, vibrant culture, and culinary delights. It is a treasure trove of art, architecture, and historical sites.",
+    "shortHistory": "Founded in 753 BC, Rome was the heart of the Roman Empire, which ruled much of Europe. It has evolved through the Renaissance to become a symbol of power and culture.",
+    "startDate": "25th December 2024",
+    "endDate": "27th December 2024"
+  },
+  "itinerary": [
+    {
+      "day": 1,
+      "date": "Wednesday 25 December",
+      "program": [
+        {
+          "id": 1,
+          "programOrPlaceName": "Colosseum",
+          "timeSpentThere": "3 hours",
+          "location": "Piazza del Colosseo, 1, 00184 Roma RM, Italy",
+          "coordinateOfEvent": [12.49231, 41.89021],
+          "shortDescriptionOfProgram": "Visit this iconic symbol of ancient Rome, where gladiators once fought. Learn about its history and significance."
+        },
+        {
+          "id": 2,
+          "programOrPlaceName": "Roman Forum",
+          "timeSpentThere": "2 hours",
+          "location": "Via della Salara Vecchia, 5/6, 00186 Roma RM, Italy",
+          "coordinateOfEvent": [12.48533, 41.89246],
+          "shortDescriptionOfProgram": "Walk through the ruins of what was once the political heart of Rome. Imagine the grandeur of ancient temples and basilicas."
+        },
+        {
+          "id": 3,
+          "programOrPlaceName": "Trevi Fountain",
+          "timeSpentThere": "1 hour",
+          "location": "Piazza di Trevi, 00187 Roma RM, Italy",
+          "coordinateOfEvent": [12.48333, 41.90093],
+          "shortDescriptionOfProgram": "Enjoy the breathtaking beauty of the Baroque fountain, and don't forget to toss a coin for good luck!"
+        },
+        {
+          "id": 4,
+          "programOrPlaceName": "Pantheon",
+          "timeSpentThere": "1 hour",
+          "location": "Piazza della Rotonda, 00186 Roma RM, Italy",
+          "coordinateOfEvent": [12.47687, 41.89861],
+          "shortDescriptionOfProgram": "Marvel at this architectural wonder, boasting the world's largest unreinforced concrete dome."
+        },
+        {
+          "id": 5,
+          "programOrPlaceName": "Dinner at Trastevere",
+          "timeSpentThere": "3 hours",
+          "location": "Trastevere, 00153 Roma RM, Italy",
+          "coordinateOfEvent": [12.46667, 41.88764],
+          "shortDescriptionOfProgram": "Experience authentic Roman cuisine in the charming streets of Trastevere, a lively neighborhood known for its nightlife."
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "date": "Thursday 26 December",
+      "program": [
+        {
+          "id": 6,
+          "programOrPlaceName": "Vatican Museums and Sistine Chapel",
+          "timeSpentThere": "4 hours",
+          "location": "Viale Vaticano, 00165 Roma RM, Italy",
+          "coordinateOfEvent": [12.45470, 41.90649],
+          "shortDescriptionOfProgram": "Explore the vast collections of the Vatican Museums, ending with a viewing of Michelangelo's masterpiece in the Sistine Chapel."
+        },
+        {
+          "id": 7,
+          "programOrPlaceName": "St. Peter's Basilica",
+          "timeSpentThere": "2 hours",
+          "location": "Piazza San Pietro, 00120 Città del Vaticano, Vatican City",
+          "coordinateOfEvent": [12.45635, 41.90291],
+          "shortDescriptionOfProgram": "Visit one of the world's largest and most beautiful churches, with stunning architecture and art."
+        },
+        {
+          "id": 8,
+          "programOrPlaceName": "Lunch in Vatican City",
+          "timeSpentThere": "1.5 hours",
+          "location": "Viale Vaticano, 00165 Roma RM, Italy",
+          "coordinateOfEvent": [12.45239, 41.90569],
+          "shortDescriptionOfProgram": "Enjoy a leisurely lunch near the Vatican, sampling local Italian dishes."
+        },
+        {
+          "id": 9,
+          "programOrPlaceName": "Castel Sant'Angelo",
+          "timeSpentThere": "1.5 hours",
+          "location": "Lungotevere Castello, 50, 00193 Roma RM, Italy",
+          "coordinateOfEvent": [12.46631, 41.90291],
+          "shortDescriptionOfProgram": "Tour the historic castle, once a mausoleum and fortress, offering panoramic views of Rome."
+        },
+        {
+          "id": 10,
+          "programOrPlaceName": "Gelato at Piazza Navona",
+          "timeSpentThere": "1 hour",
+          "location": "Piazza Navona, 00186 Roma RM, Italy",
+          "coordinateOfEvent": [12.47309, 41.89912],
+          "shortDescriptionOfProgram": "Indulge in some of Rome's finest gelato while enjoying the vibrant atmosphere of this iconic square."
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "date": "Friday 27 December",
+      "program": [
+        {
+          "id": 11,
+          "programOrPlaceName": "Villa Borghese Gardens",
+          "timeSpentThere": "3 hours",
+          "location": "Piazzale Napoleone I, 00197 Roma RM, Italy",
+          "coordinateOfEvent": [12.49237, 41.91417],
+          "shortDescriptionOfProgram": "Start your day with a leisurely stroll through these stunning gardens, offering art, nature, and relaxation."
+        },
+        {
+          "id": 12,
+          "programOrPlaceName": "Borghese Gallery",
+          "timeSpentThere": "2 hours",
+          "location": "Piazzale Scipione Borghese, 5, 00197 Roma RM, Italy",
+          "coordinateOfEvent": [12.49243, 41.91352],
+          "shortDescriptionOfProgram": "Admire the works of Caravaggio, Raphael, and Bernini in this exquisite art gallery housed in a historic villa."
+        },
+        {
+          "id": 13,
+          "programOrPlaceName": "Spanish Steps",
+          "timeSpentThere": "1 hour",
+          "location": "Piazza di Spagna, 00187 Roma RM, Italy",
+          "coordinateOfEvent": [12.48278, 41.90594],
+          "shortDescriptionOfProgram": "Visit the famous staircase known for its beauty and historical significance, connecting Piazza di Spagna with the church above."
+        },
+        {
+          "id": 14,
+          "programOrPlaceName": "Shopping at Via del Corso",
+          "timeSpentThere": "2 hours",
+          "location": "Via del Corso, Roma RM, Italy",
+          "coordinateOfEvent": [12.48073, 41.90278],
+          "shortDescriptionOfProgram": "Take some time to shop on one of Rome's most famous streets, offering both high fashion and local goods."
+        },
+        {
+          "id": 15,
+          "programOrPlaceName": "Farewell Dinner",
+          "timeSpentThere": "3 hours",
+          "location": "Piazza Campo de' Fiori, 00186 Roma RM, Italy",
+          "coordinateOfEvent": [12.47386, 41.89544],
+          "shortDescriptionOfProgram": "Enjoy a final dinner together at Campo de' Fiori, celebrating the unforgettable experiences shared in Rome."
+        }
+      ]
+    }
+  ],
+  "estimatedCosts": [
+    {
+      "category": "Accommodation",
+      "hostelCostPerNight": 30,
+      "hotelCostPerNight": 70,
+      "luxuryHotelCostPerNight": 200,
+      "airbnbCostPerNight": 50
+    },
+    {
+      "category": "Transportation",
+      "busCost": 1.50,
+      "taxiCost": 15,
+      "trainCost": 8,
+      "rentalCost": 70
+    },
+    {
+      "category": "Food",
+      "streetFoodCost": 5,
+      "budgetRestaurantCost": 15,
+      "fancyRestaurantCost": 60,
+      "traditionalFoodCost": 30
+    },
+    {
+      "category": "Activities",
+      "mainActivityForEachDay": [
+        {
+          "mainActivityName": "Colosseum Tour",
+          "costOfProgram": 15
+        },
+        {
+          "mainActivityName": "Vatican Museums Visit",
+          "costOfProgram": 17
+        },
+        {
+          "mainActivityName": "Borghese Gallery Visit",
+          "costOfProgram": 20
+        }
+      ]
+    }
+  ]
+}
