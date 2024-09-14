@@ -95,6 +95,7 @@ const RegisterForm = props => {
           variant="contained"
           color="primary"
           fullWidth
+          style={{cursor: 'pointer'}}
           onClick={() => {
             navigation.navigate('login');
           }}>

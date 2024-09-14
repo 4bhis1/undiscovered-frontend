@@ -1,64 +1,45 @@
-/* Slider.css */
-.slider-container {
+/* Stepper.css */
+.stepper-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
-.slider-dots {
+.step {
   display: flex;
-  justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
-}
-
-.dot {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: #ccc;
-  margin: 0 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.dot.active {
-  background-color: #007bff;
-  transform: scale(1.2); /* Enlarge the active dot */
-}
-
-.line {
-  width: 40px;
-  height: 4px;
-  background-color: #ccc;
-  transition: background-color 0.3s ease;
-}
-
-.line.active {
-  background-color: #007bff;
-}
-
-.slider-controls {
-  display: flex;
   justify-content: center;
-  margin-top: 20px;
-}
-
-.slider-controls button {
-  margin: 0 10px;
   padding: 10px 20px;
-  border: none;
-  background-color: #007bff;
-  color: white;
+  background-color: #ccc;
+  color: #333;
+  margin-left: 10px;
+  font-weight: bold;
   cursor: pointer;
+  position: relative;
   transition: background-color 0.3s ease;
+  height: 25px;
 }
 
-.slider-controls button:disabled {
-  background-color: #aaa;
-  cursor: not-allowed;
+.step:not(:last-child)::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 15px solid #fff; /* This creates the arrow effect */
+  border-top: 23px solid transparent;
+  border-bottom: 23px solid transparent;
+  position: absolute;
+  right: -15px;
+  z-index: 1;
 }
 
-.slider-controls button:not(:disabled):hover {
-  background-color: #0056b3;
+.step:not(:last-child) {
+  margin-right: 20px; /* Adjust the space between steps */
+}
+
+.step.active {
+  background-color: #ccff00; /* Active step color */
+}
+
+.step.active:not(:last-child)::after {
+  border-left-color: #ccff00; /* Make the arrow match the active step */
 }
