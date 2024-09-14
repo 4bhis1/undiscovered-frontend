@@ -28,4 +28,29 @@ const Slider = ({totalSteps, currentStep, updateSliderCount}) => {
   );
 };
 
-export default Slider;
+const tagArray = [
+  'Where ?',
+  'When ?',
+  'Who ?',
+  'Budget ?',
+  "What's exciting ?",
+];
+
+const Stepper = ({totalSteps, currentStep, updateSliderCount}) => {
+  // State to keep track of the current step
+
+  return (
+    <div className="stepper-container">
+      {tagArray.map((step, index) => (
+        <div
+          key={index}
+          className={`step ${index <= currentStep ? 'active' : ''}`}
+          onClick={() => updateSliderCount(index)}>
+          {step}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default Stepper;

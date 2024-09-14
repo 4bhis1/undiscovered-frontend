@@ -14,6 +14,7 @@ import {
 } from './Constants';
 import {Button} from '../../Button';
 import moment from 'moment';
+import DatePickerComponent, {arrangeDates} from '../Date/DatePicker';
 
 const PlaceCard = ({title, imagePath, selectedValues, onClick}) => {
   let className = 'place-image';
@@ -32,14 +33,8 @@ const PlaceCard = ({title, imagePath, selectedValues, onClick}) => {
   );
 };
 
-const map = {
-  text: TextField.Root,
-};
-
 export const Search = ({value, onChange, ...props}) => {
-  const SearchComponent = map['text'];
-
-  return <SearchComponent value={value} onChange={onChange} {...props} />;
+  return <TextField.Root value={value} onChange={onChange} {...props} />;
 };
 
 const Place = ({formState, updateFormState}) => {
@@ -75,19 +70,22 @@ const Place = ({formState, updateFormState}) => {
 const Date = ({formState, updateFormState}) => {
   const value = 'when';
 
-  const [dateDiff, updateDateDiff] = useState();
-
+  const [{formattedDateRange, diffDays}, updateDateDiff] = useState({});
+  const [date, updatedate] = useState();
   const calculateDifference = () => {
     if (formState[value]?.from && formState[value]?.to) {
-      const from = moment(formState[value]?.from);
-      const to = moment(formState[value]?.to);
-      updateDateDiff(to.diff(from, 'days'));
+      const {formattedDateRange, diffDays} = arrangeDates(
+        formState[value]?.from,
+        formState[value]?.to,
+      );
+
+      updateDateDiff({formattedDateRange, diffDays});
     }
   };
 
   useEffect(() => {
     calculateDifference();
-  }, [formState[value]]);
+  }, [date]);
 
   return (
     <div className="who-container">
@@ -95,39 +93,47 @@ const Date = ({formState, updateFormState}) => {
         style={{
           display: 'flex',
           gap: 50,
+          justifyContent: 'center',
+          alignItems: 'center',
         }}>
-        <Search
-          type={'date'}
-          style={{height: 80, width: 250}}
+        <DatePickerComponent
           value={formState[value]?.from}
-          onChange={({target}) => {
+          onChange={target => {
             updateFormState(formState => {
               if (!formState[value]) {
                 formState[value] = {};
               }
-              formState[value].from = target.value;
+              formState[value].from = target;
               return formState;
             });
-            console.log('>>> from', target.value);
+            updatedate(target);
+            console.log('>>> from', target);
           }}
         />
-        <Search
-          type={'date'}
-          style={{height: 80, width: 250}}
+        -
+        <DatePickerComponent
           value={formState[value]?.to}
-          onChange={({target}) => {
+          onChange={target => {
             updateFormState(formState => {
               if (!formState[value]) {
                 formState[value] = {};
               }
-              formState[value].to = target.value;
+              formState[value].to = target;
               return formState;
             });
-            console.log('>>> to', target.value);
+            updatedate(target);
+
+            console.log('>>> to', target);
           }}
         />
       </div>
-      <div>{dateDiff}</div>
+
+      {formState[value]?.from && formState[value]?.to && (
+        <div style={{textAlign: 'center', margin: '20px'}}>
+          <h2>When</h2>
+          <p>{`${formattedDateRange} · ${diffDays}`}</p>
+        </div>
+      )}
     </div>
   );
 
@@ -279,8 +285,8 @@ const MainForm = props => {
           alignItems: 'center',
           border: '1px solid rgba(0, 0, 0, 0.2)',
           padding: '50px',
-          height: '80vh',
-          width: '80vw',
+          height: '70vh',
+          width: '60vw',
           borderRadius: '10px',
           boxShadow: '6px 6px 10px rgba(0, 0, 0, 0.2)',
           overflow: 'hidden',
