@@ -58,6 +58,7 @@ const Login = props => {
           position: 'absolute',
           top: 0,
           left: 0,
+          // overflow: 'hidden',
         }}></div>
       <div
         style={{
@@ -67,7 +68,7 @@ const Login = props => {
           maxWidth: '400px',
           margin: 'auto',
           position: 'relative',
-          top: '50%',
+          top: '40%',
           transform: 'translateY(-50%)',
         }}>
         <Stack className={classes.container}>
