@@ -6,15 +6,18 @@ import {ThemeProvider, createTheme} from '@mui/material';
 
 import theme from './theme/MaterialTheme';
 import {Theme} from '@radix-ui/themes';
+import {GoogleOAuthProvider} from '@react-oauth/google';
 
 function App() {
   return (
     <>
       <ThemeProvider theme={createTheme(theme)}>
         <Theme>
-          <BrowserRouter basename="/">
-            <AppNavigator />
-          </BrowserRouter>
+          <GoogleOAuthProvider clientId="1088606169663-df95s64h0ihj8prru5mcf2e3hm2ehe3o.apps.googleusercontent.com">
+            <BrowserRouter basename="/">
+              <AppNavigator />
+            </BrowserRouter>
+          </GoogleOAuthProvider>
         </Theme>
       </ThemeProvider>
     </>
