@@ -226,7 +226,7 @@ const Date = ({formState, updateFormState}) => {
       {formState[value]?.from && formState[value]?.to && !errorMessage && (
         <div style={{textAlign: 'center', margin: '20px'}}>
           <h2>When</h2>
-          <p>{`${formattedDateRange} · ${diffDays}`}</p>
+          <p>{`${formattedDateRange} · ${diffDays} days`}</p>
         </div>
       )}
       {errorMessage ? (
@@ -364,12 +364,16 @@ const ComponentIndex = [
   ActivitiesYouWant,
 ];
 
-const ShowMagic = ({formState, navigate}) => {
+const ShowMagic = ({formState, navigate, newChat}) => {
+  // if (newChat) {
+  //   navigate('/itineraries-1', {state: formState});
+  // } else {
   navigate('/itineraries', {state: formState});
+  // }
 };
 
 const MainForm = props => {
-  const {handleClose} = props;
+  const {handleClose, newChat} = props;
   const [sliderCount, updateSliderCount] = useState(0);
   const [formState, updateFormState] = useState({});
   const Component = ComponentIndex[sliderCount];

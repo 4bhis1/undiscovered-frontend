@@ -4,11 +4,11 @@ import {BrowserRouter} from 'react-router-dom';
 
 import {ThemeProvider, createTheme} from '@mui/material';
 
-import theme from './theme/MaterialTheme';
 import {Theme} from '@radix-ui/themes';
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import theme from './theme/MaterialTheme';
 
 function App() {
   return (
