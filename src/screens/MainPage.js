@@ -4,6 +4,9 @@ import Itinary from './MainPage/Itinary';
 import {Direction} from '../components/map/Map';
 import {useParams} from 'react-router-dom';
 import HttpAuth from '../services/HttpAuthService';
+import {showError} from '../hooks/showError';
+
+import fakeData from './MainPage/data.json';
 
 const sideNavBarItem = [
   {label: 'Home'},
@@ -43,15 +46,14 @@ const MainPage = props => {
 
   useEffect(() => {
     const getData = async () => {
-      const response = await HttpAuth.post(
-        '/v1/itinerary/generate',
-        parsedParams,
-      );
-      console.log('>>> response', response);
-      setData(response);
-      setLoading(false);
-      console.log("data>>>>>>>>>",data)
-
+      try {
+        const response = await HttpAuth.post('/v1/itinerary/generate', params);
+        console.log('>>> response', response);
+        setData(response.data);
+        setLoading(false);
+      } catch (err) {
+        showError('Failed to fetch');
+      }
     };
     getData();
   }, []);
@@ -61,7 +63,7 @@ const MainPage = props => {
   ) : (
     <div style={{flexDirection: 'row', flex: 1, display: 'flex'}}>
       <ListMenu data={sideNavBarItem} />
-      <Itinary data={data} />
+      <Itinary data={fakeData} />
       <Direction
         data={data}
         style={{

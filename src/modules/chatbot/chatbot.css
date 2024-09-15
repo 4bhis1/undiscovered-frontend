@@ -11,6 +11,7 @@
     position: fixed;
     bottom: 20px;
     right: 20px;
+    z-index: 100;
   }
   
   .chatbot-header {
@@ -45,11 +46,42 @@
     padding: 10px 0px;
   }
   
-  .input {
+.messages {
+  width: 100%;
+  height: 400px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0px;
+}
+
+.message-container {
+  width: 100%;
+}
+
+.bot-message {
+  float: left;
+  padding: 15px 20px;
+  margin: 5px;
+  border-radius: 20px 20px 20px 1px;
+  background: #00aaa5;
+  color: white;
+  min-width: 40px;
+}
+
+.user-message {
+  float: right;
+  padding: 15px 10px;
+  margin: 10px;
+  border-radius: 20px 20px 1px 20px;
+  background: #cccccc;
+  color: black;
+}
+  .chatbotInput {
     position: relative;
   }
   
-  .input > form > input[type="text"] {
+  .chatbotInput > form > input[type="text"] {
     font-family: monospace;
     font-size: 16px;
     border: 0;
@@ -66,11 +98,11 @@
     -webkit-appearance: none;
   }
   
-  .input > form > input:focus {
+  .chatbotInput > form > input:focus {
     outline: none;
   }
   
-  .input > form > button {
+  .chatbotInput > form > button {
     background-color: transparent;
     border: 0;
     border-bottom-right-radius: 10px;
