@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import mascot from '../../assets/mascot.svg';
 import Modal from '@mui/material/Modal';
 import MainForm from '../../components/localeSwitcher/Form/Form';
+import Chatbot from '../chatbot/chatbot';
 
 const PlanATrip = () => {
   const [open, setOpen] = React.useState(false);
@@ -42,7 +43,7 @@ const FirstPage = () => {
             <button className="login-button">Login</button>
           </div>
         </nav> */}
-
+        <Chatbot />
         {/* Main Content */}
         <h1>Explore like the world is your oyster</h1>
         <PlanATrip />
