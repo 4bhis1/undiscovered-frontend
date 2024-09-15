@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import mascot from '../assets/mascot.svg';
+import mascot from '../assets/logo.png';
 import {useNavigate} from 'react-router-dom';
 import {useAuth} from '../modules/user-management/hooks/useAuth';
 
@@ -60,23 +60,11 @@ function ResponsiveAppBar({isPublic}) {
               color: 'inherit',
               textDecoration: 'none',
             }}>
-            <div
-              style={{
-                width: '30px',
-                height: '30px',
-                padding: '1px',
-                backgroundColor: '#ffffff',
-                borderRadius: '50%',
-                resize: 'both',
-              }}>
-              <img src={mascot} alt="logo" style={{width: 30, height: 30}} />
-            </div>
-            <div
-              style={{
-                marginLeft: '5px',
-              }}>
-              Undiscover
-            </div>
+            <img
+              src={mascot}
+              alt="logo"
+              style={{width: '190px', height: '38px'}}
+            />
           </Typography>
           <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
             <IconButton

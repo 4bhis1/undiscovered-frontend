@@ -89,11 +89,6 @@ const FirstPage = props => {
           </p>
         </div>
       </section>
-
-      {/* Globe Image */}
-      <div style={{flex: 1}}>
-        <img src={mascot} alt="Globe mascot" />
-      </div>
     </div>
   );
 };

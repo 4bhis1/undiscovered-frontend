@@ -14,10 +14,13 @@ code {
 
 .background {
   background-image: url('./assets/Homebackground.png');
-  /* height: 107vh; */
+  height: 100%;
   width: 100%;
   background-size: cover;
-  background-position: center;
   background-repeat: no-repeat;
   position: relative;
+}
+
+.css-19r6kue-MuiContainer-root {
+  max-width: 3000px !important;
 }
