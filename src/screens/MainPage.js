@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {ListMenu} from './MainPage/LeftNav';
 import Itinary from './MainPage/Itinary';
 import {Direction} from '../components/map/Map';
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import HttpAuth from '../services/HttpAuthService';
 import {showError} from '../hooks/showError';
 
@@ -44,15 +44,20 @@ const MainPage = props => {
   const [data, setData] = React.useState({});
   const [loading, setLoading] = React.useState(true);
 
+  const navigate = useNavigate();
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await HttpAuth.post('/v1/itinerary/generate', parsedParams);
+        const response = await HttpAuth.post(
+          '/v1/itinerary/generate',
+          parsedParams,
+        );
         console.log('>>> response', response);
         setData(response.data);
         setLoading(false);
       } catch (err) {
-        showError('Failed to fetch');
+        showError(err);
+        navigate('/welcome');
       }
     };
     getData();
