@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 
-import data from './data.json';
 import axios from 'axios';
 import {Box, Skeleton, Typography} from '@mui/material';
 import {
@@ -181,6 +180,7 @@ const DescriptionCard = ({destination}) => {
 };
 
 const Itinary = ({data}) => {
+  console.log('🚀 ~ file: Itinary.js:183 ~ Itinary ~ data:', data);
   const {destination, itinerary} = data;
   return (
     <div style={{flex: 3}}>
