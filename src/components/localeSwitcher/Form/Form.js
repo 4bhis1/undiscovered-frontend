@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 
 import {Box, Flex, Text} from '@radix-ui/themes';
 import {IoIosClose} from 'react-icons/io';
@@ -21,6 +21,8 @@ import moment from 'moment';
 
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import {AuthContext} from '../../../context/auth/AuthContext';
+import {AiContext} from '../../../context/AiContext';
 
 const PlaceCard = ({title, imagePath, selectedValues, onClick}) => {
   let className = 'place-image';
@@ -47,7 +49,6 @@ let access_token =
   'pk.eyJ1Ijoic3ppbGFyZG1hdGUiLCJhIjoiY2xycXRqNjA4MDd1MDJrcWx0amRoYXp6ZyJ9.JoEWVmK7_7O4hhWySeP_Ag';
 
 const City = ({countryCode, updateFormState}) => {
-  console.log('🚀 ~ file: Form.js:49 ~ City ~ countryCode:', countryCode);
   const [place, updatePlace] = useState([]);
   const [text, updateText] = useState();
 
@@ -155,10 +156,17 @@ const Date = ({formState, updateFormState}) => {
       const start = moment(formState[value]?.from);
       const end = moment(formState[value]?.to);
       const current = moment();
+      if (start.isBefore(current) || end.isBefore(current)) {
+        updateErrorMessage(
+          'Both dates should be greater than the current date',
+        );
+      }
       if (end.isBefore(start)) {
-        updateErrorMessage('From should be less then to');
+        updateErrorMessage('From Date should be less then to date');
       } else if (current.isSameOrAfter(start)) {
-        updateErrorMessage('From should be greater or equal to current');
+        updateErrorMessage(
+          'From Date should be greater or equal to current date',
+        );
       } else {
         const {formattedDateRange, diffDays} = arrangeDates(start, end);
 
@@ -219,7 +227,7 @@ const Date = ({formState, updateFormState}) => {
       {formState[value]?.from && formState[value]?.to && !errorMessage && (
         <div style={{textAlign: 'center', margin: '20px'}}>
           <h2>When</h2>
-          <p>{`${formattedDateRange} · ${diffDays}`}</p>
+          <p>{`${formattedDateRange} · ${diffDays} days`}</p>
         </div>
       )}
       {errorMessage ? (
@@ -357,16 +365,23 @@ const ComponentIndex = [
   ActivitiesYouWant,
 ];
 
-const ShowMagic = ({formState, navigate}) => {
+const ShowMagic = ({formState, navigate, newChat}) => {
+  // if (newChat) {
+  //   navigate('/itineraries-1', {state: formState});
+  // } else {
   navigate('/itineraries', {state: formState});
+  // }
 };
 
 const MainForm = props => {
-  const {handleClose} = props;
+  const {handleClose, newChat} = props;
   const [sliderCount, updateSliderCount] = useState(0);
   const [formState, updateFormState] = useState({});
   const Component = ComponentIndex[sliderCount];
   const navigate = useNavigate();
+
+  const {updateAiData} = useContext(AiContext);
+
   return (
     <div
       style={{
@@ -479,8 +494,8 @@ const MainForm = props => {
               <Button
                 title="Lets Generate"
                 onClick={() => {
-                  console.log(formState);
                   ShowMagic({formState, navigate});
+                  updateAiData(formState);
                 }}
               />
             )}

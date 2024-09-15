@@ -13,6 +13,8 @@ import {
 import moment from 'moment';
 import Itinarycard from './Itinarycard';
 
+import './fonts-style.css';
+
 const useGetImage = ({location}) => {
   const [loading, updateLoading] = useState(true);
   const [imageurl, updateImageUrl] = useState();
@@ -90,8 +92,10 @@ const TopContainer = ({destination}) => {
           flexDirection: 'column',
           gap: 4,
         }}>
-        <div>{destination.number_of_days} days trip</div>
-        <div style={{display: 'flex', gap: 8, alignItems: 'center'}}>
+        <div className="three-day-trip">
+          {destination.number_of_days} days trip
+        </div>
+        <div className='calendar' style={{display: 'flex', gap: 8, alignItems: 'center'}}>
           <FaCalendar />
           <div>{fromdate}</div>
           <div>-</div>
@@ -183,7 +187,12 @@ const Itinary = ({data}) => {
   console.log('🚀 ~ file: Itinary.js:183 ~ Itinary ~ data:', data);
   const {destination, itinerary} = data;
   return (
-    <div style={{flex: 3}}>
+    <div
+      style={{
+        flex: 3,
+        overflowY: 'auto',
+        height: '95vh',
+      }}>
       <TopContainer destination={destination} />
       <DescriptionCard destination={destination} />
       <HR />

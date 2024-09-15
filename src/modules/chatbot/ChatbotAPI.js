@@ -1,11 +1,10 @@
+import HttpAuth from '../../services/HttpAuthService';
+
 const API = {
-  GetChatbotResponse: async message => {
-    return new Promise(function (resolve, reject) {
-      setTimeout(function () {
-        if (message === 'hi') resolve('Welcome to chatbot!');
-        else resolve('echo : ' + message);
-      }, 2000);
-    });
+  GetChatbotResponse: async payload => {
+    const response = await HttpAuth.post('/v1/chat/ask-chatbot', payload);
+    console.log('response', response);
+    return response?.chat;
   },
 };
 
