@@ -70,7 +70,6 @@ const RegisterForm = props => {
           margin: 'auto',
           position: 'relative',
           top: '40%',
-          transform: 'translateY(-50%)',
         }}>
         <Stack style={loginFormStyle.container}>
           <Box className={classes.avatar}>
