@@ -34,7 +34,9 @@ const PlaceCard = ({data, day}) => {
         }}>
         {day}
       </div>
-      <div onClick={() => {}}>{data.place}</div>
+      <div onClick={() => {}} className="place-text">
+        {data.place}
+      </div>
       <div>{data.description}</div>
 
       <div style={{display: 'flex', alignItems: 'center', gap: 8}}>
@@ -72,7 +74,7 @@ const Day = ({data}) => {
           Day {data.day_no}
         </h2>
       </div>
-      <h2 className="font-bold text-gray-800">{parsedData}</h2>
+      <h2 className="parsed-date">{parsedData}</h2>
       {show && (
         <div style={{marginLeft: 10}}>
           {data.program.map(doc => {

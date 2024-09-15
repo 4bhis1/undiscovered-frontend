@@ -9,3 +9,16 @@
   color: white;
   font-weight: 500;
 }
+
+.place-text {
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  font-size: 1.3rem;
+  text-decoration: underline;
+}
+
+.parsed-date {
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  font-size: 1.3rem;
+}

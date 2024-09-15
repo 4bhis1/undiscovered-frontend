@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {ListMenu} from './MainPage/LeftNav';
 import Itinary from './MainPage/Itinary';
 import {Direction} from '../components/map/Map';
@@ -45,30 +45,34 @@ const parseData = data => {
   return obj;
 };
 
+const usefetchUserHistory = () => {
+  HttpAuth.get('/v1/itinerary');
+};
+
 const MainPage = props => {
   const {params = {}} = props;
-  const parsedParams = parseData(params);
-  const [data, setData] = React.useState({});
-  const [loading, setLoading] = React.useState(true);
+  // const parsedParams = parseData(params);
+  const [data, setData] = React.useState(fakedata);
+  const [loading, setLoading] = React.useState(false);
 
   const navigate = useNavigate();
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await HttpAuth.post(
-          '/v1/itinerary/generate',
-          parsedParams,
-        );
-        console.log('>>> response', response);
-        setData(response);
-        setLoading(false);
-      } catch (err) {
-        showError(err);
-        navigate('/welcome');
-      }
-    };
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     try {
+  //       const response = await HttpAuth.post(
+  //         '/v1/itinerary/generate',
+  //         parsedParams,
+  //       );
+  //       console.log('>>> response', response);
+  //       setData(response);
+  //       setLoading(false);
+  //     } catch (err) {
+  //       showError(err);
+  //       navigate('/welcome');
+  //     }
+  //   };
+  //   getData();
+  // }, []);
 
   return (
     <div

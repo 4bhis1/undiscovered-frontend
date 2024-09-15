@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FaAnglesLeft, FaAnglesRight} from 'react-icons/fa6';
 import {Button} from '../../components/Button';
 import {useNavigate} from 'react-router-dom';
 import {Modal} from '@mui/material';
 import MainForm from '../../components/localeSwitcher/Form/Form';
+import HttpAuth from '../../services/HttpAuthService';
 
 export const ListMenu = ({data}) => {
   const [show, updateShow] = useState(true);
@@ -14,6 +15,22 @@ export const ListMenu = ({data}) => {
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
+
+  const [userItinaries, updateUserIntinaries] = useState();
+  console.log(
+    '🚀 ~ file: LeftNav.js:20 ~ ListMenu ~ userItinaries:',
+    userItinaries,
+  );
+
+  useEffect(() => {
+    HttpAuth.get('/v1/itinerary')
+      .then(response => {
+        updateUserIntinaries(response.data);
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
+  }, []);
 
   return show ? (
     <div
@@ -33,6 +50,10 @@ export const ListMenu = ({data}) => {
           <text>{item?.label}</text>
         </div>
       ))} */}
+      {userItinaries &&
+        userItinaries.map((doc, index) => {
+          return <div key={index}></div>;
+        })}
       <div style={{margin: 10}}>
         <Button title={'Start new Chat'} onClick={handleOpen} />
         <Modal
@@ -40,7 +61,7 @@ export const ListMenu = ({data}) => {
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description">
-          <MainForm handleClose={handleClose} newChat/>
+          <MainForm handleClose={handleClose} newChat />
         </Modal>
       </div>
 
