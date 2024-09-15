@@ -92,7 +92,7 @@ function BotMessage({fetchMessage}) {
 
 function Chatbot() {
   const [messages, setMessages] = useState([]);
-  const [isMinimized, setIsMinimized] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(true);
   const [isClosed, setIsClosed] = useState(false);
 
   useEffect(() => {
