@@ -16,11 +16,11 @@ const sideNavBarItem = [
   {label: 'Blogs'},
 ];
 
-const parseData = (data = {}) => {
-  console.log(
-    '🚀 ~ file: MainPage.js:30 ~ parseData ~ data:',
-    JSON.stringify(data),
-  );
+const parseData = data => {
+  if (!data) {
+    return {};
+  }
+
   const obj = {};
 
   const budgetObj = {
@@ -44,8 +44,7 @@ const parseData = (data = {}) => {
 };
 
 const MainPage = props => {
-  const {params} = props;
-  console.log('>>> params', params, props);
+  const {params = {}} = props;
   const parsedParams = parseData(params);
   const [data, setData] = React.useState({});
   const [loading, setLoading] = React.useState(true);
