@@ -47,7 +47,7 @@ const MainPage = props => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await HttpAuth.post('/v1/itinerary/generate', params);
+        const response = await HttpAuth.post('/v1/itinerary/generate', parsedParams);
         console.log('>>> response', response);
         setData(response.data);
         setLoading(false);
