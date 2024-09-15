@@ -155,10 +155,17 @@ const Date = ({formState, updateFormState}) => {
       const start = moment(formState[value]?.from);
       const end = moment(formState[value]?.to);
       const current = moment();
+      if (start.isBefore(current) || end.isBefore(current)) {
+        updateErrorMessage(
+          'Both dates should be greater than the current date',
+        );
+      }
       if (end.isBefore(start)) {
-        updateErrorMessage('From should be less then to');
+        updateErrorMessage('From Date should be less then to date');
       } else if (current.isSameOrAfter(start)) {
-        updateErrorMessage('From should be greater or equal to current');
+        updateErrorMessage(
+          'From Date should be greater or equal to current date',
+        );
       } else {
         const {formattedDateRange, diffDays} = arrangeDates(start, end);
 
