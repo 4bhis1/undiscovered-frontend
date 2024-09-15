@@ -9,18 +9,19 @@ export const Button = props => {
     <Box
       style={{
         borderRadius: '63px',
-        boxShadow: '6px 6px 6px black',
+        boxShadow: '0px 3px 0px black',
+        border: '1px solid rgba(0, 0, 0, 0.2)',
         overflow: 'hidden',
         width: '150px',
         justifyContent: 'center',
         alignItems: 'center',
         display: 'flex',
-        backgroundColor: '#A3F500',
+        backgroundColor: title === 'Back' ? '#ffffff' : '#A3F500',
         font: 'poppins',
         fontWeight: 400,
         fontSize: '15px',
         cursor: 'pointer',
-        gap: 10
+        gap: 10,
       }}
       height="48px"
       onClick={onClick}>
