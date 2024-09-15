@@ -49,7 +49,7 @@ const MainPage = props => {
       try {
         const response = await HttpAuth.post('/v1/itinerary/generate', parsedParams);
         console.log('>>> response', response);
-        setData(response.data);
+        setData(response);
         setLoading(false);
       } catch (err) {
         showError('Failed to fetch');
