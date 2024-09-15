@@ -22,7 +22,7 @@ function Input({onSend}) {
   };
 
   return (
-    <div className="input">
+    <div className="chatbotInput">
       <form onSubmit={handleSend}>
         <input
           type="text"
