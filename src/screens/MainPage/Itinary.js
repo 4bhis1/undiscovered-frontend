@@ -12,7 +12,7 @@ import {
 } from 'react-icons/fa';
 import moment from 'moment';
 import Itinarycard from './Itinarycard';
-
+import './itinary.css';
 import './fonts-style.css';
 
 const useGetImage = ({location}) => {
@@ -95,7 +95,9 @@ const TopContainer = ({destination}) => {
         <div className="three-day-trip">
           {destination.number_of_days} days trip
         </div>
-        <div className='calendar' style={{display: 'flex', gap: 8, alignItems: 'center'}}>
+        <div
+          className="calendar"
+          style={{display: 'flex', gap: 8, alignItems: 'center'}}>
           <FaCalendar />
           <div>{fromdate}</div>
           <div>-</div>
@@ -154,14 +156,11 @@ const DescriptionCard = ({destination}) => {
         {MenuArray.map((doc, index) => {
           return (
             <div
-              style={{
-                padding: 10,
-                borderColor: '#c0c0c0',
-                borderStyle: 'solid',
-                borderWidth: 2,
-                borderRadius: 20,
-                cursor: 'pointer',
-              }}
+              className={
+                index === menuIndex
+                  ? 'selected-itinary-button'
+                  : 'itinary-button'
+              }
               onClick={() => {
                 updateMenuIndex(index);
               }}
