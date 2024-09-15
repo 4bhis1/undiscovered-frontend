@@ -34,15 +34,15 @@ const PlaceCard = ({data, day}) => {
         }}>
         {day}
       </div>
-      <div>{data.place}</div>
+      <div onClick={() => {}}>{data.place}</div>
       <div>{data.description}</div>
 
-      <div>
+      <div style={{display: 'flex', alignItems: 'center', gap: 8}}>
         <FaClock />
         <div>{data.estimated_time}</div>
         <div>{data.location}</div>
       </div>
-      <div>
+      <div style={{display: 'flex', alignItems: 'center', gap: 8}}>
         <FaWallet />
         <div>{data.cost}</div>
       </div>
@@ -58,14 +58,21 @@ const Day = ({data}) => {
   return (
     <div style={{display: 'flex', flexDirection: 'column'}}>
       <div
-        style={{cursor: 'pointer'}}
+        style={{
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+        }}
         onClick={() => {
           updateShow(show => !show);
         }}>
         {show ? <IoIosArrowDown /> : <IoIosArrowUp />}
-        Day {data.day_no}
+        <h2 className="text-xl font-bold text-gray-800" style={{margin: 0}}>
+          Day {data.day_no}
+        </h2>
       </div>
-      <div>{parsedData}</div>
+      <h2 className="font-bold text-gray-800">{parsedData}</h2>
       {show && (
         <div style={{marginLeft: 10}}>
           {data.program.map(doc => {
@@ -79,8 +86,10 @@ const Day = ({data}) => {
 
 const Itinarycard = ({itinerary}) => {
   return (
-    <div>
-      <div>Itinerary</div>
+    <div style={{padding: 20}}>
+      <div style={{marginBottom: 20}}>
+        <h2 className="mb-2 text-xl font-bold text-gray-800">Itinerary</h2>
+      </div>
 
       {itinerary.map((doc, index) => {
         return <Day key={index} data={doc} />;
