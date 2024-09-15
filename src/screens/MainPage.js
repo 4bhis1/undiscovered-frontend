@@ -16,18 +16,24 @@ const sideNavBarItem = [
   {label: 'Blogs'},
 ];
 
-const parseData = data => {
+const parseData = (data = {}) => {
   console.log(
     '🚀 ~ file: MainPage.js:30 ~ parseData ~ data:',
     JSON.stringify(data),
   );
   const obj = {};
 
+  const budgetObj = {
+    Economy: '5000',
+    Mid: '15000',
+    Luxury: '20000',
+  };
+
   obj.destination = 'Delhi';
-  obj.budget = '7500';
+  obj.budget = budgetObj[data?.budget] || '30000';
   obj.interests = Object.keys(data.activities);
-  obj.checkinDate = data.when.from;
-  obj.checkoutDate = data.when.to;
+  obj.checkinDate = data.when?.from;
+  obj.checkoutDate = data.when?.to;
 
   obj.members = {
     adults: '2',
