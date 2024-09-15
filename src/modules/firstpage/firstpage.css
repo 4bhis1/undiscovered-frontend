@@ -1,6 +1,5 @@
 .container {
-  font-family: Arial, sans-serif;
-  text-align: center;
+  position: relative;
 }
 
 .navbar {
@@ -32,21 +31,24 @@
 .login-button {
   width: 120px;
   height: 39px;
-  padding: 8px 36px 8px 36px;
   gap: 0px;
   border-radius: 62.2px;
   border: 1px 0px 0px 0px;
-  opacity: 0px;
-  background: #88cc00;
-  border: 1px solid #ffffff;
+  background: #0a0a0a;
+  border: 1px solid #88cc00;
   color: #ffffff;
   cursor: pointer;
+  box-shadow: 0px 2px 0px 2px #88cc00;
+  font-weight: bold;
 }
 
 .header {
-  background-image: url('../../assets/Homebackground.png');
-  background-size: cover;
-  padding-bottom: 52px;
+  position: relative;
+  z-index: 2;
+  color: white;
+  text-align: center;
+  padding-top: 200px;
+  font-size: 24px;
 }
 
 .header h1 {
@@ -76,10 +78,11 @@
   border: 1px;
   background: #88cc00;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .discover-button {
-  background: #000000;
+  background: #84e3f5;
   width: 280px;
   height: 44px;
   padding: 12px 28px 12px 36px;
@@ -87,7 +90,7 @@
   border-radius: 62.2px;
   border: 1px;
   border: 1px solid #72ac00;
-  color: #ffffff;
+  font-weight: bold;
 }
 
 .features {
@@ -97,8 +100,7 @@
   margin-top: 16px;
   border-radius: 400px;
   flex-wrap: wrap;
-  padding-right: 8px;
-  padding-left: 8px;
+  padding: 60px;
 }
 
 .feature-box {
@@ -106,7 +108,7 @@
   gap: 4px;
   border-radius: 32px;
   opacity: 0px;
-  box-shadow: 0px 4px 20px 0px #00000014;
+  box-shadow: 0px 4px 20px 0px #00000025;
   background-color: #ffffff;
   width: 220px;
 }

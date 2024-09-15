@@ -57,7 +57,8 @@ const StackScreens = props => {
           <div
             style={{
               flexDirection: 'column',
-            }}>
+            }}
+            className="background">
             <ResponsiveAppBar isPublic={isPublic} />
             <Component navigation={navigation} params={propParams} />
           </div>

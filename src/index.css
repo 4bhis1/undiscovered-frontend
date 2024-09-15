@@ -11,3 +11,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.background {
+  background-image: url('./assets/Homebackground.png');
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.css-19r6kue-MuiContainer-root {
+  max-width: 3000px !important;
+}
