@@ -1,13 +1,23 @@
-import { useContext } from 'react';
-import { AuthContext } from '../../../context/auth/AuthContext';
-import { UserService } from '../../../services';
+import {useContext} from 'react';
+import {AuthContext} from '../../../context/auth/AuthContext';
+import {UserService} from '../../../services';
 import HttpAuth from '../../../services/HttpAuthService';
+import {toast} from 'react-toastify';
 
 export const useAuth = () => {
   const {state, setAuth, clearAuth} = useContext(AuthContext);
 
   const showError = error => {
-    console.log(error);
+    toast(error?.response?.data?.message || 'Something went wrong', {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      type: 'error',
+    });
   };
 
   const login = async credentials => {
