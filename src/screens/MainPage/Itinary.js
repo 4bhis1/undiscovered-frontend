@@ -108,10 +108,10 @@ const DescriptionCard = () => {
   );
 };
 
-const Itinary = () => {
+const Itinary = ({data}) => {
   const {destination, itinerary} = data;
   return (
-    <div>
+    <div style={{flex: 3}}>
       <TopContainer destination={destination} />
       <DescriptionCard />
       <HR />
