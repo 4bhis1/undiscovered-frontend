@@ -69,7 +69,6 @@ const Login = props => {
           margin: 'auto',
           position: 'relative',
           top: '40%',
-          transform: 'translateY(-50%)',
         }}>
         <Stack className={classes.container}>
           <Box className={classes.avatar}>
