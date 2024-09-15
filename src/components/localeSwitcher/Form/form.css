@@ -49,3 +49,9 @@
 .active {
   border-color: black;
 }
+
+.error-text {
+  color: tomato;
+  text-align: center;
+  margin: 20px;
+}

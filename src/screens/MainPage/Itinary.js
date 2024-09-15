@@ -14,22 +14,21 @@ import moment from 'moment';
 import Itinarycard from './Itinarycard';
 import './itinary.css';
 import './fonts-style.css';
+import {showError} from '../../hooks/showError';
+import HttpAuth from '../../services/HttpAuthService';
 
 const useGetImage = ({location}) => {
   const [loading, updateLoading] = useState(true);
   const [imageurl, updateImageUrl] = useState();
 
   useEffect(() => {
-    axios
-      .get(`http://172.18.0.71:4010/v1/itinerary/image?location=${location}`, {
-        params: {},
-      })
-      .then(({data}) => {
+    HttpAuth.get(`/v1/itinerary/image?location=${location}`)
+      .then(data => {
         updateImageUrl(data.url);
         updateLoading(false);
       })
       .catch(error => {
-        console.error('Error fetching autocomplete suggestions:', error);
+        showError(error);
       });
   }, []);
   return {loading, imageurl};

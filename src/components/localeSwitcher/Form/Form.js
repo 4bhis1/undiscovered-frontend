@@ -203,7 +203,6 @@ const Date = ({formState, updateFormState}) => {
               return formState;
             });
             updatedate(target);
-            console.log('>>> from', target);
           }}
         />
         -
@@ -218,8 +217,6 @@ const Date = ({formState, updateFormState}) => {
               return formState;
             });
             updatedate(target);
-
-            console.log('>>> to', target);
           }}
         />
       </div>
@@ -231,7 +228,7 @@ const Date = ({formState, updateFormState}) => {
         </div>
       )}
       {errorMessage ? (
-        <div style={{textAlign: 'center', margin: '20px'}}>{errorMessage}</div>
+        <div className={'error-text'}>{errorMessage}</div>
       ) : (
         void 0
       )}
