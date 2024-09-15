@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {ListMenu} from './MainPage/LeftNav';
 import Itinary from './MainPage/Itinary';
 import {Direction} from '../components/map/Map';
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import HttpAuth from '../services/HttpAuthService';
 import {showError} from '../hooks/showError';
 
@@ -16,18 +16,24 @@ const sideNavBarItem = [
   {label: 'Blogs'},
 ];
 
-const parseData = data => {
+const parseData = (data = {}) => {
   console.log(
     '🚀 ~ file: MainPage.js:30 ~ parseData ~ data:',
     JSON.stringify(data),
   );
   const obj = {};
 
+  const budgetObj = {
+    Economy: '5000',
+    Mid: '15000',
+    Luxury: '20000',
+  };
+
   obj.destination = 'Delhi';
-  obj.budget = '7500';
+  obj.budget = budgetObj[data?.budget] || '30000';
   obj.interests = Object.keys(data.activities);
-  obj.checkinDate = data.when.from;
-  obj.checkoutDate = data.when.to;
+  obj.checkinDate = data.when?.from;
+  obj.checkoutDate = data.when?.to;
 
   obj.members = {
     adults: '2',
@@ -44,15 +50,20 @@ const MainPage = props => {
   const [data, setData] = React.useState({});
   const [loading, setLoading] = React.useState(true);
 
+  const navigate = useNavigate();
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await HttpAuth.post('/v1/itinerary/generate', parsedParams);
+        const response = await HttpAuth.post(
+          '/v1/itinerary/generate',
+          parsedParams,
+        );
         console.log('>>> response', response);
-        setData(response.data);
+        setData(response);
         setLoading(false);
       } catch (err) {
-        showError('Failed to fetch');
+        showError(err);
+        navigate('/welcome');
       }
     };
     getData();
