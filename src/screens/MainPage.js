@@ -29,7 +29,7 @@ const parseData = (data = {}) => {
     Luxury: '20000',
   };
 
-  obj.destination = 'Delhi';
+  obj.destination = Object.keys(data.where).join(',') + '';
   obj.budget = budgetObj[data?.budget] || '30000';
   obj.interests = Object.keys(data?.activities);
   obj.checkinDate = data.when?.from;
