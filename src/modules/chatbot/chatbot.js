@@ -5,7 +5,7 @@ import './chatbot.css';
 import {FaTimes, FaMinus} from 'react-icons/fa';
 
 function Header() {
-  return <div className="chatbot-header">&nbsp;React Chatbot UI</div>;
+  return <div className="chatbot-header">&nbsp;Chatbot AI</div>;
 }
 
 function Input({onSend}) {
