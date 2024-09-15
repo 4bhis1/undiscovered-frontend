@@ -6,22 +6,23 @@
     text-align: center;
     display: flex;
     flex-flow: column;
-    width: 500px;
+    width: 30vw;
     overflow: hidden;
     position: fixed;
     bottom: 20px;
     right: 20px;
     z-index: 100;
+    max-height: 63vh;
   }
   
   .chatbot-header {
-    padding: 20px;
+    padding: 8px;
     text-align: center;
     color: rgb(255, 255, 255);
     max-height: 58px;
     font-size: 16px;
     font-weight: bold;
-    background-color: #002f50;
+    background-color: #88cc00;
     display: flex;
     justify-content: space-between;
   }
@@ -64,7 +65,7 @@
   padding: 15px 20px;
   margin: 5px;
   border-radius: 20px 20px 20px 1px;
-  background: #00aaa5;
+  background: #88cc00;
   color: white;
   min-width: 40px;
 }

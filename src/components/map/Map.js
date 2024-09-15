@@ -240,10 +240,10 @@ export const Direction = props => {
 
     data.itinerary[day].program.forEach(program => {
       allCoordinates.push({
-        cordinates: program.coordinateOfEvent,
-        name: program.programOrPlaceName,
-        shortDescriptionOfProgram: program.shortDescriptionOfProgram,
-        timeSpentThere: program.timeSpentThere,
+        cordinates: program.coordinate,
+        name: program.place,
+        shortDescriptionOfProgram: program.description,
+        timeSpentThere: program.estimated_time,
       });
     });
 
