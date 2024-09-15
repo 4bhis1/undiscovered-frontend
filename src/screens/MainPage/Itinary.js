@@ -187,7 +187,7 @@ const Itinary = ({data}) => {
       style={{
         flex: 3,
         overflowY: 'auto',
-        height: '100vh',
+        height: '95vh',
       }}>
       <TopContainer destination={destination} />
       <DescriptionCard destination={destination} />

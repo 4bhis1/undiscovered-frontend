@@ -360,12 +360,17 @@ export const Direction = props => {
   };
 
   return (
-    <div {...props}>
+    <div
+      style={{
+        flex: 3,
+        position: 'relative',
+        Height: '100vh',
+      }}>
       <div
         ref={mapContainerRef}
         style={{
           width: '100%',
-          height: '100vh',
+          height: '100%',
           // border: '1px solid',
           // marginBottom: '3rem',
         }}

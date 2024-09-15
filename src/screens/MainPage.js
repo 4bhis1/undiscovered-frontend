@@ -8,6 +8,8 @@ import {showError} from '../hooks/showError';
 
 import loader from '../assets/loader.gif';
 
+import fakedata from './MainPage/data.json';
+
 const sideNavBarItem = [
   {label: 'Home'},
   {label: 'About'},
@@ -72,7 +74,7 @@ const MainPage = props => {
     <div
       style={{
         position: 'absolute',
-        top: 65,
+        top: 70,
         bottom: 0,
         left: 0,
         right: 0,
@@ -87,13 +89,7 @@ const MainPage = props => {
         <div style={{flexDirection: 'row', flex: 1, display: 'flex'}}>
           <ListMenu data={sideNavBarItem} />
           <Itinary data={data} />
-          <Direction
-            data={data}
-            style={{
-              flex: 3,
-              position: 'relative',
-            }}
-          />
+          <Direction data={data} />
         </div>
       )}
     </div>

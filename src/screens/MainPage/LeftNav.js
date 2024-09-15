@@ -1,8 +1,19 @@
 import React, {useState} from 'react';
 import {FaAnglesLeft, FaAnglesRight} from 'react-icons/fa6';
+import {Button} from '../../components/Button';
+import {useNavigate} from 'react-router-dom';
+import {Modal} from '@mui/material';
+import MainForm from '../../components/localeSwitcher/Form/Form';
 
 export const ListMenu = ({data}) => {
   const [show, updateShow] = useState(true);
+  const navigate = useNavigate();
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => setOpen(false);
 
   return show ? (
     <div
@@ -22,7 +33,17 @@ export const ListMenu = ({data}) => {
           <text>{item?.label}</text>
         </div>
       ))} */}
-      Create Your Account
+      <div style={{margin: 10}}>
+        <Button title={'Start new Chat'} onClick={handleOpen} />
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description">
+          <MainForm handleClose={handleClose} newChat/>
+        </Modal>
+      </div>
+
       <div
         style={{
           color: 'white',
