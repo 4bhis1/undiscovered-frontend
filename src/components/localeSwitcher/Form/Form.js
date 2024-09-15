@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-import {Box, Flex, Text, TextField} from '@radix-ui/themes';
+import {Box, Flex, Text} from '@radix-ui/themes';
 import {IoIosClose} from 'react-icons/io';
 
 import './form.css';
@@ -13,10 +13,14 @@ import {
   NumberOfPeople,
 } from './Constants';
 import {Button} from '../../Button';
-import moment from 'moment';
 import DatePickerComponent, {arrangeDates} from '../Date/DatePicker';
 
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
+import moment from 'moment';
+
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 
 const PlaceCard = ({title, imagePath, selectedValues, onClick}) => {
   let className = 'place-image';
@@ -39,38 +43,65 @@ export const Search = ({value, onChange, ...props}) => {
   return <TextField.Root value={value} onChange={onChange} {...props} />;
 };
 
-const City = ({text = 'park', countryCode}) => {
-  console.log('>>> called it baby');
+let access_token =
+  'pk.eyJ1Ijoic3ppbGFyZG1hdGUiLCJhIjoiY2xycXRqNjA4MDd1MDJrcWx0amRoYXp6ZyJ9.JoEWVmK7_7O4hhWySeP_Ag';
 
-  // const access_token =
-  //   'pk.eyJ1Ijoicml0ZXNocDExMiIsImEiOiJjbTEyMDZ5ZGgweDJjMm1xMXBsanEzdGVjIn0.JEwfT3BZW7FBuQeD1gw5gA';
-  let access_token =
-    'pk.eyJ1Ijoic3ppbGFyZG1hdGUiLCJhIjoiY2xycXRqNjA4MDd1MDJrcWx0amRoYXp6ZyJ9.JoEWVmK7_7O4hhWySeP_Ag';
-  axios
-    .get(`https://api.mapbox.com/search/geocode/v6/forward`, {
-      params: {
-        q: text,
-        access_token,
-        limit: 10,
-        country: countryCode,
-        types: ['place', 'locality'],
-      },
-    })
-    .then(response => {
-      console.log('🚀 ~ file: Form.js:57 ~ City ~ response:', response);
+const City = ({countryCode, updateFormState}) => {
+  console.log('🚀 ~ file: Form.js:49 ~ City ~ countryCode:', countryCode);
+  const [place, updatePlace] = useState([]);
+  const [text, updateText] = useState();
 
-      const {features} = response.data;
-      // setSuggestions(features);
-    })
-    .catch(error => {
-      console.error('Error fetching autocomplete suggestions:', error);
+  useEffect(() => {
+    axios
+      .get(`https://api.mapbox.com/search/geocode/v6/forward`, {
+        params: {
+          q: text,
+          access_token,
+          limit: 10,
+          country: countryCode,
+          types: ['place', 'locality'],
+        },
+      })
+      .then(response => {
+        console.log('🚀 ~ file: Form.js:71 ~ useEffect ~ response:', response);
+
+        const {features} = response.data;
+        console.log('🚀 ~ file: Form.js:68 ~ useEffect ~ features:', features);
+        updatePlace(
+          features.map(doc => {
+            return `${doc.properties.full_address}`;
+          }),
+        );
+      })
+      .catch(error => {
+        console.error('Error fetching autocomplete suggestions:', error);
+      });
+    updateFormState(value => {
+      value['place'] = text;
+      return value;
     });
+  }, [text]);
 
-  return <div>Hello;</div>;
+  return (
+    <Autocomplete
+      disablePortal
+      options={place}
+      sx={{width: 300}}
+      renderInput={params => (
+        <TextField
+          onChange={({target}) => {
+            updateText(target.value);
+          }}
+          {...params}
+          label="Place name"
+        />
+      )}
+    />
+  );
 };
 
 const Place = ({formState, updateFormState}) => {
-  const [countryCode, updateState] = useState();
+  const [countryCode, updateCountryState] = useState();
   const value = 'where';
 
   return (
@@ -78,6 +109,10 @@ const Place = ({formState, updateFormState}) => {
       <div style={{padding: 20}}>Where would you like to go ?</div>
       <div style={{display: 'flex', flexDirection: 'row'}}>
         {ContinentArray.map(({title, imagePath, code}) => {
+          console.log(
+            '🚀 ~ file: Form.js:106 ~ {ContinentArray.map ~ code:',
+            code,
+          );
           return (
             <PlaceCard
               key={title}
@@ -85,11 +120,15 @@ const Place = ({formState, updateFormState}) => {
               imagePath={imagePath}
               onClick={() => {
                 updateFormState(formState => {
-                  if (!formState[value]) {
+                  if (!formState?.[value]) {
                     formState[value] = {};
+                    formState[value][title] = 1;
+                  } else if (formState[value][title]) {
+                    delete formState[value][title];
+                  } else {
+                    formState[value][title] = 1;
                   }
-                  formState[value][title] = 1;
-                  updateState(code);
+                  updateCountryState(code);
                   return formState;
                 });
               }}
@@ -98,7 +137,9 @@ const Place = ({formState, updateFormState}) => {
           );
         })}
       </div>
-      {/* {formState[value] && <City countryCode={countryCode} />} */}
+      {formState[value] && (
+        <City countryCode={countryCode} updateFormState={updateFormState} />
+      )}
     </div>
   );
 };
@@ -107,24 +148,35 @@ const Date = ({formState, updateFormState}) => {
   const value = 'when';
 
   const [{formattedDateRange, diffDays}, updateDateDiff] = useState({});
+  const [errorMessage, updateErrorMessage] = useState();
   const [date, updatedate] = useState();
   const calculateDifference = () => {
     if (formState[value]?.from && formState[value]?.to) {
-      const {formattedDateRange, diffDays} = arrangeDates(
-        formState[value]?.from,
-        formState[value]?.to,
-      );
+      const start = moment(formState[value]?.from);
+      const end = moment(formState[value]?.to);
+      const current = moment();
+      if (end.isBefore(start)) {
+        updateErrorMessage('From should be less then to');
+      } else if (current.isSameOrAfter(start)) {
+        updateErrorMessage('From should be greater or equal to current');
+      } else {
+        const {formattedDateRange, diffDays} = arrangeDates(start, end);
 
-      updateDateDiff({formattedDateRange, diffDays});
+        if (diffDays > 5) {
+          updateErrorMessage('To much holidays');
+        } else {
+          updateDateDiff({formattedDateRange, diffDays});
+        }
+      }
     }
   };
 
   useEffect(() => {
     calculateDifference();
-  }, [date]);
+  }, [JSON.stringify(formState[value])]);
 
   return (
-    <div className="who-container">
+    <div className="who-container" style={{flexDirection: 'column'}}>
       <div
         style={{
           display: 'flex',
@@ -164,11 +216,16 @@ const Date = ({formState, updateFormState}) => {
         />
       </div>
 
-      {formState[value]?.from && formState[value]?.to && (
+      {formState[value]?.from && formState[value]?.to && !errorMessage && (
         <div style={{textAlign: 'center', margin: '20px'}}>
           <h2>When</h2>
           <p>{`${formattedDateRange} · ${diffDays}`}</p>
         </div>
+      )}
+      {errorMessage ? (
+        <div style={{textAlign: 'center', margin: '20px'}}>{errorMessage}</div>
+      ) : (
+        void 0
       )}
     </div>
   );
@@ -252,8 +309,12 @@ const BudgetRange = ({formState, updateFormState}) => {
   );
 };
 const ActivitiesYouWant = ({formState, updateFormState}) => {
-  const [_, updateState] = useState();
+  const [state, updateState] = useState();
   const value = 'activities';
+
+  useEffect(() => {
+    updateState(formState[value]);
+  }, [state]);
 
   return (
     <div className={'who-container'}>
@@ -271,8 +332,12 @@ const ActivitiesYouWant = ({formState, updateFormState}) => {
               updateFormState(formState => {
                 if (!formState[value]) {
                   formState[value] = {};
+                  formState[value][title] = 1;
+                } else if (formState[value][title]) {
+                  delete formState[value][title];
+                } else {
+                  formState[value][title] = 1;
                 }
-                formState[value][title] = 1;
                 updateState(title);
                 return formState;
               });
@@ -292,16 +357,16 @@ const ComponentIndex = [
   ActivitiesYouWant,
 ];
 
-const ShowMagic = ({formState}) => {
-  console.log('>>> formState', formState);
+const ShowMagic = ({formState, navigate}) => {
+  navigate('/itineraries', {state: formState});
 };
 
 const MainForm = props => {
   const {handleClose} = props;
-
   const [sliderCount, updateSliderCount] = useState(0);
   const [formState, updateFormState] = useState({});
   const Component = ComponentIndex[sliderCount];
+  const navigate = useNavigate();
   return (
     <div
       style={{
@@ -414,7 +479,8 @@ const MainForm = props => {
               <Button
                 title="Lets Generate"
                 onClick={() => {
-                  ShowMagic({formState});
+                  console.log(formState);
+                  ShowMagic({formState, navigate});
                 }}
               />
             )}
