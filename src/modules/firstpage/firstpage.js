@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 import './firstpage.css'; // For your CSS styling
 import {useNavigate} from 'react-router-dom';
 import mascot from '../../assets/mascot.svg';
+import backGroundImage from '../../assets/Homebackground.png';
 import Modal from '@mui/material/Modal';
 import MainForm from '../../components/localeSwitcher/Form/Form';
 import Chatbot from '../chatbot/chatbot';
@@ -47,7 +48,7 @@ const FirstPage = props => {
       <header className="header">
         <Chatbot />
         {/* Main Content */}
-        <h1>Explore like the world is your oyster</h1>
+        <h1>EXPLORE LIKE THE WORLD ID YOUR OYSTER</h1>
         <PlanATrip isAuthenticated={isAuthenticated} navigate={navigate} />
       </header>
 

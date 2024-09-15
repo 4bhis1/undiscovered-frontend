@@ -16,9 +16,6 @@ import FirstPage from '../modules/firstpage/firstpage';
 
 const RouteHandler = ({children, isPublic}) => {
   let {isAuthenticated} = useAuth();
-
-  // isAuthenticated = true;
-
   if (!isAuthenticated && !isPublic) {
     return <Navigate to="/welcome" />;
   }
@@ -26,7 +23,6 @@ const RouteHandler = ({children, isPublic}) => {
   if (isAuthenticated && isPublic) {
     return <Navigate to="/home" />;
   }
-
   return children;
 };
 
