@@ -129,7 +129,13 @@ const DescriptionCard = ({destination}) => {
 
   const GI = () => {
     return (
-      <div className="grid w-full grid-cols-2 grid-rows-3 gap-6">
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          flexWrap: 'wrap',
+          marginTop: 20,
+        }}>
         <StatItem icon={FaMoneyBill} content={destination.currency} />
         <StatItem
           icon={FaMoneyBill}
@@ -182,7 +188,6 @@ const DescriptionCard = ({destination}) => {
 };
 
 const Itinary = ({data}) => {
-  console.log('🚀 ~ file: Itinary.js:183 ~ Itinary ~ data:', data);
   const {destination, itinerary} = data;
   return (
     <div
