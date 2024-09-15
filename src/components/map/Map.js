@@ -226,7 +226,7 @@ const tempData = {
   ],
 };
 
-const Direction = props => {
+export const Direction = props => {
   const {data = tempData} = props;
   const mapContainerRef = useRef(null);
   const [mapStyle, setMapStyle] = useState(
@@ -362,9 +362,9 @@ const Direction = props => {
         ref={mapContainerRef}
         style={{
           width: '100%',
-          height: '70vh',
-          border: '1px solid',
-          marginBottom: '3rem',
+          height: '100vh',
+          // border: '1px solid',
+          // marginBottom: '3rem',
         }}
       />
       <select
@@ -401,5 +401,3 @@ const Direction = props => {
     </div>
   );
 };
-
-export default Direction;

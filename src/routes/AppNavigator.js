@@ -10,8 +10,7 @@ import {
 
 import {useNavigate} from 'react-router-dom';
 import AuthRoutes from '../modules/user-management/Auth.Routes';
-import TaskRoutes from '../modules/sample-module/Task.Routes';
-import HomeRoutes from '../modules/home/Home.Routes';
+import ItineraryRoutes from '../screens/Routes';
 import ResponsiveAppBar from './NavBar';
 import FirstPage from '../modules/firstpage/firstpage';
 
@@ -58,8 +57,13 @@ const StackScreens = props => {
       path: path,
       element: (
         <RouteHandler isPublic={isPublic}>
-          <ResponsiveAppBar isPublic={isPublic} />
-          <Component navigation={navigation} params={propParams} />
+          <div
+            style={{
+              flexDirection: 'column',
+            }}>
+            <ResponsiveAppBar isPublic={isPublic} />
+            <Component navigation={navigation} params={propParams} />
+          </div>
         </RouteHandler>
       ),
       errorElement: <ErrorBoundary />,
@@ -94,6 +98,7 @@ export const AppNavigator = () => {
           path: '/home',
           component: FirstPage,
         },
+        ...ItineraryRoutes.stack,
       ],
       navigation,
     }),

@@ -16,6 +16,7 @@ import {Button} from '../../Button';
 import DatePickerComponent, {arrangeDates} from '../Date/DatePicker';
 
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
 import moment from 'moment';
 
 import TextField from '@mui/material/TextField';
@@ -356,16 +357,16 @@ const ComponentIndex = [
   ActivitiesYouWant,
 ];
 
-const ShowMagic = ({formState}) => {
-  console.log('>>> formState', formState);
+const ShowMagic = ({formState, navigate}) => {
+  navigate('/itineraries', {state: formState});
 };
 
 const MainForm = props => {
   const {handleClose} = props;
-
   const [sliderCount, updateSliderCount] = useState(0);
   const [formState, updateFormState] = useState({});
   const Component = ComponentIndex[sliderCount];
+  const navigate = useNavigate();
   return (
     <div
       style={{
@@ -478,7 +479,8 @@ const MainForm = props => {
               <Button
                 title="Lets Generate"
                 onClick={() => {
-                  ShowMagic({formState});
+                  console.log(formState);
+                  ShowMagic({formState, navigate});
                 }}
               />
             )}
