@@ -53,7 +53,7 @@ const MainPage = props => {
           parsedParams,
         );
         console.log('>>> response', response);
-        setData(response.data);
+        setData(response);
         setLoading(false);
       } catch (err) {
         showError(err);
