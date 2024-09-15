@@ -1,14 +1,22 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import './firstpage.css'; // For your CSS styling
 import {useNavigate} from 'react-router-dom';
 import mascot from '../../assets/mascot.svg';
 import Modal from '@mui/material/Modal';
 import MainForm from '../../components/localeSwitcher/Form/Form';
 import Chatbot from '../chatbot/chatbot';
+import {AuthContext} from '../../context/auth/AuthContext';
 
-const PlanATrip = () => {
+const PlanATrip = props => {
+  const {isAuthenticated, navigate} = props;
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    if (isAuthenticated) {
+      setOpen(true);
+    } else {
+      navigate('/login');
+    }
+  };
   const handleClose = () => setOpen(false);
 
   return (
@@ -28,25 +36,19 @@ const PlanATrip = () => {
   );
 };
 
-const FirstPage = () => {
+const FirstPage = props => {
+  const {
+    state: {isAuthenticated},
+  } = useContext(AuthContext);
   const navigate = useNavigate();
   return (
     <div className="container">
       {/* Navbar */}
       <header className="header">
-        {/* <nav className="navbar">
-          <div className="logo">
-            <img src={mascot} alt="undiscover logo" />
-            <text>Undiscover</text>
-          </div>
-          <div className="login" onClick={() => navigate('/login')}>
-            <button className="login-button">Login</button>
-          </div>
-        </nav> */}
         <Chatbot />
         {/* Main Content */}
         <h1>Explore like the world is your oyster</h1>
-        <PlanATrip />
+        <PlanATrip isAuthenticated={isAuthenticated} navigate={navigate} />
       </header>
 
       {/* Features Section */}
