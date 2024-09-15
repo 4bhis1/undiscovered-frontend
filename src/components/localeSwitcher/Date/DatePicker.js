@@ -22,16 +22,13 @@ export default function DatePickerComponent({value, onChange}) {
   );
 }
 
-export const arrangeDates = (startDate, endDate) => {
-  const start = moment(startDate);
-  const end = moment(endDate);
-
+export const arrangeDates = (start, end) => {
   // Format the date range
   const formattedDateRange = `${start.format('MMM D')}–${end.format('MMM D')}`;
 
   // Calculate the difference in days
-  const diffDays = end.diff(start, 'days') + ' days';
+  const diffDays = end.diff(start, 'days');
 
   // Combine the formatted date range and the difference in days
-  return {formattedDateRange, diffDays};
+  return {formattedDateRange, diffDays, diffDaysString: diffDays + ' days'};
 };
