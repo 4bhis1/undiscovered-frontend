@@ -29,7 +29,7 @@ const parseData = (data = {}) => {
     Luxury: '20000',
   };
 
-  obj.destination = 'Delhi';
+  obj.destination = Object.keys(data.where).join(',') + '';
   obj.budget = budgetObj[data?.budget] || '30000';
   obj.interests = Object.keys(data.activities);
   obj.checkinDate = data.when?.from;
@@ -74,7 +74,7 @@ const MainPage = props => {
   ) : (
     <div style={{flexDirection: 'row', flex: 1, display: 'flex'}}>
       <ListMenu data={sideNavBarItem} />
-      <Itinary data={fakeData} />
+      <Itinary data={data} />
       <Direction
         data={data}
         style={{

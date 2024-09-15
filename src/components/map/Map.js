@@ -227,12 +227,12 @@ const tempData = {
 };
 
 export const Direction = props => {
-  const {data = tempData} = props;
+  const {data = tempData, defualtDay = 0, defaultProgram = 0} = props;
   const mapContainerRef = useRef(null);
   const [mapStyle, setMapStyle] = useState(
     'mapbox://styles/mapbox/streets-v11',
   );
-  const [day, setDay] = useState(0);
+  const [day, setDay] = useState(defualtDay);
   useEffect(() => {
     mapboxgl.accessToken = process.env.REACT_APP_RVITE_MAP_BOX_ACCESS_TOKEN;
 
@@ -250,7 +250,7 @@ export const Direction = props => {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: mapStyle,
-      center: allCoordinates?.[0]?.cordinates || [],
+      center: allCoordinates?.[defaultProgram]?.cordinates || [],
       attributionControl: false,
     });
 
@@ -266,6 +266,9 @@ export const Direction = props => {
           .setPopup(
             new mapboxgl.Popup({closeButton: true}).setHTML(
               `<div class="location-details">
+              <div class="popup-tag">
+                <text>${index + 1}</text>
+              </div>
             <div class="location-info">
               <h2>${coord.name}</h3>
               <p>${coord.timeSpentThere}</p>
