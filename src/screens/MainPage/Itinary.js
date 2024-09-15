@@ -108,53 +108,7 @@ const DescriptionCard = ({destination}) => {
 
   const [menuIndex, updateMenuIndex] = useState(0);
 
-  const Overview = ({destination}) => {
-    destination = {
-      number_of_days: 3,
-      destination_cities: ['Varanasi'],
-      destination_country: 'India',
-      currency: 'INR',
-      budget: 10000,
-      one_dollar_in_local_currency: 83,
-      languages_spoken: ['Hindi', 'English'],
-      time_format: 'UTC + 5:30',
-      capital_of_country: 'New Delhi',
-      local_weather: 'Tropical',
-      temparature_range: '10°C to 40°C',
-      short_desc:
-        'Varanasi, one of the oldest cities in the world, is a spiritual hub for Hindus. The city is famous for its ghats along the Ganges River, where rituals and ceremonies take place.',
-      short_history:
-        'Varanasi has been a cultural and religious center for thousands of years. It is believed to be the birthplace of Lord Shiva and has been a pilgrimage site for Hindus.',
-      start_date: '2024-12-12T00:00:00.000Z',
-      end_date: '2024-12-15T00:00:00.000Z',
-      transportation_estimated_costs: {
-        _id: '66e5ed9a9a9f8ba76f4c859e',
-        busCost: 200,
-        taxiCost: 500,
-        trainCost: 300,
-        rentalCost: 1000,
-        updatedAt: '2024-09-14T20:10:02.396Z',
-        createdAt: '2024-09-14T20:10:02.396Z',
-      },
-      accommodation_estimated_costs: {
-        _id: '66e5ed9a9a9f8ba76f4c859d',
-        hostelCostPerNight: 500,
-        hotelCostPerNight: 1500,
-        luxuryHotelCostPerNight: 3000,
-        airbnbCostPerNight: 2000,
-        updatedAt: '2024-09-14T20:10:02.396Z',
-        createdAt: '2024-09-14T20:10:02.396Z',
-      },
-      food_estimated_costs: {
-        _id: '66e5ed9a9a9f8ba76f4c859f',
-        streetFoodCost: 100,
-        budgetRestaurantCost: 300,
-        fancyRestaurantCost: 800,
-        traditionalFoodCost: 500,
-        updatedAt: '2024-09-14T20:10:02.396Z',
-        createdAt: '2024-09-14T20:10:02.396Z',
-      },
-    };
+  const Overview = () => {
     return (
       <div style={{paddingLeft: 8, paddingRight: 8}}>
         <h2 className="mb-2 text-xl font-bold text-gray-800">Description</h2>
@@ -169,53 +123,7 @@ const DescriptionCard = ({destination}) => {
     );
   };
 
-  const GI = ({destination}) => {
-    destination = {
-      number_of_days: 3,
-      destination_cities: ['Varanasi'],
-      destination_country: 'India',
-      currency: 'INR',
-      budget: 10000,
-      one_dollar_in_local_currency: 83,
-      languages_spoken: ['Hindi', 'English'],
-      time_format: 'UTC + 5:30',
-      capital_of_country: 'New Delhi',
-      local_weather: 'Tropical',
-      temparature_range: '10°C to 40°C',
-      short_desc:
-        'Varanasi, one of the oldest cities in the world, is a spiritual hub for Hindus. The city is famous for its ghats along the Ganges River, where rituals and ceremonies take place.',
-      short_history:
-        'Varanasi has been a cultural and religious center for thousands of years. It is believed to be the birthplace of Lord Shiva and has been a pilgrimage site for Hindus.',
-      start_date: '2024-12-12T00:00:00.000Z',
-      end_date: '2024-12-15T00:00:00.000Z',
-      transportation_estimated_costs: {
-        _id: '66e5ed9a9a9f8ba76f4c859e',
-        busCost: 200,
-        taxiCost: 500,
-        trainCost: 300,
-        rentalCost: 1000,
-        updatedAt: '2024-09-14T20:10:02.396Z',
-        createdAt: '2024-09-14T20:10:02.396Z',
-      },
-      accommodation_estimated_costs: {
-        _id: '66e5ed9a9a9f8ba76f4c859d',
-        hostelCostPerNight: 500,
-        hotelCostPerNight: 1500,
-        luxuryHotelCostPerNight: 3000,
-        airbnbCostPerNight: 2000,
-        updatedAt: '2024-09-14T20:10:02.396Z',
-        createdAt: '2024-09-14T20:10:02.396Z',
-      },
-      food_estimated_costs: {
-        _id: '66e5ed9a9a9f8ba76f4c859f',
-        streetFoodCost: 100,
-        budgetRestaurantCost: 300,
-        fancyRestaurantCost: 800,
-        traditionalFoodCost: 500,
-        updatedAt: '2024-09-14T20:10:02.396Z',
-        createdAt: '2024-09-14T20:10:02.396Z',
-      },
-    };
+  const GI = () => {
     return (
       <div className="grid w-full grid-cols-2 grid-rows-3 gap-6">
         <StatItem icon={FaMoneyBill} content={destination.currency} />
@@ -224,7 +132,10 @@ const DescriptionCard = ({destination}) => {
           content={destination.one_dollar_in_local_currency}
         />
         <StatItem icon={FaCity} content={destination.capital_of_country} />
-        <StatItem icon={FaTemperatureHigh} content={destination.local_weather} />
+        <StatItem
+          icon={FaTemperatureHigh}
+          content={destination.local_weather}
+        />
         <StatItem icon={FaGlobe} content={destination.time_format} />
         <StatItem
           icon={FaLanguage}
@@ -235,13 +146,12 @@ const DescriptionCard = ({destination}) => {
   };
 
   return (
-    <div>
-      <div style={{display: 'flex'}}>
+    <div style={{padding: 20}}>
+      <div style={{display: 'flex', gap: 10}}>
         {MenuArray.map((doc, index) => {
           return (
             <div
               style={{
-                margin: 10,
                 padding: 10,
                 borderColor: '#c0c0c0',
                 borderStyle: 'solid',
@@ -260,9 +170,11 @@ const DescriptionCard = ({destination}) => {
         {/* {menuIndex} */}
       </div>
       <div>
-      {
-        menuIndex === 0 ? <Overview destination={destination} /> : <GI destination={destination} />
-      }
+        {menuIndex === 0 ? (
+          <Overview destination={destination} />
+        ) : (
+          <GI destination={destination} />
+        )}
       </div>
     </div>
   );
@@ -273,7 +185,7 @@ const Itinary = () => {
   return (
     <div>
       <TopContainer destination={destination} />
-      <DescriptionCard />
+      <DescriptionCard destination={destination} />
       <HR />
       <Itinarycard itinerary={itinerary} />
     </div>
