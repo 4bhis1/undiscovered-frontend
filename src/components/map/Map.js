@@ -353,7 +353,7 @@ export const Direction = props => {
     return () => {
       map.remove();
     };
-  }, [mapStyle, day]);
+  }, [mapStyle, day, JSON.stringify(data)]);
 
   const handleMapStyleChange = event => {
     setMapStyle(event.target.value);

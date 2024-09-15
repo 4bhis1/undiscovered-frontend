@@ -24,3 +24,25 @@ code {
 .css-19r6kue-MuiContainer-root {
   max-width: 3000px !important;
 }
+
+/* Styling for the entire scrollbar */
+::-webkit-scrollbar {
+  width: 6px; /* width of the scrollbar */
+}
+
+/* Styling for the track of the scrollbar */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* color of the track */
+  border-radius: 10px; /* rounded corners on the track */
+}
+
+/* Styling for the thumb (draggable part) of the scrollbar */
+::-webkit-scrollbar-thumb {
+  background: rgb(171, 201, 110); /* color of the scrollbar thumb */
+  border-radius: 10px; /* rounded corners on the thumb */
+}
+
+/* Styling for the thumb when it's hovered over */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* color of the scrollbar thumb when hovered */
+}

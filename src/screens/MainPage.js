@@ -57,6 +57,8 @@ const MainPage = props => {
   const {aidata, updateAiData, isBotClose, setIsBotClose} =
     useContext(AiContext);
 
+  const [leftIndex, updateLeftIndex] = useState(-1);
+
   const navigate = useNavigate();
   useEffect(() => {
     const getData = async () => {
@@ -96,7 +98,12 @@ const MainPage = props => {
         <img src={loader} />
       ) : (
         <div style={{flexDirection: 'row', flex: 1, display: 'flex'}}>
-          <ListMenu data={sideNavBarItem} setData={setData} />
+          <ListMenu
+            data={sideNavBarItem}
+            setData={setData}
+            leftIndex={leftIndex}
+            updateLeftIndex={updateLeftIndex}
+          />
           <Itinary data={data} />
           <Direction data={data} />
           <Chatbot />

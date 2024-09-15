@@ -2,6 +2,7 @@ import moment from 'moment';
 import React, {useState} from 'react';
 import {FaClock, FaWallet} from 'react-icons/fa';
 import {IoIosArrowUp, IoIosArrowDown} from 'react-icons/io';
+import './fonts-style.css';
 
 const PlaceCard = ({data, day}) => {
   return (
@@ -37,7 +38,7 @@ const PlaceCard = ({data, day}) => {
       <div onClick={() => {}} className="place-text">
         {data.place}
       </div>
-      <div>{data.description}</div>
+      <div className='place-description'>{data.description}</div>
 
       <div style={{display: 'flex', alignItems: 'center', gap: 8}}>
         <FaClock />

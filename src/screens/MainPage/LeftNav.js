@@ -17,7 +17,7 @@ const useIndivisualUseState = ({itnaryId, setData}) => {
     });
 };
 
-export const ListMenu = ({setData}) => {
+export const ListMenu = ({setData, leftIndex, updateLeftIndex}) => {
   const [show, updateShow] = useState(true);
   const navigate = useNavigate();
 
@@ -79,9 +79,12 @@ export const ListMenu = ({setData}) => {
                   borderColor: '#c0c0c0',
                   borderWidth: 2,
                   margin: 10,
+                  backgroundColor: leftIndex === index ? 'black' : 'white',
+                  color: leftIndex === index ? 'white' : 'black',
                 }}
                 onClick={() => {
                   useIndivisualUseState({itnaryId: doc._id, setData});
+                  updateLeftIndex(index);
                 }}>
                 {doc.destination}
               </div>

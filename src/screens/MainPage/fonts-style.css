@@ -15,11 +15,16 @@
   letter-spacing: 0.025em;
   font-size: 1.3rem;
   text-decoration: underline;
+  margin-bottom: 20px;
 }
 
 .parsed-date {
   font-weight: 700;
   letter-spacing: 0.025em;
   font-size: 1.3rem;
-  color: rgb(75 85 99 / var(--tw-text-opacity));
+  color: #4b5563;
+}
+
+.place-description {
+  margin-bottom: 20px;
 }
