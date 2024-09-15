@@ -12,17 +12,46 @@ const sideNavBarItem = [
   {label: 'Services'},
   {label: 'Blogs'},
 ];
+
+const parseData = data => {
+  console.log(
+    '🚀 ~ file: MainPage.js:30 ~ parseData ~ data:',
+    JSON.stringify(data),
+  );
+  const obj = {};
+
+  obj.destination = 'Delhi';
+  obj.budget = '7500';
+  obj.interests = Object.keys(data.activities);
+  obj.checkinDate = data.when.from;
+  obj.checkoutDate = data.when.to;
+
+  obj.members = {
+    adults: '2',
+    kids: '1',
+  };
+
+  return obj;
+};
+
 const MainPage = props => {
   const {params} = props;
   console.log('>>> params', params, props);
+  const parsedParams = parseData(params);
   const [data, setData] = React.useState({});
   const [loading, setLoading] = React.useState(true);
+
   useEffect(() => {
     const getData = async () => {
-      const response = await HttpAuth.post('/v1/itinerary/generate', params);
+      const response = await HttpAuth.post(
+        '/v1/itinerary/generate',
+        parsedParams,
+      );
       console.log('>>> response', response);
-      setData(response.data);
+      setData(response);
       setLoading(false);
+      console.log("data>>>>>>>>>",data)
+
     };
     getData();
   }, []);
