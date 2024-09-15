@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ListMenu} from './MainPage/LeftNav';
 import Itinary from './MainPage/Itinary';
 import {Direction} from '../components/map/Map';
@@ -6,7 +6,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import HttpAuth from '../services/HttpAuthService';
 import {showError} from '../hooks/showError';
 
-import fakeData from './MainPage/data.json';
+import loader from '../assets/loader.gif';
 
 const sideNavBarItem = [
   {label: 'Home'},
@@ -31,7 +31,7 @@ const parseData = (data = {}) => {
 
   obj.destination = 'Delhi';
   obj.budget = budgetObj[data?.budget] || '30000';
-  obj.interests = Object.keys(data.activities);
+  obj.interests = Object.keys(data?.activities);
   obj.checkinDate = data.when?.from;
   obj.checkoutDate = data.when?.to;
 
@@ -69,19 +69,34 @@ const MainPage = props => {
     getData();
   }, []);
 
-  return loading ? (
-    <text>Loading...</text>
-  ) : (
-    <div style={{flexDirection: 'row', flex: 1, display: 'flex'}}>
-      <ListMenu data={sideNavBarItem} />
-      <Itinary data={fakeData} />
-      <Direction
-        data={data}
-        style={{
-          flex: 3,
-          position: 'relative' /* Set position to relative */,
-        }}
-      />
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        top: 65,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        overflow: 'hidden',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      {loading ? (
+        <img src={loader} />
+      ) : (
+        <div style={{flexDirection: 'row', flex: 1, display: 'flex'}}>
+          <ListMenu data={sideNavBarItem} />
+          <Itinary data={data} />
+          <Direction
+            data={data}
+            style={{
+              flex: 3,
+              position: 'relative',
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };

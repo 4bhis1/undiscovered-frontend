@@ -183,7 +183,12 @@ const Itinary = ({data}) => {
   console.log('🚀 ~ file: Itinary.js:183 ~ Itinary ~ data:', data);
   const {destination, itinerary} = data;
   return (
-    <div style={{flex: 3}}>
+    <div
+      style={{
+        flex: 3,
+        overflowY: 'auto',
+        height: '100vh',
+      }}>
       <TopContainer destination={destination} />
       <DescriptionCard destination={destination} />
       <HR />
