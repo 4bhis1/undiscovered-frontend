@@ -16,13 +16,17 @@ import mascot from '../assets/mascot.svg';
 import {useNavigate} from 'react-router-dom';
 import {useAuth} from '../modules/user-management/hooks/useAuth';
 
-const pages = [];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-
 function ResponsiveAppBar({isPublic}) {
+  const pages = [];
+  const navigate = useNavigate();
+  const {logout, user} = useAuth();
+  const settings = [
+    {label: 'Profile', onPress: () => navigate('/profile')},
+    {label: 'Account', onPress: () => navigate('/account')},
+    {label: 'Logout', onPress: () => logout()},
+  ];
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const navigate = useNavigate();
   const handleOpenNavMenu = event => {
     setAnchorElNav(event.currentTarget);
   };
@@ -37,8 +41,6 @@ function ResponsiveAppBar({isPublic}) {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-  const {logout} = useAuth();
 
   return (
     <AppBar position="static" sx={{bgcolor: '#88cc00'}}>
@@ -103,7 +105,9 @@ function ResponsiveAppBar({isPublic}) {
               sx={{display: {xs: 'block', md: 'none'}}}>
               {pages.map(page => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography sx={{textAlign: 'center'}}>{page}</Typography>
+                  <Typography sx={{textAlign: 'center'}}>
+                    {page.label}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -142,36 +146,40 @@ function ResponsiveAppBar({isPublic}) {
                 <button className="login-button">Login</button>
               </div>
             ) : (
-              <div className="login" onClick={() => logout()}>
-                <button className="login-button">Logout</button>
-              </div>
+              <>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                    <Avatar
+                      alt={user?.name}
+                      src="/static/images/avatar/2.jpg"
+                    />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{mt: '45px'}}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}>
+                  {settings.map(setting => (
+                    <MenuItem key={setting.label} onClick={setting.onPress}>
+                      <Typography sx={{textAlign: 'center'}}>
+                        {setting.label}
+                      </Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </>
             )}
-            {/* <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{mt: '45px'}}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}>
-              {settings.map(setting => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{textAlign: 'center'}}>{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu> */}
           </Box>
         </Toolbar>
       </Container>

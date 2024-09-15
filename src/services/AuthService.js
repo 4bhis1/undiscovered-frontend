@@ -5,7 +5,8 @@ export default class AuthService {
   // Function to handle user login
   static async login(credentials) {
     const response = await HttpAuth.post('/v1/auth/login', credentials);
-    return response?.data;
+    console.log('response', response);
+    return response;
   }
 
   // Function to handle user registration
