@@ -68,7 +68,7 @@ const Login = props => {
           maxWidth: '400px',
           margin: 'auto',
           position: 'relative',
-          top: '50%',
+          top: '15%',
         }}>
         <Stack className={classes.container}>
           <Box className={classes.avatar}>

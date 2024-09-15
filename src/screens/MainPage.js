@@ -54,33 +54,9 @@ const usefetchUserHistory = () => {
 
 const MainPage = props => {
   const {params = {}} = props;
-  // const parsedParams = parseData(params);
-  // const [data, setData] = React.useState(fakedata);
-  // const [loading, setLoading] = React.useState(false);
-
-  // const navigate = useNavigate();
-  // // useEffect(() => {
-  // //   const getData = async () => {
-  // //     try {
-  // //       const response = await HttpAuth.post(
-  // //         '/v1/itinerary/generate',
-  // //         parsedParams,
-  // //       );
-  // //       console.log('>>> response', response);
-  // //       setData(response);
-  // //       setLoading(false);
-  // //     } catch (err) {
-  // //       showError(err);
-  // //       navigate('/welcome');
-  // //     }
-  // //   };
-  // //   getData();
-  // // }, []);
   const parsedParams = parseData(params);
   const [data, setData] = React.useState({});
   const [loading, setLoading] = React.useState(true);
-  const {aidata, updateAiData, isBotClose, setIsBotClose} =
-    useContext(AiContext);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -92,8 +68,6 @@ const MainPage = props => {
         );
         console.log('>>> response', response);
         setData(response);
-        //set data in context
-        updateAiData(prevState => ({...prevState, itinerary: response})); // Update the state
         setLoading(false);
       } catch (err) {
         showError(err);
@@ -115,6 +89,7 @@ const MainPage = props => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'white',
       }}>
       {loading ? (
         <img src={loader} />

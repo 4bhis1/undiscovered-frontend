@@ -20,11 +20,7 @@ function ResponsiveAppBar({isPublic}) {
   const pages = [];
   const navigate = useNavigate();
   const {logout, user} = useAuth();
-  const settings = [
-    {label: 'Profile', onPress: () => navigate('/profile')},
-    {label: 'Account', onPress: () => navigate('/account')},
-    {label: 'Logout', onPress: () => logout()},
-  ];
+  const settings = [{label: 'Logout', onPress: () => logout()}];
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const handleOpenNavMenu = event => {

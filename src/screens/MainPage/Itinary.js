@@ -70,9 +70,9 @@ const StatItem = ({icon: Icon, content}) => (
   </Box>
 );
 
-const TopContainer = ({destination}) => {
+const TopContainer = ({destination = {}}) => {
   const {loading, imageurl} = useGetImage({
-    location: destination.destination_country,
+    location: destination?.destination_country,
   });
   const fromdate = moment(destination.start_date).format('YY-MMM-DD');
   const todate = moment(destination.end_date).format('YY-MMM-DD');

@@ -390,7 +390,7 @@ export const Direction = props => {
         onChange={e => setDay(e.target.value)}
         id="map_day"
         key={'map_day_dropdown'}>
-        {data.itinerary.map((_, index) => (
+        {data?.itinerary?.map((_, index) => (
           <option key={index} value={index}>
             Day {index + 1}
           </option>

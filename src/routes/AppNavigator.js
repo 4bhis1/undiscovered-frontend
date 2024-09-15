@@ -70,46 +70,44 @@ const StackScreens = props => {
 };
 
 export const AppNavigator = () => {
-  return <MainPage />;
+  const {loading, isAuthenticated} = useAuth();
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
-  // const {loading, isAuthenticated} = useAuth();
-  // if (loading) {
-  //   return <LoadingScreen />;
-  // }
+  const navigate = useNavigate();
 
-  // const navigate = useNavigate();
+  const navigation = {
+    navigate: (path, props = {}) => {
+      navigate(path, {state: props});
+    },
+  };
 
-  // const navigation = {
-  //   navigate: (path, props = {}) => {
-  //     navigate(path, {state: props});
-  //   },
-  // };
+  const screenRoutes = [
+    ...StackScreens({
+      screens: AuthRoutes.stack,
+      navigation,
+      isPublic: true,
+    }),
+    ...StackScreens({
+      screens: [
+        {
+          name: 'Undiscover',
+          path: '/home',
+          component: FirstPage,
+        },
+        ...ItineraryRoutes.stack,
+      ],
+      navigation,
+    }),
+  ];
 
-  // const screenRoutes = [
-  //   ...StackScreens({
-  //     screens: AuthRoutes.stack,
-  //     navigation,
-  //     isPublic: true,
-  //   }),
-  //   ...StackScreens({
-  //     screens: [
-  //       {
-  //         name: 'Undiscover',
-  //         path: '/home',
-  //         component: FirstPage,
-  //       },
-  //       ...ItineraryRoutes.stack,
-  //     ],
-  //     navigation,
-  //   }),
-  // ];
-
-  // return useRoutes([
-  //   {path: '/', element: <Navigate to={'/welcome'} />},
-  //   ...screenRoutes,
-  //   {
-  //     path: '*',
-  //     element: <div>Wrong URL</div>,
-  //   },
-  // ]);
+  return useRoutes([
+    {path: '/', element: <Navigate to={'/welcome'} />},
+    ...screenRoutes,
+    {
+      path: '*',
+      element: <div>Wrong URL</div>,
+    },
+  ]);
 };

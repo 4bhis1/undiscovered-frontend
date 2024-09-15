@@ -52,7 +52,7 @@ const PlaceCard = ({data, day}) => {
   );
 };
 
-const Day = ({data}) => {
+const Day = ({data = {}}) => {
   const [show, updateShow] = useState(true);
 
   const parsedData = moment(data.date).format('dddd DD MMM');
@@ -77,7 +77,7 @@ const Day = ({data}) => {
       <h2 className="parsed-date">{parsedData}</h2>
       {show && (
         <div style={{marginLeft: 10}}>
-          {data.program.map(doc => {
+          {data.program?.map(doc => {
             return <PlaceCard key={doc._id} data={doc} day={data.day_no} />;
           })}
         </div>
@@ -86,14 +86,14 @@ const Day = ({data}) => {
   );
 };
 
-const Itinarycard = ({itinerary}) => {
+const Itinarycard = ({itinerary = []}) => {
   return (
     <div style={{padding: 20}}>
       <div style={{marginBottom: 20}}>
         <h2 className="mb-2 text-xl font-bold text-gray-800">Itinerary</h2>
       </div>
 
-      {itinerary.map((doc, index) => {
+      {itinerary?.map((doc, index) => {
         return <Day key={index} data={doc} />;
       })}
     </div>
