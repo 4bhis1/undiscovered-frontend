@@ -45,13 +45,19 @@ const FirstPage = props => {
   return (
     <div className="container">
       {/* Navbar */}
-      <header className="header">
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
         <Chatbot />
         {/* Main Content */}
-        <h1>EXPLORE LIKE THE WORLD ID YOUR OYSTER</h1>
+        <h1 style={{color: 'white'}}>EXPLORE LIKE THE WORLD ID YOUR OYSTER</h1>
+      </div>
+      <div>
         <PlanATrip isAuthenticated={isAuthenticated} navigate={navigate} />
-      </header>
-
+      </div>
       {/* Features Section */}
       <section className="features">
         <div className="feature-box">
@@ -85,7 +91,7 @@ const FirstPage = props => {
       </section>
 
       {/* Globe Image */}
-      <div className="globe">
+      <div style={{flex: 1}}>
         <img src={mascot} alt="Globe mascot" />
       </div>
     </div>

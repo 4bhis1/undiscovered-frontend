@@ -1,6 +1,11 @@
 .container {
-  font-family: Arial, sans-serif;
-  text-align: center;
+  /* background-image: url('../../assets/Homebackground.png');
+  height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat; */
+  position: relative;
 }
 
 .navbar {
@@ -44,9 +49,20 @@
 }
 
 .header {
-  background-image: url('../../assets/Homebackground.png');
+  /* background-image: url('../../assets/Homebackground.png');
+  height: 100vh;
+  width: 100%;
   background-size: cover;
-  padding-bottom: 52px;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative; */
+
+  position: relative;
+  z-index: 2;
+  color: white;
+  text-align: center;
+  padding-top: 200px;
+  font-size: 24px;
 }
 
 .header h1 {

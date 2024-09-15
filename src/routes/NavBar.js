@@ -43,7 +43,7 @@ function ResponsiveAppBar({isPublic}) {
   };
 
   return (
-    <AppBar position="static" sx={{bgcolor: '#88cc00'}}>
+    <AppBar opacity="0.9" sx={{bgcolor: 'transparent'}} position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
