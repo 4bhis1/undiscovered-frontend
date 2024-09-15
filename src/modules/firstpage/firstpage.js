@@ -7,10 +7,12 @@ import Modal from '@mui/material/Modal';
 import MainForm from '../../components/localeSwitcher/Form/Form';
 import Chatbot from '../chatbot/chatbot';
 import {AuthContext} from '../../context/auth/AuthContext';
+import {AiContext} from '../../context/AiContext';
 
 const PlanATrip = props => {
   const {isAuthenticated, navigate} = props;
   const [open, setOpen] = React.useState(false);
+  const {isBotClose, setIsBotClose} = useContext(AiContext);
   const handleOpen = () => {
     if (isAuthenticated) {
       setOpen(true);
@@ -20,6 +22,12 @@ const PlanATrip = props => {
   };
   const handleClose = () => setOpen(false);
 
+  console.log('botIsClosed', isBotClose);
+  const handleChatBot = () => {
+    if (isBotClose) {
+      setIsBotClose(false);
+    }
+  };
   return (
     <div className="action-buttons">
       <button className="plan-button" onClick={handleOpen}>
@@ -32,7 +40,9 @@ const PlanATrip = props => {
         aria-describedby="modal-modal-description">
         <MainForm handleClose={handleClose} />
       </Modal>
-      <button className="discover-button">Discover on the go &rarr;</button>
+      <button className="discover-button" onClick={handleChatBot}>
+        Discover on the go &rarr;
+      </button>
     </div>
   );
 };

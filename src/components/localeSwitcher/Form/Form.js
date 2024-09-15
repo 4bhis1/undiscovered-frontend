@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 
 import {Box, Flex, Text} from '@radix-ui/themes';
 import {IoIosClose} from 'react-icons/io';
@@ -21,6 +21,8 @@ import moment from 'moment';
 
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import {AuthContext} from '../../../context/auth/AuthContext';
+import {AiContext} from '../../../context/AiContext';
 
 const PlaceCard = ({title, imagePath, selectedValues, onClick}) => {
   let className = 'place-image';
@@ -47,7 +49,6 @@ let access_token =
   'pk.eyJ1Ijoic3ppbGFyZG1hdGUiLCJhIjoiY2xycXRqNjA4MDd1MDJrcWx0amRoYXp6ZyJ9.JoEWVmK7_7O4hhWySeP_Ag';
 
 const City = ({countryCode, updateFormState}) => {
-  console.log('🚀 ~ file: Form.js:49 ~ City ~ countryCode:', countryCode);
   const [place, updatePlace] = useState([]);
   const [text, updateText] = useState();
 
@@ -378,6 +379,9 @@ const MainForm = props => {
   const [formState, updateFormState] = useState({});
   const Component = ComponentIndex[sliderCount];
   const navigate = useNavigate();
+
+  const {updateAiData} = useContext(AiContext);
+
   return (
     <div
       style={{
@@ -490,8 +494,8 @@ const MainForm = props => {
               <Button
                 title="Lets Generate"
                 onClick={() => {
-                  console.log(formState);
                   ShowMagic({formState, navigate});
+                  updateAiData(formState);
                 }}
               />
             )}

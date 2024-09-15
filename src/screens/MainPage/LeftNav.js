@@ -1,18 +1,20 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {FaAnglesLeft, FaAnglesRight} from 'react-icons/fa6';
 import {Button} from '../../components/Button';
 import {useNavigate} from 'react-router-dom';
 import {Modal} from '@mui/material';
 import MainForm from '../../components/localeSwitcher/Form/Form';
 import HttpAuth from '../../services/HttpAuthService';
+import {AiContext} from '../../context/AiContext';
 
 export const ListMenu = ({data}) => {
   const [show, updateShow] = useState(true);
   const navigate = useNavigate();
-
+  const {isBotClose, setIsBotClose} = useContext(AiContext);
   const [open, setOpen] = React.useState(false);
+  console.log('🚀 ~ file: LeftNav.js:ListMenu ~ data:', isBotClose);
   const handleOpen = () => {
-    setOpen(true);
+    setIsBotClose(false);
   };
   const handleClose = () => setOpen(false);
 

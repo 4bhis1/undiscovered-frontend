@@ -9,6 +9,9 @@ import {showError} from '../hooks/showError';
 import loader from '../assets/loader.gif';
 
 import fakedata from './MainPage/data.json';
+import {AuthContext} from '../context/auth/AuthContext';
+import {AiContext} from '../context/AiContext';
+import Chatbot from '../modules/chatbot/chatbot';
 
 const sideNavBarItem = [
   {label: 'Home'},
@@ -31,11 +34,11 @@ const parseData = data => {
     Luxury: '20000',
   };
 
-  obj.destination = Object.keys(data.where).join(',') + '';
+  obj.destination = Object.keys(data?.where).join(',') + '';
   obj.budget = budgetObj[data?.budget] || '30000';
   obj.interests = Object.keys(data?.activities);
-  obj.checkinDate = data.when?.from;
-  obj.checkoutDate = data.when?.to;
+  obj.checkinDate = data?.when?.from;
+  obj.checkoutDate = data?.when?.to;
 
   obj.members = {
     adults: '2',
@@ -52,27 +55,53 @@ const usefetchUserHistory = () => {
 const MainPage = props => {
   const {params = {}} = props;
   // const parsedParams = parseData(params);
-  const [data, setData] = React.useState(fakedata);
-  const [loading, setLoading] = React.useState(false);
+  // const [data, setData] = React.useState(fakedata);
+  // const [loading, setLoading] = React.useState(false);
+
+  // const navigate = useNavigate();
+  // // useEffect(() => {
+  // //   const getData = async () => {
+  // //     try {
+  // //       const response = await HttpAuth.post(
+  // //         '/v1/itinerary/generate',
+  // //         parsedParams,
+  // //       );
+  // //       console.log('>>> response', response);
+  // //       setData(response);
+  // //       setLoading(false);
+  // //     } catch (err) {
+  // //       showError(err);
+  // //       navigate('/welcome');
+  // //     }
+  // //   };
+  // //   getData();
+  // // }, []);
+  const parsedParams = parseData(params);
+  const [data, setData] = React.useState({});
+  const [loading, setLoading] = React.useState(true);
+  const {aidata, updateAiData, isBotClose, setIsBotClose} =
+    useContext(AiContext);
 
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     try {
-  //       const response = await HttpAuth.post(
-  //         '/v1/itinerary/generate',
-  //         parsedParams,
-  //       );
-  //       console.log('>>> response', response);
-  //       setData(response);
-  //       setLoading(false);
-  //     } catch (err) {
-  //       showError(err);
-  //       navigate('/welcome');
-  //     }
-  //   };
-  //   getData();
-  // }, []);
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await HttpAuth.post(
+          '/v1/itinerary/generate',
+          parsedParams,
+        );
+        console.log('>>> response', response);
+        setData(response);
+        //set data in context
+        updateAiData(prevState => ({...prevState, itinerary: response})); // Update the state
+        setLoading(false);
+      } catch (err) {
+        showError(err);
+        navigate('/welcome');
+      }
+    };
+    getData();
+  }, []);
 
   return (
     <div
@@ -94,6 +123,7 @@ const MainPage = props => {
           <ListMenu data={sideNavBarItem} />
           <Itinary data={data} />
           <Direction data={data} />
+          <Chatbot />
         </div>
       )}
     </div>
