@@ -1,8 +1,12 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import ReactDOM from 'react-dom';
 import API from './ChatbotAPI';
 import './chatbot.css';
 import {FaTimes, FaMinus} from 'react-icons/fa';
+import {AuthContext} from '../../context/auth/AuthContext';
+import {AiContext} from '../../context/AiContext';
+import HttpAuth from '../../services/HttpAuthService';
+import {showError} from '../../hooks/showError';
 
 function Header() {
   return <div className="chatbot-header">&nbsp;Chatbot AI</div>;
@@ -10,12 +14,13 @@ function Header() {
 
 function Input({onSend}) {
   const [text, setText] = useState('');
+  const {aidata} = useContext(AiContext);
 
   const handleInputChange = e => {
     setText(e.target.value);
   };
 
-  const handleSend = e => {
+  const handleSend = async e => {
     e.preventDefault();
     onSend(text);
     setText('');
@@ -57,6 +62,14 @@ function UserMessage({text}) {
   );
 }
 
+function BotMessage({message}) {
+  return (
+    <div className="message-container">
+      <div className="bot-message">{message}</div>
+    </div>
+  );
+}
+
 function Messages({messages}) {
   const el = useRef(null);
   useEffect(() => {
@@ -70,52 +83,36 @@ function Messages({messages}) {
   );
 }
 
-function BotMessage({fetchMessage}) {
-  const [isLoading, setLoading] = useState(true);
-  const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    async function loadMessage() {
-      const msg = await fetchMessage();
-      setLoading(false);
-      setMessage(msg);
-    }
-    loadMessage();
-  }, [fetchMessage]);
-
-  return (
-    <div className="message-container">
-      <div className="bot-message">{isLoading ? '...' : message}</div>
-    </div>
-  );
-}
-
 function Chatbot() {
   const [messages, setMessages] = useState([]);
   const [isMinimized, setIsMinimized] = useState(true);
-  const [isClosed, setIsClosed] = useState(false);
+  const {aidata, updateAiData, isBotClose, setIsBotClose} =
+    useContext(AiContext);
 
+  console.log('aidata', isBotClose);
   useEffect(() => {
     async function loadWelcomeMessage() {
-      setMessages([
-        <BotMessage
-          key="0"
-          fetchMessage={async () => await API.GetChatbotResponse('hi')}
-        />,
-      ]);
+      setMessages([<BotMessage key="0" message="HI" />]);
     }
     loadWelcomeMessage();
   }, []);
 
   const send = async text => {
-    const newMessages = messages.concat(
-      <UserMessage key={messages.length + 1} text={text} />,
-      <BotMessage
-        key={messages.length + 2}
-        fetchMessage={async () => await API.GetChatbotResponse(text)}
-      />,
-    );
-    setMessages(newMessages);
+    const payload = {message: text};
+    console.log('aidata ', aidata);
+    if (aidata?.itinerary?._id) {
+      payload.itineraryId = aidata?.itinerary?._id;
+    }
+    try {
+      const botMessage = await API.GetChatbotResponse(payload);
+      setMessages([
+        ...messages,
+        <UserMessage key={messages.length + 1} text={text} />,
+        <BotMessage key={messages.length + 2} message={botMessage} />,
+      ]);
+    } catch (err) {
+      showError(err);
+    }
   };
 
   const handleMinimize = () => {
@@ -123,10 +120,10 @@ function Chatbot() {
   };
 
   const handleClose = () => {
-    setIsClosed(true);
+    setIsBotClose(true);
   };
 
-  if (isClosed) return null;
+  if (isBotClose) return null;
 
   return (
     <div className="chatbot-container">
@@ -137,7 +134,6 @@ function Chatbot() {
           <FaTimes className="control-icon" onClick={handleClose} />
         </div>
       </div>
-
       {!isMinimized && (
         <>
           <Messages messages={messages} />
