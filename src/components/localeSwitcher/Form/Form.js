@@ -45,9 +45,6 @@ export const Search = ({value, onChange, ...props}) => {
   return <TextField.Root value={value} onChange={onChange} {...props} />;
 };
 
-let access_token =
-  'pk.eyJ1Ijoic3ppbGFyZG1hdGUiLCJhIjoiY2xycXRqNjA4MDd1MDJrcWx0amRoYXp6ZyJ9.JoEWVmK7_7O4hhWySeP_Ag';
-
 const City = ({countryCode, updateFormState}) => {
   const [place, updatePlace] = useState([]);
   const [text, updateText] = useState();
@@ -57,7 +54,7 @@ const City = ({countryCode, updateFormState}) => {
       .get(`https://api.mapbox.com/search/geocode/v6/forward`, {
         params: {
           q: text,
-          access_token,
+          access_token: process.env.REACT_APP_RVITE_MAP_BOX_ACCESS_TOKEN,
           limit: 10,
           country: countryCode,
           types: ['place', 'locality'],
