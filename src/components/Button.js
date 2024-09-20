@@ -4,7 +4,7 @@ import {IoMdArrowDropleft, IoMdArrowDropright} from 'react-icons/io';
 import {FaMagic} from 'react-icons/fa';
 
 export const Button = props => {
-  const {onClick = () => {}, title} = props;
+  const {onClick = () => {}, title, disable} = props;
   return (
     <Box
       style={{
@@ -20,11 +20,13 @@ export const Button = props => {
         font: 'poppins',
         fontWeight: 400,
         fontSize: '15px',
-        cursor: 'pointer',
+        cursor: disable ? 'not-allowed' : 'pointer',
         gap: 10,
       }}
       height="48px"
-      onClick={onClick}>
+      onClick={() => {
+        !disable && onClick();
+      }}>
       {title === 'Back' && <IoMdArrowDropleft />}
       {title === 'Lets Generate' && <FaMagic />}
       {title}
