@@ -12,24 +12,23 @@ import {
 } from 'react-icons/fa';
 import moment from 'moment';
 import Itinarycard from './Itinarycard';
-
+import './itinary.css';
 import './fonts-style.css';
+import {showError} from '../../hooks/showError';
+import HttpAuth from '../../services/HttpAuthService';
 
 const useGetImage = ({location}) => {
   const [loading, updateLoading] = useState(true);
   const [imageurl, updateImageUrl] = useState();
 
   useEffect(() => {
-    axios
-      .get(`http://172.18.0.71:4010/v1/itinerary/image?location=${location}`, {
-        params: {},
-      })
-      .then(({data}) => {
+    HttpAuth.get(`/v1/itinerary/image?location=${location}`)
+      .then(data => {
         updateImageUrl(data.url);
         updateLoading(false);
       })
       .catch(error => {
-        console.error('Error fetching autocomplete suggestions:', error);
+        showError(error);
       });
   }, []);
   return {loading, imageurl};
@@ -70,9 +69,9 @@ const StatItem = ({icon: Icon, content}) => (
   </Box>
 );
 
-const TopContainer = ({destination}) => {
+const TopContainer = ({destination = {}}) => {
   const {loading, imageurl} = useGetImage({
-    location: destination.destination_country,
+    location: destination?.destination_country,
   });
   const fromdate = moment(destination.start_date).format('YY-MMM-DD');
   const todate = moment(destination.end_date).format('YY-MMM-DD');
@@ -95,7 +94,9 @@ const TopContainer = ({destination}) => {
         <div className="three-day-trip">
           {destination.number_of_days} days trip
         </div>
-        <div className='calendar' style={{display: 'flex', gap: 8, alignItems: 'center'}}>
+        <div
+          className="calendar"
+          style={{display: 'flex', gap: 8, alignItems: 'center'}}>
           <FaCalendar />
           <div>{fromdate}</div>
           <div>-</div>
@@ -128,7 +129,13 @@ const DescriptionCard = ({destination}) => {
 
   const GI = () => {
     return (
-      <div className="grid w-full grid-cols-2 grid-rows-3 gap-6">
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          flexWrap: 'wrap',
+          marginTop: 20,
+        }}>
         <StatItem icon={FaMoneyBill} content={destination.currency} />
         <StatItem
           icon={FaMoneyBill}
@@ -154,14 +161,11 @@ const DescriptionCard = ({destination}) => {
         {MenuArray.map((doc, index) => {
           return (
             <div
-              style={{
-                padding: 10,
-                borderColor: '#c0c0c0',
-                borderStyle: 'solid',
-                borderWidth: 2,
-                borderRadius: 20,
-                cursor: 'pointer',
-              }}
+              className={
+                index === menuIndex
+                  ? 'selected-itinary-button'
+                  : 'itinary-button'
+              }
               onClick={() => {
                 updateMenuIndex(index);
               }}
@@ -184,7 +188,6 @@ const DescriptionCard = ({destination}) => {
 };
 
 const Itinary = ({data}) => {
-  console.log('🚀 ~ file: Itinary.js:183 ~ Itinary ~ data:', data);
   const {destination, itinerary} = data;
   return (
     <div

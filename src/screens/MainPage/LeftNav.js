@@ -1,21 +1,43 @@
-import React, {useContext, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FaAnglesLeft, FaAnglesRight} from 'react-icons/fa6';
 import {Button} from '../../components/Button';
 import {useNavigate} from 'react-router-dom';
 import {Modal} from '@mui/material';
 import MainForm from '../../components/localeSwitcher/Form/Form';
-import {AiContext} from '../../context/AiContext';
+import HttpAuth from '../../services/HttpAuthService';
+import {showError} from '../../hooks/showError';
 
-export const ListMenu = ({data}) => {
+const useIndivisualUseState = ({itnaryId, setData}) => {
+  HttpAuth.get(`/v1/itinerary/${itnaryId}`)
+    .then(response => {
+      setData(response);
+    })
+    .catch(error => {
+      showError(error);
+    });
+};
+
+export const ListMenu = ({setData, leftIndex, updateLeftIndex}) => {
   const [show, updateShow] = useState(true);
   const navigate = useNavigate();
-  const {isBotClose, setIsBotClose} = useContext(AiContext);
+
   const [open, setOpen] = React.useState(false);
-  console.log('🚀 ~ file: LeftNav.js:ListMenu ~ data:', isBotClose);
   const handleOpen = () => {
-    setIsBotClose(false);
+    setOpen(true);
   };
   const handleClose = () => setOpen(false);
+
+  const [userItinaries, updateUserIntinaries] = useState();
+
+  useEffect(() => {
+    HttpAuth.get('/v1/itinerary')
+      .then(response => {
+        updateUserIntinaries(response.itineraries);
+      })
+      .catch(error => {
+        showError(error);
+      });
+  }, []);
 
   return show ? (
     <div
@@ -27,14 +49,6 @@ export const ListMenu = ({data}) => {
         paddingTop: 8,
         position: 'relative',
       }}>
-      <div></div>
-      {/* {data?.map((item, index) => (
-        <div
-          style={{padding: 10, border: '1px solid black', borderRadius: 10}}
-          key={index}>
-          <text>{item?.label}</text>
-        </div>
-      ))} */}
       <div style={{margin: 10}}>
         <Button title={'Start new Chat'} onClick={handleOpen} />
         <Modal
@@ -45,7 +59,38 @@ export const ListMenu = ({data}) => {
           <MainForm handleClose={handleClose} newChat />
         </Modal>
       </div>
-
+      <div
+        style={{
+          marginTop: 20,
+          overflow: 'hidden',
+          height: '80vh',
+          overflowY: 'scroll',
+        }}>
+        {userItinaries &&
+          userItinaries.map((doc, index) => {
+            return (
+              <div
+                key={index}
+                style={{
+                  cursor: 'pointer',
+                  padding: 15,
+                  borderRadius: 10,
+                  borderStyle: 'solid',
+                  borderColor: '#c0c0c0',
+                  borderWidth: 2,
+                  margin: 10,
+                  backgroundColor: leftIndex === index ? 'black' : 'white',
+                  color: leftIndex === index ? 'white' : 'black',
+                }}
+                onClick={() => {
+                  useIndivisualUseState({itnaryId: doc._id, setData});
+                  updateLeftIndex(index);
+                }}>
+                {doc.destination}
+              </div>
+            );
+          })}
+      </div>
       <div
         style={{
           color: 'white',

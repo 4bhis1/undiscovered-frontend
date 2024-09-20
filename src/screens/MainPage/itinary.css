@@ -1,0 +1,22 @@
+.itinary-button {
+    padding: 10px;
+    border: 2px solid rgb(31 41 55);
+    border-radius: 20px;
+    cursor: pointer;
+    color: rgb(31 41 55);
+  }
+  
+  .itinary-button:hover {
+    background-color: rgb(31 41 55);
+    color: white;
+  }
+  
+  .selected-itinary-button {
+    padding: 10px;
+    border: 2px solid rgb(31 41 55);
+    border-radius: 20px;
+    cursor: pointer;
+    background-color: rgb(31 41 55);
+    color: white;
+  }
+  

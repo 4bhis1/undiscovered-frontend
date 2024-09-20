@@ -53,8 +53,11 @@ const MainPage = props => {
   const parsedParams = parseData(params);
   const [data, setData] = React.useState({});
   const [loading, setLoading] = React.useState(true);
+
   const {aidata, updateAiData, isBotClose, setIsBotClose} =
     useContext(AiContext);
+
+  const [leftIndex, updateLeftIndex] = useState(-1);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -67,7 +70,7 @@ const MainPage = props => {
         console.log('>>> response', response);
         setData(response);
         //set data in context
-        updateAiData(prevState => ({...prevState, itinerary: response})); // Update the state
+        updateAiData(prevState => ({...prevState, itinerary: response})); // Update the stateI
         setLoading(false);
       } catch (err) {
         showError(err);
@@ -89,12 +92,18 @@ const MainPage = props => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'white',
       }}>
       {loading ? (
         <img src={loader} />
       ) : (
         <div style={{flexDirection: 'row', flex: 1, display: 'flex'}}>
-          <ListMenu data={sideNavBarItem} />
+          <ListMenu
+            data={sideNavBarItem}
+            setData={setData}
+            leftIndex={leftIndex}
+            updateLeftIndex={updateLeftIndex}
+          />
           <Itinary data={data} />
           <Direction data={data} />
           <Chatbot />

@@ -2,6 +2,7 @@ import moment from 'moment';
 import React, {useState} from 'react';
 import {FaClock, FaWallet} from 'react-icons/fa';
 import {IoIosArrowUp, IoIosArrowDown} from 'react-icons/io';
+import './fonts-style.css';
 
 const PlaceCard = ({data, day}) => {
   return (
@@ -34,8 +35,10 @@ const PlaceCard = ({data, day}) => {
         }}>
         {day}
       </div>
-      <div onClick={() => {}}>{data.place}</div>
-      <div>{data.description}</div>
+      <div onClick={() => {}} className="place-text">
+        {data.place}
+      </div>
+      <div className='place-description'>{data.description}</div>
 
       <div style={{display: 'flex', alignItems: 'center', gap: 8}}>
         <FaClock />
@@ -50,7 +53,7 @@ const PlaceCard = ({data, day}) => {
   );
 };
 
-const Day = ({data}) => {
+const Day = ({data = {}}) => {
   const [show, updateShow] = useState(true);
 
   const parsedData = moment(data.date).format('dddd DD MMM');
@@ -72,10 +75,10 @@ const Day = ({data}) => {
           Day {data.day_no}
         </h2>
       </div>
-      <h2 className="font-bold text-gray-800">{parsedData}</h2>
+      <h2 className="parsed-date">{parsedData}</h2>
       {show && (
         <div style={{marginLeft: 10}}>
-          {data.program.map(doc => {
+          {data.program?.map(doc => {
             return <PlaceCard key={doc._id} data={doc} day={data.day_no} />;
           })}
         </div>
@@ -84,14 +87,14 @@ const Day = ({data}) => {
   );
 };
 
-const Itinarycard = ({itinerary}) => {
+const Itinarycard = ({itinerary = []}) => {
   return (
     <div style={{padding: 20}}>
       <div style={{marginBottom: 20}}>
         <h2 className="mb-2 text-xl font-bold text-gray-800">Itinerary</h2>
       </div>
 
-      {itinerary.map((doc, index) => {
+      {itinerary?.map((doc, index) => {
         return <Day key={index} data={doc} />;
       })}
     </div>

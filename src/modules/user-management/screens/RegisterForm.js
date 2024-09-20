@@ -69,7 +69,7 @@ const RegisterForm = props => {
           maxWidth: '400px',
           margin: 'auto',
           position: 'relative',
-          top: '40%',
+          top: '15%',
         }}>
         <Stack style={loginFormStyle.container}>
           <Box className={classes.avatar}>

@@ -13,6 +13,7 @@ import AuthRoutes from '../modules/user-management/Auth.Routes';
 import ItineraryRoutes from '../screens/Routes';
 import ResponsiveAppBar from './NavBar';
 import FirstPage from '../modules/firstpage/firstpage';
+import MainPage from '../screens/MainPage';
 
 const RouteHandler = ({children, isPublic}) => {
   let {isAuthenticated} = useAuth();
@@ -56,7 +57,8 @@ const StackScreens = props => {
           <div
             style={{
               flexDirection: 'column',
-            }}>
+            }}
+            className="background">
             <ResponsiveAppBar isPublic={isPublic} />
             <Component navigation={navigation} params={propParams} />
           </div>
