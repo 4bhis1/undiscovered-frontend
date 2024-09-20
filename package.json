@@ -79,14 +79,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "packageManager": "yarn@1.22.22",
-  "cssnano": {
-    "preset": [
-      "default",
-      {
-        "calc": false
-      }
-    ]
   }
 }
