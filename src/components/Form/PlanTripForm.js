@@ -3,14 +3,14 @@ import {Text} from '@radix-ui/themes';
 import {IoIosClose} from 'react-icons/io';
 
 import './form.css';
-import Slider from '../../Slider/Slider';
 import {BudgetArray, NumberOfPeople} from './Constants';
-import {Button} from '../../Button';
 import {useNavigate} from 'react-router-dom';
-import {AiContext} from '../../../context/AiContext';
 import Place from './FormPages/Places';
 import Date from './FormPages/Time';
 import ActivitiesYouWant from './FormPages/Āctivities';
+import Slider from '../Slider/Slider';
+import {Button} from '../Button';
+import {AiContext} from '../../context/AiContext';
 
 const Card = ({Icon, title, additionalText, selectedValue, onClick, multi}) => {
   let className = 'people-box';

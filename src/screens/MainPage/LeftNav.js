@@ -5,7 +5,7 @@ import {useNavigate} from 'react-router-dom';
 import {Modal} from '@mui/material';
 import HttpAuth from '../../services/HttpAuthService';
 import {showError} from '../../hooks/showError';
-import PlanTripForm from '../../components/localeSwitcher/Form/Form2';
+import PlanTripForm from "../../components/Form/PlanTripForm";
 
 const useIndivisualUseState = ({itnaryId, setData}) => {
   HttpAuth.get(`/v1/itinerary/${itnaryId}`)

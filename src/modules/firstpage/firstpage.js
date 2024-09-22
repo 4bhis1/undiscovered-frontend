@@ -1,13 +1,11 @@
 import React, {useContext} from 'react';
 import './firstpage.css'; // For your CSS styling
 import {useNavigate} from 'react-router-dom';
-import mascot from '../../assets/mascot.svg';
-import backGroundImage from '../../assets/Homebackground.png';
 import Modal from '@mui/material/Modal';
 import Chatbot from '../chatbot/chatbot';
 import {AuthContext} from '../../context/auth/AuthContext';
 import {AiContext} from '../../context/AiContext';
-import PlanTripForm from '../../components/localeSwitcher/Form/Form2';
+import PlanTripForm from '../../components/Form/PlanTripForm';
 
 const PlanATrip = props => {
   const {isAuthenticated, navigate} = props;
