@@ -71,7 +71,7 @@ const StackScreens = props => {
 };
 
 export const AppNavigator = () => {
-  const {loading, isAuthenticated} = useAuth();
+  const {loading} = useAuth();
   if (loading) {
     return <LoadingScreen />;
   }

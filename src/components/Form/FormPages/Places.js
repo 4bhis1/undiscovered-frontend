@@ -8,7 +8,6 @@ import './places.css';
 let access_token = process.env.REACT_APP_RVITE_MAP_BOX_ACCESS_TOKEN;
 
 const City = ({countryCode, updateFormState, formState}) => {
-  console.log('>>formState', formState);
   const [place, updatePlace] = useState([]);
   const [text, updateText] = useState();
 
@@ -67,23 +66,23 @@ const City = ({countryCode, updateFormState, formState}) => {
 const Place = ({formState, updateFormState}) => {
   console.log('formState', formState);
   return (
-    <div
-      style={{display: 'flex', flexDirection: 'column', position: 'relative'}}>
+    <div style={{display: 'flex', flexDirection: 'column'}}>
       <div style={{display: 'flex', padding: 10, justifyContent: 'center'}}>
         Where would you like to go ?
       </div>
-
-      <div style={{display: 'flex', justifyContent: 'center'}}>
-        <Map
-          onClick={(e, code) => {
-            e.preventDefault();
-            formState['country'] = code;
-            updateFormState(formState);
-          }}
-          regionsSelectable={!formState?.['country']}
-          selectedCountry={formState?.['country']}
-        />
-      </div>
+      {!formState['country'] && (
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+          <Map
+            onClick={(e, code) => {
+              e.preventDefault();
+              formState['country'] = code;
+              updateFormState(formState);
+            }}
+            regionsSelectable={!formState?.['country']}
+            selectedCountry={formState?.['country']}
+          />
+        </div>
+      )}
       {formState['country'] && (
         <div
           style={{
