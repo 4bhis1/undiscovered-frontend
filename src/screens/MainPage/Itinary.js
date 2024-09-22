@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-
 import axios from 'axios';
 import {Box, Skeleton, Typography} from '@mui/material';
 import {
@@ -14,8 +13,24 @@ import moment from 'moment';
 import Itinarycard from './Itinarycard';
 import './itinary.css';
 import './fonts-style.css';
-import {showError} from '../../hooks/showError';
+import {showError, successMessage} from '../../hooks/showError';
 import HttpAuth from '../../services/HttpAuthService';
+import {FaDownload} from 'react-icons/fa6';
+import jsPDF from 'jspdf';
+
+const generatePDF = serverData => {
+  const doc = new jsPDF();
+
+  doc.setFontSize(12);
+  doc.text('Server Data:', 10, 10);
+
+  if (serverData) {
+    doc.text(JSON.stringify(serverData), 10, 20);
+  }
+
+  doc.save('download.pdf');
+  successMessage('PDF generated successfully');
+};
 
 const useGetImage = ({location}) => {
   const [loading, updateLoading] = useState(true);
@@ -107,7 +122,7 @@ const TopContainer = ({destination = {}}) => {
   );
 };
 
-const DescriptionCard = ({destination}) => {
+const DescriptionCard = ({destination, itinerary}) => {
   const MenuArray = ['Overview', 'General Information'];
 
   const [menuIndex, updateMenuIndex] = useState(0);
@@ -157,24 +172,34 @@ const DescriptionCard = ({destination}) => {
 
   return (
     <div style={{padding: 20}}>
-      <div style={{display: 'flex', gap: 10}}>
-        {MenuArray.map((doc, index) => {
-          return (
-            <div
-              className={
-                index === menuIndex
-                  ? 'selected-itinary-button'
-                  : 'itinary-button'
-              }
-              onClick={() => {
-                updateMenuIndex(index);
-              }}
-              key={index}>
-              {doc}
-            </div>
-          );
-        })}
-        {/* {menuIndex} */}
+      <div style={{display: 'flex', justifyContent: 'space-between'}}>
+        <div style={{display: 'flex', gap: 10}}>
+          {MenuArray.map((doc, index) => {
+            return (
+              <div
+                className={
+                  index === menuIndex
+                    ? 'selected-itinary-button'
+                    : 'itinary-button'
+                }
+                onClick={() => {
+                  updateMenuIndex(index);
+                }}
+                key={index}>
+                {doc}
+              </div>
+            );
+          })}
+        </div>
+        <div
+          style={{
+            cursor: 'pointer',
+          }}
+          onClick={() => {
+            generatePDF(itinerary);
+          }}>
+          <FaDownload />
+        </div>
       </div>
       <div>
         {menuIndex === 0 ? (
@@ -197,7 +222,7 @@ const Itinary = ({data}) => {
         height: '95vh',
       }}>
       <TopContainer destination={destination} />
-      <DescriptionCard destination={destination} />
+      <DescriptionCard destination={destination} itinerary={itinerary} />
       <HR />
       <Itinarycard itinerary={itinerary} />
     </div>
