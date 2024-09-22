@@ -70,8 +70,6 @@ const StackScreens = props => {
 };
 
 export const AppNavigator = () => {
-  return <MainPage />;
-
   const {loading} = useAuth();
   if (loading) {
     return <LoadingScreen />;
