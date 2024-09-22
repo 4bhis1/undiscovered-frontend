@@ -35,6 +35,7 @@
     "dayjs": "^1.11.13",
     "hybrid-crypto-js": "^0.2.4",
     "js-base64": "^3.7.6",
+    "jspdf": "^2.5.2",
     "mapbox-gl": "^3.6.0",
     "moment": "^2.30.1",
     "react": "18.2.0",
