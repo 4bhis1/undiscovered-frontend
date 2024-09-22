@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {useAuth} from './useAuth';
+import {successMessage} from '../../../hooks/showError';
 
 export const useRegister = ({initialState = {}, ...props}) => {
   const [formValues, setFormValues] = useState(initialState);
@@ -10,6 +11,7 @@ export const useRegister = ({initialState = {}, ...props}) => {
     setLoading(true);
     let result = await register(formValues);
     if (result) {
+      successMessage('Registered Successfully!!!');
       props.navigation.navigate('login');
     } else {
       setLoading(false);
