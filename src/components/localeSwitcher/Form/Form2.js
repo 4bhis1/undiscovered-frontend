@@ -1,131 +1,21 @@
 import React, {useContext, useEffect, useState} from 'react';
-
-import {Box, Flex, Text} from '@radix-ui/themes';
+import {Text} from '@radix-ui/themes';
 import {IoIosClose} from 'react-icons/io';
 
 import './form.css';
-import BasicDateRangeCalendar from './DateCalendar';
 import Slider from '../../Slider/Slider';
-import {
-  ActivitiesArray,
-  BudgetArray,
-  ContinentArray,
-  NumberOfPeople,
-} from './Constants';
+import {ActivitiesArray, BudgetArray, NumberOfPeople} from './Constants';
 import {Button} from '../../Button';
 import DatePickerComponent, {arrangeDates} from '../Date/DatePicker';
-
-import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import moment from 'moment';
 
 import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
-import {AuthContext} from '../../../context/auth/AuthContext';
 import {AiContext} from '../../../context/AiContext';
-import Map from './Map';
-
-const PlaceCard = ({title, imagePath, selectedValues, onClick}) => {
-  let className = 'place-image';
-
-  if (selectedValues && Object.keys(selectedValues).includes(title)) {
-    className += ' active';
-  }
-
-  return (
-    <div key={title} className="image-card" onClick={onClick}>
-      <div className={className}>
-        <img src={imagePath} height={100} width={100} />
-      </div>
-      <div>{title}</div>
-    </div>
-  );
-};
+import Place from './FormPages/Places';
 
 export const Search = ({value, onChange, ...props}) => {
   return <TextField.Root value={value} onChange={onChange} {...props} />;
-};
-
-let access_token =
-  'pk.eyJ1Ijoic3ppbGFyZG1hdGUiLCJhIjoiY2xycXRqNjA4MDd1MDJrcWx0amRoYXp6ZyJ9.JoEWVmK7_7O4hhWySeP_Ag';
-
-const City = ({countryCode, updateFormState, formState}) => {
-  const [place, updatePlace] = useState([]);
-  const [text, updateText] = useState();
-
-  useEffect(() => {
-    axios
-      .get(`https://api.mapbox.com/search/geocode/v6/forward`, {
-        params: {
-          q: text,
-          access_token,
-          limit: 10,
-          country: countryCode,
-          types: ['place', 'locality'],
-        },
-      })
-      .then(response => {
-        console.log('🚀 ~ file: Form.js:71 ~ useEffect ~ response:', response);
-
-        const {features} = response.data;
-        console.log('🚀 ~ file: Form.js:68 ~ useEffect ~ features:', features);
-        updatePlace(
-          features.map(doc => {
-            return `${doc.properties.full_address}`;
-          }),
-        );
-      })
-      .catch(error => {
-        console.error('Error fetching autocomplete suggestions:', error);
-      });
-  }, [text]);
-
-  return (
-    <Autocomplete
-      onSelect={({target}) => {
-        console.log('🚀 ~ file: Form2.js:85 ~ City ~ props:', target.value);
-        updateText(target.value);
-        formState['place'] = target.value;
-        updateFormState(formState);
-      }}
-      autoHighlight
-      //   disablePortal
-      options={place}
-      sx={{width: 300}}
-      renderInput={params => (
-        <TextField
-          onChange={({target}) => {
-            updateText(target.value);
-            formState['place'] = target.value;
-            updateFormState(formState);
-          }}
-          {...params}
-          label="Place name"
-        />
-      )}
-    />
-  );
-};
-
-const Place = ({formState, updateFormState}) => {
-  const value = 'where';
-  return (
-    <div>
-      <div style={{display: 'flex', padding: 10, justifyContent: 'center'}}>
-        Where would you like to go ?
-      </div>
-      <div style={{display: 'flex', justifyContent: 'center'}}>
-        <Map />
-      </div>
-      {formState[value] && (
-        <City
-          countryCode={Object.values(formState[value])[0].code}
-          updateFormState={updateFormState}
-          formState={formState}
-        />
-      )}
-    </div>
-  );
 };
 
 const Date = ({formState, updateFormState, showErrorMessage}) => {
@@ -394,8 +284,8 @@ const PlanTripForm = props => {
           justifyContent: 'center',
           alignItems: 'center',
           border: '1px solid rgba(0, 0, 0, 0.2)',
-          padding: '50px',
-          height: '70vh',
+          padding: '20px',
+          height: '80vh',
           width: '60vw',
           borderRadius: '10px',
           boxShadow: '6px 6px 10px rgba(0, 0, 0, 0.2)',
@@ -449,6 +339,8 @@ const PlanTripForm = props => {
               flexDirection: 'column',
               flex: 1,
               marginTop: 10,
+              height: '70%',
+              overflow: 'hidden',
             }}>
             <Component
               formState={formState.data}

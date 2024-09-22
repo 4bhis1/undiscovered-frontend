@@ -1,12 +1,12 @@
 import React from 'react';
 import {VectorMap} from 'react-jvectormap';
 
-const Map = ({onClick}) => {
+const Map = ({onClick, regionsSelectable = true, selectedCountry}) => {
   return (
     <VectorMap
       map={'world_mill'}
       backgroundColor="transparent" //change it to ocean blue: #0077be
-      zoomOnScroll={false}
+      zoomOnScroll={true}
       containerStyle={{
         width: '80%',
         height: '420px',
@@ -16,6 +16,14 @@ const Map = ({onClick}) => {
       }}
       onRegionClick={onClick} //gets the country code
       containerClassName="map"
+      series={{
+        regions: [
+          {
+            values: {[selectedCountry]: '#2999'},
+            attribute: 'fill',
+          },
+        ],
+      }}
       regionStyle={{
         initial: {
           fill: '#e4e4e4',
@@ -33,7 +41,7 @@ const Map = ({onClick}) => {
         },
         selectedHover: {},
       }}
-      regionsSelectable={true}
+      regionsSelectable={regionsSelectable}
     />
   );
 };
