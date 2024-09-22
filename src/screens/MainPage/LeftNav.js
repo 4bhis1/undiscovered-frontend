@@ -3,7 +3,6 @@ import {FaAnglesLeft, FaAnglesRight} from 'react-icons/fa6';
 import {Button} from '../../components/Button';
 import {useNavigate} from 'react-router-dom';
 import {Modal} from '@mui/material';
-import MainForm from '../../components/localeSwitcher/Form/Form';
 import HttpAuth from '../../services/HttpAuthService';
 import {showError} from '../../hooks/showError';
 import PlanTripForm from '../../components/localeSwitcher/Form/Form2';

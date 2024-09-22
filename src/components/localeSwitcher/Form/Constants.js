@@ -72,16 +72,3 @@ export const ActivitiesArray = [
   'Souvenirs',
   'DesignerStores',
 ];
-
-export const ContinentArray = [
-  {title: `I'm flexible`, imagePath: All},
-  {title: 'Europe', imagePath: Europe, code: 'FR'},
-  {title: 'Indonesia', imagePath: Indonesia, code: 'ID'},
-  {title: 'South-East Asia', imagePath: SEA, code: 'TH'},
-  {title: 'United-Kingdom', imagePath: UK, code: 'GB'},
-  {
-    title: 'United-State',
-    imagePath: US,
-    code: 'US',
-  },
-];

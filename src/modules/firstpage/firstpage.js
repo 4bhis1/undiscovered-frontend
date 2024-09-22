@@ -4,7 +4,6 @@ import {useNavigate} from 'react-router-dom';
 import mascot from '../../assets/mascot.svg';
 import backGroundImage from '../../assets/Homebackground.png';
 import Modal from '@mui/material/Modal';
-import MainForm from '../../components/localeSwitcher/Form/Form';
 import Chatbot from '../chatbot/chatbot';
 import {AuthContext} from '../../context/auth/AuthContext';
 import {AiContext} from '../../context/AiContext';

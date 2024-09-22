@@ -5,8 +5,7 @@ import axios from 'axios';
 import Map from '../Map';
 import './places.css';
 
-let access_token =
-  'pk.eyJ1Ijoic3ppbGFyZG1hdGUiLCJhIjoiY2xycXRqNjA4MDd1MDJrcWx0amRoYXp6ZyJ9.JoEWVmK7_7O4hhWySeP_Ag';
+let access_token = process.env.REACT_APP_RVITE_MAP_BOX_ACCESS_TOKEN;
 
 const City = ({countryCode, updateFormState, formState}) => {
   const [place, updatePlace] = useState([]);

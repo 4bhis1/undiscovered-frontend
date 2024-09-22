@@ -13,6 +13,7 @@ import AuthRoutes from '../modules/user-management/Auth.Routes';
 import ItineraryRoutes from '../screens/Routes';
 import ResponsiveAppBar from './NavBar';
 import FirstPage from '../modules/firstpage/firstpage';
+import MainPage from '../screens/MainPage';
 
 const RouteHandler = ({children, isPublic}) => {
   let {isAuthenticated} = useAuth();
@@ -69,6 +70,8 @@ const StackScreens = props => {
 };
 
 export const AppNavigator = () => {
+  return <MainPage />;
+
   const {loading} = useAuth();
   if (loading) {
     return <LoadingScreen />;
