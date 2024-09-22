@@ -51,8 +51,8 @@ const parseData = data => {
 const MainPage = props => {
   const {params = {}} = props;
   const parsedParams = parseData(params);
-  const [data, setData] = React.useState({});
-  const [loading, setLoading] = React.useState(true);
+  const [data, setData] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const {aidata, updateAiData, isBotClose, setIsBotClose} =
     useContext(AiContext);
