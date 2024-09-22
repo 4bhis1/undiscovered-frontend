@@ -8,6 +8,7 @@ import MainForm from '../../components/localeSwitcher/Form/Form';
 import Chatbot from '../chatbot/chatbot';
 import {AuthContext} from '../../context/auth/AuthContext';
 import {AiContext} from '../../context/AiContext';
+import PlanTripForm from '../../components/localeSwitcher/Form/Form2';
 
 const PlanATrip = props => {
   const {isAuthenticated, navigate} = props;
@@ -38,7 +39,7 @@ const PlanATrip = props => {
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
-        <MainForm handleClose={handleClose} />
+        <PlanTripForm handleClose={handleClose} />
       </Modal>
       <button className="discover-button" onClick={handleChatBot}>
         Discover on the go &rarr;
@@ -55,18 +56,22 @@ const FirstPage = props => {
   return (
     <div className="container">
       {/* Navbar */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <Chatbot />
-        {/* Main Content */}
-        <h1 style={{color: 'white'}}>EXPLORE LIKE THE WORLD ID YOUR OYSTER</h1>
-      </div>
-      <div>
-        <PlanATrip isAuthenticated={isAuthenticated} navigate={navigate} />
+      <div style={{display: 'flex', flexDirection: 'column', flex: 1}}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Chatbot />
+          {/* Main Content */}
+          <h1 style={{color: 'white'}}>
+            EXPLORE LIKE THE WORLD ID YOUR OYSTER
+          </h1>
+        </div>
+        <div>
+          <PlanATrip isAuthenticated={isAuthenticated} navigate={navigate} />
+        </div>
       </div>
       {/* Features Section */}
       <section className="features">

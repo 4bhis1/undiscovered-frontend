@@ -4,102 +4,13 @@ import {IoIosClose} from 'react-icons/io';
 
 import './form.css';
 import Slider from '../../Slider/Slider';
-import {ActivitiesArray, BudgetArray, NumberOfPeople} from './Constants';
+import {BudgetArray, NumberOfPeople} from './Constants';
 import {Button} from '../../Button';
-import DatePickerComponent, {arrangeDates} from '../Date/DatePicker';
 import {useNavigate} from 'react-router-dom';
-import moment from 'moment';
-
-import TextField from '@mui/material/TextField';
 import {AiContext} from '../../../context/AiContext';
 import Place from './FormPages/Places';
-
-export const Search = ({value, onChange, ...props}) => {
-  return <TextField.Root value={value} onChange={onChange} {...props} />;
-};
-
-const Date = ({formState, updateFormState, showErrorMessage}) => {
-  const value = 'when';
-
-  const [{formattedDateRange, diffDays}, updateDateDiff] = useState({});
-  const [date, updatedate] = useState();
-  const calculateDifference = () => {
-    if (formState[value]?.from && formState[value]?.to) {
-      const start = moment(formState[value]?.from);
-      const end = moment(formState[value]?.to);
-      const current = moment();
-      if (start.isBefore(current) || end.isBefore(current)) {
-        showErrorMessage('Both dates should be greater than the current date');
-      }
-      if (end.isBefore(start)) {
-        showErrorMessage('From Date should be less then to date');
-      } else if (current.isSameOrAfter(start)) {
-        showErrorMessage(
-          'From Date should be greater or equal to current date',
-        );
-      } else {
-        const {formattedDateRange, diffDays} = arrangeDates(start, end);
-
-        if (diffDays > 5) {
-          showErrorMessage('To much holidays');
-        } else {
-          updateDateDiff({formattedDateRange, diffDays});
-        }
-        showErrorMessage('');
-      }
-    }
-  };
-
-  useEffect(() => {
-    calculateDifference();
-  }, [JSON.stringify(formState[value])]);
-
-  return (
-    <div className="who-container" style={{flexDirection: 'column'}}>
-      {formState[value]?.from && formState[value]?.to && (
-        <div style={{textAlign: 'center', margin: '10px'}}>
-          <h2>When</h2>
-          <p>{`${formattedDateRange} · ${diffDays} days`}</p>
-        </div>
-      )}
-      <div
-        style={{
-          display: 'flex',
-          gap: 50,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <DatePickerComponent
-          value={formState[value]?.from}
-          onChange={target => {
-            updateFormState(formState => {
-              if (!formState[value]) {
-                formState[value] = {};
-              }
-              formState[value].from = target;
-              return formState;
-            });
-            updatedate(target);
-          }}
-        />
-        -
-        <DatePickerComponent
-          value={formState[value]?.to}
-          onChange={target => {
-            updateFormState(formState => {
-              if (!formState[value]) {
-                formState[value] = {};
-              }
-              formState[value].to = target;
-              return formState;
-            });
-            updatedate(target);
-          }}
-        />
-      </div>
-    </div>
-  );
-};
+import Date from './FormPages/Time';
+import ActivitiesYouWant from './FormPages/Āctivities';
 
 const Card = ({Icon, title, additionalText, selectedValue, onClick, multi}) => {
   let className = 'people-box';
@@ -122,7 +33,6 @@ const Card = ({Icon, title, additionalText, selectedValue, onClick, multi}) => {
 };
 
 const NumberOfPeopleGoing = ({formState, updateFormState}) => {
-  const [_, updateState] = useState();
   const value = 'who';
 
   return (
@@ -136,11 +46,8 @@ const NumberOfPeopleGoing = ({formState, updateFormState}) => {
             title={title}
             selectedValue={formState[value]}
             onClick={() => {
-              updateFormState(formState => {
-                formState[value] = title;
-                updateState(title);
-                return formState;
-              });
+              formState[value] = title;
+              updateFormState(formState);
             }}
           />
         );
@@ -150,7 +57,6 @@ const NumberOfPeopleGoing = ({formState, updateFormState}) => {
 };
 
 const BudgetRange = ({formState, updateFormState}) => {
-  const [_, updateState] = useState();
   const value = 'budget';
 
   return (
@@ -165,53 +71,10 @@ const BudgetRange = ({formState, updateFormState}) => {
             title={title}
             selectedValue={who}
             onClick={() => {
-              updateFormState(formState => {
-                formState[value] = title;
-                updateState(title);
-                return formState;
-              });
+              formState[value] = title;
+              updateFormState(formState);
             }}
             additionalText={additionalText}
-          />
-        );
-      })}
-    </div>
-  );
-};
-const ActivitiesYouWant = ({formState, updateFormState}) => {
-  const [state, updateState] = useState();
-  const value = 'activities';
-
-  useEffect(() => {
-    updateState(formState[value]);
-  }, [state]);
-
-  return (
-    <div className={'who-container'}>
-      {ActivitiesArray.map(({title, icon}) => {
-        const Icon = icon;
-        const who = formState[value];
-        return (
-          <Card
-            key={title}
-            Icon={Icon}
-            title={title}
-            selectedValue={who}
-            multi
-            onClick={() => {
-              updateFormState(formState => {
-                if (!formState[value]) {
-                  formState[value] = {};
-                  formState[value][title] = 1;
-                } else if (formState[value][title]) {
-                  delete formState[value][title];
-                } else {
-                  formState[value][title] = 1;
-                }
-                updateState(title);
-                return formState;
-              });
-            }}
           />
         );
       })}
@@ -228,11 +91,8 @@ const ComponentIndex = [
 ];
 
 const ShowMagic = ({formState, navigate, newChat}) => {
-  // if (newChat) {
-  //   navigate('/itineraries-1', {state: formState});
-  // } else {
+  console.log('> formState', formState);
   navigate('/itineraries', {state: formState});
-  // }
 };
 
 const PlanTripForm = props => {
@@ -240,6 +100,7 @@ const PlanTripForm = props => {
   const [sliderCount, updateSliderCount] = useState(0);
   const [formState, updateFormState] = useState({
     data: {},
+    errorMessage: '',
   });
   const Component = ComponentIndex[sliderCount];
   const navigate = useNavigate();
@@ -331,6 +192,7 @@ const PlanTripForm = props => {
             totalSteps={ComponentIndex.length}
             currentStep={sliderCount}
             updateSliderCount={updateSliderCount}
+            errorMessage={formState.errorMessage}
           />
 
           <div
@@ -375,6 +237,7 @@ const PlanTripForm = props => {
               }}>
               {sliderCount > 0 && (
                 <Button
+                  disable={formState.errorMessage}
                   onClick={() => {
                     updateSliderCount(count => {
                       return count - 1;
@@ -397,6 +260,7 @@ const PlanTripForm = props => {
 
               {sliderCount === ComponentIndex.length - 1 && (
                 <Button
+                  disable={formState.errorMessage}
                   title="Lets Generate"
                   onClick={() => {
                     ShowMagic({formState, navigate});

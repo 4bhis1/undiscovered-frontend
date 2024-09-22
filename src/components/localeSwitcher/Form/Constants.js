@@ -36,18 +36,59 @@ export const BudgetArray = [
 ];
 
 export const ActivitiesArray = [
-  {title: 'Beaches', icon: FaUmbrellaBeach},
-  {title: 'Hiking', icon: FaHiking},
-  {title: 'Culture', icon: FaBook},
-  {title: 'Sports', icon: MdSportsHandball},
-  {title: 'NightLife', icon: FaCloudMoon},
-  {
-    title: 'Food Exploration',
-    icon: FaHamburger,
-  },
-  {title: 'Sight Seeing', icon: HiLibrary},
-  {title: 'Wellness', icon: RiFlowerFill},
-  {title: 'Shopping', icon: FaShoppingBag},
+  // Sightseeing & Landmarks
+  'Landmarks',
+  'CityTour',
+  'Museums',
+  'Parks',
+
+  // Outdoor Activities
+  'Hiking',
+  'Watersports',
+  'Wildlife',
+  'Adventure',
+
+  // Culinary Experiences
+  'StreetFood',
+  'Restaurants',
+  'CookingClass',
+  'Wineries',
+
+  // Relaxation & Wellness
+  'Beach',
+  'Spa',
+  'Yoga',
+  'Picnics',
+
+  // Cultural & Entertainment
+  'Festivals',
+  'LiveMusic',
+  'Markets',
+  'Workshops',
+
+  // Nightlife & Socializing
+  'Bars',
+  'NightMarket',
+  'PubCrawl',
+  'Stargazing',
+
+  // Family & Kid-Friendly Activities
+  'ThemeParks',
+  'Zoos',
+  'WorkshopsForKids',
+  'Playgrounds',
+
+  // Special Interest Tours
+  'Photography',
+  'Architecture',
+  'EcoTours',
+  'FilmTours',
+
+  // Shopping & Fashion
+  'Malls',
+  'FleaMarkets',
+  'Souvenirs',
+  'DesignerStores',
 ];
 
 export const ContinentArray = [

@@ -8,11 +8,9 @@ import './places.css';
 let access_token =
   'pk.eyJ1Ijoic3ppbGFyZG1hdGUiLCJhIjoiY2xycXRqNjA4MDd1MDJrcWx0amRoYXp6ZyJ9.JoEWVmK7_7O4hhWySeP_Ag';
 
-const City = ({countryCode, updateFormState}) => {
+const City = ({countryCode, updateFormState, formState}) => {
   const [place, updatePlace] = useState([]);
   const [text, updateText] = useState();
-
-  console.log('>> countryCode', countryCode);
 
   useEffect(() => {
     axios
@@ -26,10 +24,7 @@ const City = ({countryCode, updateFormState}) => {
         },
       })
       .then(response => {
-        console.log('🚀 ~ file: Form.js:71 ~ useEffect ~ response:', response);
-
         const {features} = response.data;
-        console.log('🚀 ~ file: Form.js:68 ~ useEffect ~ features:', features);
         updatePlace(
           features.map(doc => {
             return `${doc.properties.full_address}`;
@@ -39,25 +34,29 @@ const City = ({countryCode, updateFormState}) => {
       .catch(error => {
         console.error('Error fetching autocomplete suggestions:', error);
       });
-    updateFormState(value => {
-      value['place'] = text;
-      return value;
-    });
   }, [text]);
 
   return (
     <div>
       <Autocomplete
+        onClose={e => {
+          formState['place'] = e.target.textContent;
+          updateFormState(formState);
+        }}
         disablePortal
         options={place}
         sx={{width: 300}}
+        autoSelect={true}
+        clearOnEscape={true}
         renderInput={params => (
           <TextField
             onChange={({target}) => {
+              formState['place'] = target.value;
+              updateFormState(formState);
               updateText(target.value);
             }}
-            {...params}
             label="Place name"
+            {...params}
           />
         )}
       />
@@ -66,6 +65,7 @@ const City = ({countryCode, updateFormState}) => {
 };
 
 const Place = ({formState, updateFormState}) => {
+  console.log('formState', formState);
   return (
     <div style={{display: 'flex', flexDirection: 'column'}}>
       <div style={{display: 'flex', padding: 10, justifyContent: 'center'}}>
