@@ -1,26 +1,8 @@
 import React from 'react';
-import {
-  FaBook,
-  FaCloudMoon,
-  FaHamburger,
-  FaHiking,
-  FaShoppingBag,
-  FaUmbrellaBeach,
-  FaUser,
-  FaUserFriends,
-} from 'react-icons/fa';
+import {FaUser, FaUserFriends} from 'react-icons/fa';
 import {FaPeopleGroup} from 'react-icons/fa6';
 import {MdOutlineFamilyRestroom, MdSportsHandball} from 'react-icons/md';
 import {FaRegCreditCard} from 'react-icons/fa6';
-import {HiLibrary} from 'react-icons/hi';
-import {RiFlowerFill} from 'react-icons/ri';
-
-import All from '../../../assets/All.jpg';
-import Europe from '../../../assets/europe.webp';
-import Indonesia from '../../../assets/indonesia.webp';
-import SEA from '../../../assets/SEA.webp';
-import UK from '../../../assets/UK.webp';
-import US from '../../../assets/US.webp';
 
 export const NumberOfPeople = [
   {title: 'Solo', icon: FaUser},

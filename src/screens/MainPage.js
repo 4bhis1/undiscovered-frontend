@@ -21,6 +21,28 @@ const sideNavBarItem = [
   {label: 'Blogs'},
 ];
 
+const budgetObj = {
+  Economy: '5000',
+  Mid: '15000',
+  Luxury: '20000',
+};
+
+const whoObj = {
+  Solo: {
+    adults: '1',
+  },
+  Family: {
+    adults: '2',
+    kids: '2',
+  },
+  Friends: {
+    adults: '6',
+  },
+  Couple: {
+    adults: '2',
+  },
+};
+
 const parseData = data => {
   if (!data) {
     return {};
@@ -28,21 +50,14 @@ const parseData = data => {
 
   const obj = {};
 
-  const budgetObj = {
-    Economy: '5000',
-    Mid: '15000',
-    Luxury: '20000',
-  };
-
   obj.destination = data.place;
   obj.budget = budgetObj[data?.budget] || '30000';
   obj.interests = Object.keys(data?.activities);
   obj.checkinDate = data?.when?.from;
   obj.checkoutDate = data?.when?.to;
-
-  obj.members = {
+  obj.members = whoObj[data.who] || {
     adults: '2',
-    kids: '1',
+    kids: '2',
   };
 
   return obj;
