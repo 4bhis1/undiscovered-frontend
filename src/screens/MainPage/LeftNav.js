@@ -3,9 +3,9 @@ import {FaAnglesLeft, FaAnglesRight} from 'react-icons/fa6';
 import {Button} from '../../components/Button';
 import {useNavigate} from 'react-router-dom';
 import {Modal} from '@mui/material';
-import MainForm from '../../components/localeSwitcher/Form/Form';
 import HttpAuth from '../../services/HttpAuthService';
 import {showError} from '../../hooks/showError';
+import PlanTripForm from "../../components/Form/PlanTripForm";
 
 const useIndivisualUseState = ({itnaryId, setData}) => {
   HttpAuth.get(`/v1/itinerary/${itnaryId}`)
@@ -56,7 +56,7 @@ export const ListMenu = ({setData, leftIndex, updateLeftIndex}) => {
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description">
-          <MainForm handleClose={handleClose} newChat />
+          <PlanTripForm handleClose={handleClose} newChat />
         </Modal>
       </div>
       <div

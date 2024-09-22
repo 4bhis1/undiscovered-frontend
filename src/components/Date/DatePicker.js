@@ -4,6 +4,7 @@ import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import moment from 'moment';
+import {DateCalendar} from '@mui/x-date-pickers';
 
 const parseDate = ({$d}) => {
   return moment($d).format('MM/DD/YYYY');
@@ -12,7 +13,7 @@ const parseDate = ({$d}) => {
 export default function DatePickerComponent({value, onChange}) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker
+      <DateCalendar
         value={value ? dayjs(value) : null}
         onChange={props => {
           onChange(parseDate(props));
