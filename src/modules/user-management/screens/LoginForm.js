@@ -8,6 +8,7 @@ import {AuthContext} from '../../../context/auth/AuthContext';
 import HttpAuth from '../../../services/HttpAuthService';
 import {useLogin} from '../hooks/useLogin';
 import backgroundImage from '../../../assets/loginImage.jpg';
+import {showError} from '../../../hooks/showError';
 
 const useStyles = makeStyles(theme => {
   return {
@@ -47,19 +48,21 @@ const Login = props => {
   const isLoginActionDisabled = !email?.trim() || !password?.trim() || loading;
   const {setAuth} = useContext(AuthContext);
   return (
-    <>
-      <div
-        style={{
-          width: '100%',
-          height: '100vh',
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          // overflow: 'hidden',
-        }}></div>
+    <div
+      style={{
+        width: '100vw',
+        height: '100vh',
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        overflow: 'hidden',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
       <div
         style={{
           backgroundColor: 'rgba(255, 255, 255, 0.9)',
@@ -67,8 +70,6 @@ const Login = props => {
           borderRadius: '8px',
           maxWidth: '400px',
           margin: 'auto',
-          position: 'relative',
-          top: '15%',
         }}>
         <Stack className={classes.container}>
           <Box className={classes.avatar}>
@@ -124,18 +125,26 @@ const Login = props => {
         </Button> */}
             <GoogleLogin
               onSuccess={async credentialResponse => {
-                const {user, tokens} = await HttpAuth.post(
-                  '/v1/auth/google-login',
-                  {
-                    idToken: credentialResponse.credential,
-                  },
-                );
-                const {access, refresh} = tokens;
-                localStorage.setItem('access_token', JSON.stringify(access));
-                localStorage.setItem('refresh_token', JSON.stringify(refresh));
-                HttpAuth.access_token = access;
-                HttpAuth.refresh_token = refresh;
-                setAuth({user: user});
+                try {
+                  const {user, tokens} = await HttpAuth.post(
+                    '/v1/auth/google-login',
+                    {
+                      idToken: credentialResponse.credential,
+                    },
+                  );
+
+                  const {access, refresh} = tokens;
+                  localStorage.setItem('access_token', JSON.stringify(access));
+                  localStorage.setItem(
+                    'refresh_token',
+                    JSON.stringify(refresh),
+                  );
+                  HttpAuth.access_token = access;
+                  HttpAuth.refresh_token = refresh;
+                  setAuth({user: user});
+                } catch (err) {
+                  showError(err);
+                }
               }}
               onError={() => {
                 console.log('Login Failed');
@@ -144,7 +153,7 @@ const Login = props => {
           </Stack>
         </Stack>
       </div>
-    </>
+    </div>
   );
 };
 
