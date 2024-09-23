@@ -36,30 +36,30 @@ const City = ({countryCode, updateFormState, formState}) => {
   }, [text]);
 
   return (
-    <div>
-      <Autocomplete
-        onClose={e => {
-          formState['place'] = e.target.textContent;
-          updateFormState(formState);
-        }}
-        disablePortal
-        options={place}
-        sx={{width: 300}}
-        autoSelect={true}
-        clearOnEscape={true}
-        renderInput={params => (
-          <TextField
-            onChange={({target}) => {
-              formState['place'] = target.value;
-              updateFormState(formState);
-              updateText(target.value);
-            }}
-            label="Place name"
-            {...params}
-          />
-        )}
-      />
-    </div>
+    <Autocomplete
+      onClose={e => {
+        formState['place'] = e.target.textContent;
+        updateFormState(formState);
+      }}
+      disablePortal
+      options={place}
+      sx={{width: 500}}
+      autoSelect={true}
+      clearOnEscape={true}
+      defaultValue={formState['place']}
+      renderInput={params => (
+        <TextField
+          onChange={({target}) => {
+            formState['place'] = target.value;
+            updateFormState(formState);
+            updateText(target.value);
+          }}
+          value={formState['place']}
+          label="Place name"
+          {...params}
+        />
+      )}
+    />
   );
 };
 
@@ -88,7 +88,15 @@ const Place = ({formState, updateFormState}) => {
           style={{
             display: 'flex',
             justifyContent: 'center',
-            paddingTop: 40,
+            paddingTop: 180,
+            position: 'absolute',
+            opacity: 0.8,
+            flex: 1,
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'white',
           }}>
           <City
             countryCode={formState['country']}
