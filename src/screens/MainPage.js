@@ -30,6 +30,7 @@ const budgetObj = {
 const whoObj = {
   Solo: {
     adults: '1',
+    kids: '0',
   },
   Family: {
     adults: '2',
@@ -37,9 +38,11 @@ const whoObj = {
   },
   Friends: {
     adults: '6',
+    kids: '0',
   },
   Couple: {
     adults: '2',
+    kids: '1',
   },
 };
 
@@ -52,7 +55,7 @@ const parseData = (data = {}) => {
 
   obj.destination = data.place;
   obj.budget = budgetObj[data?.budget] || '30000';
-  obj.interests = Object.keys(data?.activities);
+  obj.interests = Object.keys(data?.activities || {}).map(key => key);
   obj.checkinDate = data?.when?.from;
   obj.checkoutDate = data?.when?.to;
   obj.members = whoObj[data.who] || {
@@ -65,7 +68,7 @@ const parseData = (data = {}) => {
 
 const MainPage = props => {
   const {params = {}} = props;
-  // const parsedParams = parseData(params);
+  const parsedParams = parseData(params?.data || {});
   const [data, setData] = useState(fakedata);
   const [loading, setLoading] = useState(false);
 
@@ -75,55 +78,39 @@ const MainPage = props => {
   const [leftIndex, updateLeftIndex] = useState(-1);
 
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     try {
-  //       const response = await HttpAuth.post(
-  //         '/v1/itinerary/generate',
-  //         parsedParams,
-  //       );
-  //       console.log('>>> response', response);
-  //       setData(response);
-  //       //set data in context
-  //       updateAiData(prevState => ({...prevState, itinerary: response})); // Update the stateI
-  //       setLoading(false);
-  //     } catch (err) {
-  //       showError(err);
-  //       navigate('/welcome');
-  //     }
-  //   };
-  //   getData();
-  // }, []);
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await HttpAuth.post(
+          '/v1/itinerary/generate',
+          parsedParams,
+        );
+        console.log('>>> response', response);
+        setData(response);
+        //set data in context
+        updateAiData(prevState => ({...prevState, itinerary: response})); // Update the stateI
+        setLoading(false);
+      } catch (err) {
+        showError(err);
+        navigate('/welcome');
+      }
+    };
+    getData();
+  }, []);
 
-  return (
-    <div
-      style={{
-        position: 'absolute',
-        top: 70,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        overflow: 'hidden',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-      }}>
-      {loading ? (
-        <img src={loader} />
-      ) : (
-        <div style={{flexDirection: 'row', flex: 1, display: 'flex'}}>
-          <ListMenu
-            data={sideNavBarItem}
-            setData={setData}
-            leftIndex={leftIndex}
-            updateLeftIndex={updateLeftIndex}
-          />
-          <Itinary data={data} />
-          {/* <Direction data={data} /> */}
-          <Chatbot />
-        </div>
-      )}
+  return loading ? (
+    <img src={loader} />
+  ) : (
+    <div style={{flexDirection: 'row', flex: 1, display: 'flex',backgroundColor:'#ffffff'}}>
+      <ListMenu
+        data={sideNavBarItem}
+        setData={setData}
+        leftIndex={leftIndex}
+        updateLeftIndex={updateLeftIndex}
+      />
+      <Itinary data={data} />
+      <Direction data={data} />
+      <Chatbot />
     </div>
   );
 };

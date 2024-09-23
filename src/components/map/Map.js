@@ -238,7 +238,7 @@ export const Direction = props => {
 
     const allCoordinates = [];
 
-    data.itinerary[day].program.forEach(program => {
+    data.itinerary[day]?.program.forEach(program => {
       allCoordinates.push({
         cordinates: program.coordinate,
         name: program.place,
@@ -284,7 +284,7 @@ export const Direction = props => {
         new mapboxgl.LngLatBounds(),
       );
 
-      map.addControl(new mapboxgl.NavigationControl());
+      map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
       map.fitBounds(bounds, {
         padding: 50,
@@ -353,7 +353,7 @@ export const Direction = props => {
     return () => {
       map.remove();
     };
-  }, [mapStyle, day, JSON.stringify(data)]);
+  }, [mapStyle, day, data?._id]);
 
   const handleMapStyleChange = event => {
     setMapStyle(event.target.value);
@@ -361,20 +361,10 @@ export const Direction = props => {
 
   return (
     <div
+      ref={mapContainerRef}
       style={{
         flex: 3,
-        position: 'relative',
-        Height: '100vh',
       }}>
-      <div
-        ref={mapContainerRef}
-        style={{
-          width: '100%',
-          height: '100%',
-          // border: '1px solid',
-          // marginBottom: '3rem',
-        }}
-      />
       <select
         className="map-style-dropdown"
         value={mapStyle}
@@ -396,15 +386,16 @@ export const Direction = props => {
           </option>
         ))}
       </select>
-      {data.itinerary[day].program.map((coord, index) => (
+      {data.itinerary[day]?.program.map((coord, index) => (
         <div
           key={index}
-          id={'custom-marker' + 'day' + day + 'index' + index}
+          id={'custom-marker' + 'day' + data?.itinerary?.[day]?.date + 'index' + coord._id}
           className="mapboxgl-marker mapboxgl-marker-anchor-center"
           style={{
             backgroundColor: getColorForRoute(index),
           }}
-          tabIndex={'0'}></div>
+          tabIndex={'0'}
+        />
       ))}
     </div>
   );

@@ -6,6 +6,7 @@ import {
   useRoutes,
   useLocation,
   useRouteError,
+  Outlet,
 } from 'react-router-dom';
 
 import {useNavigate} from 'react-router-dom';
@@ -54,14 +55,7 @@ const StackScreens = props => {
       path: path,
       element: (
         <RouteHandler isPublic={isPublic}>
-          <div
-            style={{
-              flexDirection: 'column',
-            }}
-            className="background">
-            <ResponsiveAppBar isPublic={isPublic} />
-            <Component navigation={navigation} params={propParams} />
-          </div>
+          <Component navigation={navigation} params={propParams} />
         </RouteHandler>
       ),
       errorElement: <ErrorBoundary />,
@@ -103,11 +97,26 @@ export const AppNavigator = () => {
   ];
 
   return useRoutes([
-    {path: '/', element: <Navigate to={'/welcome'} />},
-    ...screenRoutes,
     {
-      path: '*',
-      element: <div>Wrong URL</div>,
+      path: '/',
+      element: (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+          className="background">
+          <ResponsiveAppBar />
+          <Outlet />
+        </div>
+      ),
+      children: [
+        ...screenRoutes,
+        {
+          path: '*',
+          element: <div>Wrong URL</div>,
+        },
+      ],
     },
   ]);
 };
