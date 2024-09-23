@@ -15,6 +15,7 @@ import ItineraryRoutes from '../screens/Routes';
 import ResponsiveAppBar from './NavBar';
 import FirstPage from '../modules/firstpage/firstpage';
 import MainPage from '../screens/MainPage';
+import PlanTripForm from '../components/Form/PlanTripForm';
 
 const RouteHandler = ({children, isPublic}) => {
   let {isAuthenticated} = useAuth();

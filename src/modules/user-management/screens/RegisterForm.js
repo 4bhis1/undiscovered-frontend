@@ -48,19 +48,21 @@ const RegisterForm = props => {
   const classes = useStyles();
 
   return (
-    <>
-      <div
-        style={{
-          width: '100%',
-          height: '100vh',
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          // overflow: 'hidden',
-        }}></div>
+    <div
+      style={{
+        width: '100vw',
+        height: '100vh',
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        overflow: 'hidden',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+      }}>
       <div
         style={{
           backgroundColor: 'rgba(255, 255, 255, 0.9)',
@@ -68,8 +70,6 @@ const RegisterForm = props => {
           borderRadius: '8px',
           maxWidth: '400px',
           margin: 'auto',
-          position: 'relative',
-          top: '15%',
         }}>
         <Stack style={loginFormStyle.container}>
           <Box className={classes.avatar}>
@@ -139,7 +139,7 @@ const RegisterForm = props => {
           </Stack>
         </Stack>
       </div>
-    </>
+    </div>
   );
 };
 

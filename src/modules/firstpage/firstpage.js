@@ -60,7 +60,7 @@ const FirstPage = props => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Chatbot />
+          {/* <Chatbot /> */}
           {/* Main Content */}
           <h1 style={{color: 'white'}}>
             EXPLORE LIKE THE WORLD ID YOUR OYSTER
