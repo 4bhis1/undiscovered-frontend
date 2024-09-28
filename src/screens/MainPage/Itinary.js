@@ -212,13 +212,14 @@ const DescriptionCard = ({destination, itinerary}) => {
   );
 };
 
-const Itinary = ({data = {}}) => {
-  const {destination = {}, itinerary = []} = data;
+const Itinary = ({data}) => {
+  const {destination, itinerary} = data;
   return (
     <div
       style={{
         flex: 3,
         overflowY: 'auto',
+        height: '95vh',
       }}>
       <TopContainer destination={destination} />
       <DescriptionCard destination={destination} itinerary={itinerary} />

@@ -1,33 +1,55 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import {FaAnglesLeft, FaAnglesRight} from 'react-icons/fa6';
 import {Button} from '../../components/Button';
+import {useNavigate} from 'react-router-dom';
 import {Modal} from '@mui/material';
-import PlanTripForm from '../../components/Form/PlanTripForm';
+import HttpAuth from '../../services/HttpAuthService';
+import {showError} from '../../hooks/showError';
+import PlanTripForm from "../../components/Form/PlanTripForm";
 
-export const ListMenu = ({
-  show,
-  onSelect,
-  selected = 0,
-  userItinaries = [],
-  onRefresh,
-}) => {
+const useIndivisualUseState = ({itnaryId, setData}) => {
+  HttpAuth.get(`/v1/itinerary/${itnaryId}`)
+    .then(response => {
+      setData(response);
+    })
+    .catch(error => {
+      showError(error);
+    });
+};
+
+export const ListMenu = ({setData, leftIndex, updateLeftIndex}) => {
+  const [show, updateShow] = useState(true);
+  const navigate = useNavigate();
+
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
     setOpen(true);
   };
-  const handleClose = async () => {
-    setOpen(false);
-    onRefresh && await onRefresh();
-  };
+  const handleClose = () => setOpen(false);
 
-  return (
+  const [userItinaries, updateUserIntinaries] = useState();
+
+  useEffect(() => {
+    HttpAuth.get('/v1/itinerary')
+      .then(response => {
+        updateUserIntinaries(response.itineraries);
+      })
+      .catch(error => {
+        showError(error);
+      });
+  }, []);
+
+  return show ? (
     <div
       style={{
-        gap: 4,
-        flex: 1,
-        display: show ? 'flex' : 'none',
+        display: 'flex',
         flexDirection: 'column',
+        flex: 1,
+        gap: 4,
+        paddingTop: 8,
+        position: 'relative',
       }}>
-      <div style={{padding: 10}}>
+      <div style={{margin: 10}}>
         <Button title={'Start new Chat'} onClick={handleOpen} />
         <Modal
           open={open}
@@ -44,31 +66,86 @@ export const ListMenu = ({
           height: '80vh',
           overflowY: 'scroll',
         }}>
-        {userItinaries?.map((doc, index) => {
-          return (
-            <div
-              key={index}
-              style={{
-                cursor: 'pointer',
-                padding: 15,
-                borderRadius: 10,
-                borderStyle: 'solid',
-                borderColor: '#c0c0c0',
-                borderWidth: 2,
-                margin: 10,
-                backgroundColor: selected === index ? 'black' : 'white',
-                color: selected === index ? 'white' : 'black',
-              }}
-              onClick={() => {
-                onSelect({
-                  index,
-                  itnaryId: doc._id,
-                });
-              }}>
-              {doc.destination}
-            </div>
-          );
-        })}
+        {userItinaries &&
+          userItinaries.map((doc, index) => {
+            return (
+              <div
+                key={index}
+                style={{
+                  cursor: 'pointer',
+                  padding: 15,
+                  borderRadius: 10,
+                  borderStyle: 'solid',
+                  borderColor: '#c0c0c0',
+                  borderWidth: 2,
+                  margin: 10,
+                  backgroundColor: leftIndex === index ? 'black' : 'white',
+                  color: leftIndex === index ? 'white' : 'black',
+                }}
+                onClick={() => {
+                  useIndivisualUseState({itnaryId: doc._id, setData});
+                  updateLeftIndex(index);
+                }}>
+                {doc.destination}
+              </div>
+            );
+          })}
+      </div>
+      <div
+        style={{
+          color: 'white',
+          height: 30,
+          width: 30,
+          display: 'flex',
+          backgroundColor: 'black',
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: 100,
+          // left: 10,
+          bottom: 100,
+          position: 'absolute',
+          zIndex: 100,
+          cursor: 'pointer',
+        }}
+        onClick={() => {
+          updateShow(doc => {
+            return !doc;
+          });
+        }}>
+        <FaAnglesLeft />
+      </div>
+    </div>
+  ) : (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 4,
+        paddingTop: 8,
+        position: 'relative',
+      }}>
+      <div
+        style={{
+          color: 'white',
+          height: 30,
+          width: 30,
+          display: 'flex',
+          backgroundColor: 'black',
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: 100,
+          left: 0,
+          bottom: 100,
+          position: 'absolute',
+          zIndex: 100,
+          cursor: 'pointer',
+        }}
+        onClick={() => {
+          updateShow(doc => {
+            return !doc;
+          });
+        }}>
+        <FaAnglesRight />
       </div>
     </div>
   );

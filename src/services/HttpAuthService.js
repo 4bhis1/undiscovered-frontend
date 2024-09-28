@@ -1,5 +1,5 @@
 import Http from './HttpService';
-import {showError} from '../hooks/showError';
+
 // Debounce function that collects all calls and executes them after a delay
 const debounceRequests = (fn, delay = 500) => {
   let timeoutId;
@@ -27,8 +27,8 @@ export default class HttpAuth {
   static refresh_token = {};
   // Function to refresh the access token, debounced
   static refreshTokens = debounceRequests(async () => {
-    return await this.post(`/v1/auth/refresh-tokens`, {
-      refresh_token: HttpAuth.access_token?.token,
+    return await this.post(`/v1/auth/refresh-tokens`,{
+      refresh_token: HttpAuth.access_token?.token
     });
   });
 
@@ -42,21 +42,22 @@ export default class HttpAuth {
         await this.refreshTokens();
         return await retryRequest();
       } catch (refreshError) {
-        showError(refreshError);
+        console.error('!!!!refreshError>>>>', refreshError);
+        throw refreshError;
       }
     } else {
-      showError(error);
+      throw error;
     }
   }
 
   static async get(_url, {retryCount = 0, ...config} = {}) {
-    const {headers = {}} = config || {};
-    headers.Authorization = `Bearer ${HttpAuth.access_token?.token}`;
+    const {headers={}} = config || {};
+    headers.Authorization = `Bearer ${HttpAuth.access_token?.token}`
     try {
       return await Http.get(_url, {
         ...config,
         withCredentials: true,
-        headers,
+        headers
       });
     } catch (error) {
       return await this.errorHandler(
@@ -68,13 +69,13 @@ export default class HttpAuth {
   }
 
   static async post(_url, data, {retryCount = 0, ...config} = {}) {
-    const {headers = {}} = config;
-    headers.Authorization = `Bearer ${HttpAuth.access_token?.token}`;
+     const {headers={}} = config;
+    headers.Authorization = `Bearer ${HttpAuth.access_token?.token}`
     try {
       return await Http.post(_url, data, {
         ...config,
         withCredentials: true,
-        headers,
+        headers
       });
     } catch (error) {
       return await this.errorHandler(
@@ -90,13 +91,13 @@ export default class HttpAuth {
   }
 
   static async put(_url, data, {retryCount = 0, ...config} = {}) {
-    const {headers = {}} = config;
-    headers.Authorization = `Bearer ${HttpAuth.access_token?.token}`;
+     const {headers={}} = config;
+    headers.Authorization = `Bearer ${HttpAuth.access_token?.token}`
     try {
       return await Http.put(_url, data, {
         ...config,
         withCredentials: true,
-        headers,
+        headers
       });
     } catch (error) {
       return await this.errorHandler(
@@ -112,13 +113,13 @@ export default class HttpAuth {
   }
 
   static async delete(_url, {retryCount = 0, ...config} = {}) {
-    const {headers = {}} = config;
-    headers.Authorization = `Bearer ${HttpAuth.access_token?.token}`;
+    const {headers={}} = config;
+    headers.Authorization = `Bearer ${HttpAuth.access_token?.token}`
     try {
       return await Http.delete(_url, {
         ...config,
         withCredentials: true,
-        headers,
+        headers
       });
     } catch (error) {
       return await this.errorHandler(
@@ -134,13 +135,13 @@ export default class HttpAuth {
   }
 
   static async upload(_url, file, {retryCount = 0, ...config} = {}) {
-    const {headers = {}} = config;
-    headers.Authorization = `Bearer ${HttpAuth.access_token?.token}`;
+    const {headers={}} = config;
+    headers.Authorization = `Bearer ${HttpAuth.access_token?.token}`
     try {
       return await Http.upload(_url, file, {
         ...config,
         withCredentials: true,
-        headers,
+        headers
       });
     } catch (error) {
       return await this.errorHandler(
@@ -156,13 +157,13 @@ export default class HttpAuth {
   }
 
   static async download(_url, {retryCount = 0, ...config} = {}) {
-    const {headers = {}} = config;
-    headers.Authorization = `Bearer ${HttpAuth.access_token?.token}`;
+    const {headers={}} = config;
+    headers.Authorization = `Bearer ${HttpAuth.access_token?.token}`
     try {
       return await Http.download(_url, {
         ...config,
         withCredentials: true,
-        headers,
+        headers
       });
     } catch (error) {
       return await this.errorHandler(
