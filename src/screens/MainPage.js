@@ -1,116 +1,75 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ListMenu} from './MainPage/LeftNav';
 import Itinary from './MainPage/Itinary';
 import {Direction} from '../components/map/Map';
-import {useNavigate, useParams} from 'react-router-dom';
 import HttpAuth from '../services/HttpAuthService';
-import {showError} from '../hooks/showError';
-
-import loader from '../assets/loader.gif';
-
-import fakedata from './MainPage/data/itinary.json';
-import {AuthContext} from '../context/auth/AuthContext';
-import {AiContext} from '../context/AiContext';
 import Chatbot from '../modules/chatbot/chatbot';
+import {FaAnglesRight} from 'react-icons/fa6';
 
-const sideNavBarItem = [
-  {label: 'Home'},
-  {label: 'About'},
-  {label: 'Contact'},
-  {label: 'Services'},
-  {label: 'Blogs'},
-];
+const MainPage = () => {
+  const [show, updateShow] = useState(true);
+  const [leftIndex, updateLeftIndex] = useState(0);
+  const [iteneries, updateItineraries] = useState([]);
+  const [data, updateData] = useState({});
 
-const budgetObj = {
-  Economy: '5000',
-  Mid: '15000',
-  Luxury: '20000',
-};
-
-const whoObj = {
-  Solo: {
-    adults: '1',
-    kids: '0',
-  },
-  Family: {
-    adults: '2',
-    kids: '2',
-  },
-  Friends: {
-    adults: '6',
-    kids: '0',
-  },
-  Couple: {
-    adults: '2',
-    kids: '1',
-  },
-};
-
-const parseData = (data = {}) => {
-  if (!data) {
-    return {};
-  }
-
-  const obj = {};
-
-  obj.destination = data.place;
-  obj.budget = budgetObj[data?.budget] || '30000';
-  obj.interests = Object.keys(data?.activities || {}).map(key => key);
-  obj.checkinDate = data?.when?.from;
-  obj.checkoutDate = data?.when?.to;
-  obj.members = whoObj[data.who] || {
-    adults: '2',
-    kids: '2',
+  const onIntenerySelect = async ({index, itnaryId}) => {
+    updateLeftIndex(index);
+    const data = await HttpAuth.get(`/v1/itinerary/${itnaryId}`);
+    updateData(data);
   };
 
-  return obj;
-};
+  const getIteneraries = async () => {
+    const {itineraries = []} = await HttpAuth.get('/v1/itinerary');
+    const reversedIteneraries = itineraries.reverse();
+    updateItineraries(reversedIteneraries);
+    onIntenerySelect({index: 0, itnaryId: reversedIteneraries?.[0]?._id});
+  };
 
-const MainPage = props => {
-  const {params = {}} = props;
-  const parsedParams = parseData(params?.data || {});
-  const [data, setData] = useState(fakedata);
-  const [loading, setLoading] = useState(false);
-
-  const {aidata, updateAiData, isBotClose, setIsBotClose} =
-    useContext(AiContext);
-
-  const [leftIndex, updateLeftIndex] = useState(-1);
-
-  const navigate = useNavigate();
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await HttpAuth.post(
-          '/v1/itinerary/generate',
-          parsedParams,
-        );
-        console.log('>>> response', response);
-        setData(response);
-        //set data in context
-        updateAiData(prevState => ({...prevState, itinerary: response})); // Update the stateI
-        setLoading(false);
-      } catch (err) {
-        showError(err);
-        navigate('/welcome');
-      }
-    };
-    getData();
+    getIteneraries();
   }, []);
 
-  return loading ? (
-    <img src={loader} />
-  ) : (
-    <div style={{flexDirection: 'row', flex: 1, display: 'flex',backgroundColor:'#ffffff'}}>
+  return (
+    <div
+      style={{
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'row',
+        backgroundColor: '#ffffff',
+        overflow: 'hidden',
+      }}>
       <ListMenu
-        data={sideNavBarItem}
-        setData={setData}
-        leftIndex={leftIndex}
-        updateLeftIndex={updateLeftIndex}
+        show={show}
+        selected={leftIndex}
+        userItinaries={iteneries}
+        onSelect={onIntenerySelect}
+        onRefresh={getIteneraries}
       />
       <Itinary data={data} />
-      <Direction data={data} />
+      <Direction data={data} show={show}/>
       <Chatbot />
+      <div
+        style={{
+          color: 'white',
+          height: 30,
+          width: 30,
+          display: 'flex',
+          backgroundColor: 'black',
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: 100,
+          left: 0,
+          bottom: 100,
+          position: 'absolute',
+          cursor: 'pointer',
+          transition: 'all 0.3s ease',
+          transform: show ? '' : 'rotate(-180deg)',
+        }}
+        onClick={() => {
+          updateShow(prev => !prev);
+        }}>
+        <FaAnglesRight />
+      </div>
     </div>
   );
 };

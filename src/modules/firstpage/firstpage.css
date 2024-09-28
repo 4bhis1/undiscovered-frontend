@@ -1,74 +1,23 @@
-container {
-  position: relative;
+.firstpage-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+  align-items: center;
 }
 
-.navbar {
+.firstpage-navbar {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
   padding: 10px;
-}
-
-.logo {
-  display: flex;
   align-items: center;
-  gap: 8px;
 }
 
-.logo img {
-  width: 50px;
-  height: 50px;
-  padding: 1px;
-  background-color: #ffffff;
-  border-radius: 50%;
-  resize: both;
-}
-
-.logo text {
+.firstpage-logo-text {
   color: #ffffff;
 }
 
-.login-button {
-  width: 120px;
-  height: 39px;
-  gap: 0px;
-  border-radius: 62.2px;
-  border: 1px 0px 0px 0px;
-  background: #0a0a0a;
-  border: 1px solid #88cc00;
-  color: #ffffff;
-  cursor: pointer;
-  box-shadow: 0px 2px 0px 2px #88cc00;
-  font-weight: bold;
-}
-
-.header {
-  position: relative;
-  z-index: 2;
-  color: white;
-  text-align: center;
-  padding-top: 200px;
-  font-size: 24px;
-}
-
-.header h1 {
-  /* font-size: 2.5rem; */
-  margin-top: 0px;
-  padding-top: 40px;
-  color: #ffffff;
-}
-
-.action-buttons {
-  gap: 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  padding-right: 8px;
-  padding-left: 8px;
-}
-
-.plan-button {
+.firstpage-plan-button {
   border: 1px solid #72ac00;
   width: 280px;
   height: 44px;
@@ -81,21 +30,11 @@ container {
   font-weight: bold;
 }
 
-.discover-button {
-  background: #84e3f5;
-  width: 280px;
-  height: 44px;
-  padding: 12px 28px 12px 36px;
-  gap: 0px;
-  border-radius: 62.2px;
-  border: 1px;
-  border: 1px solid #72ac00;
-  font-weight: bold;
-}
-
-.features {
+.firstpage-features {
   display: flex;
-  justify-content: space-around;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   gap: 8px;
   margin-top: 16px;
   border-radius: 400px;
@@ -103,40 +42,13 @@ container {
   padding: 60px;
 }
 
-.feature-box {
+.firstpage-feature-box {
   padding: 40px 36px 40px 36px;
   gap: 4px;
   border-radius: 32px;
   opacity: 1;
   box-shadow: 0px 4px 20px 0px #00000025;
   background-color: #ffffff;
-  width: 220px;
-}
-
-.globe {
-  max-height: 500px;
-  padding: 50px;
-  overflow: hidden;
-}
-
-@keyframes rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  50% {
-    transform: rotate(180deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.globe img {
-  width: 1, 280px;
-  height: 622px;
-  left: 0.31px;
-  opacity: 0px;
-  transform: scaleX(-1);
-  animation: rotate 2s infinite linear;
-  box-shadow: '6px 6px 6px black';
+  width: 200px;
+  height: 200px;
 }

@@ -113,10 +113,8 @@ export const AppNavigator = () => {
       ),
       children: [
         ...screenRoutes,
-        {
-          path: '*',
-          element: <div>Wrong URL</div>,
-        },
+        {path: '/', element: <Navigate to="/welcome" replace/>},
+        {path: '*', element: <Navigate to="/welcome" replace/>},
       ],
     },
   ]);
