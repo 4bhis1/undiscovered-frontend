@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "test": "jest",
-    "start": "REACT_APP_API_URL=http://192.168.3.157:4010 react-scripts start",
+    "start": "REACT_APP_API_URL=http://localhost:4010 react-scripts start",
     "build": "react-scripts build",
     "web-test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -33,6 +33,7 @@
     "bootstrap": "^5.3.3",
     "date-fns": "3.6.0",
     "dayjs": "^1.11.13",
+    "html-webpack-plugin": "^5.6.0",
     "hybrid-crypto-js": "^0.2.4",
     "js-base64": "^3.7.6",
     "jspdf": "^2.5.2",
@@ -82,15 +83,6 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ]
-  },
-  "packageManager": "yarn@1.22.22",
-  "cssnano": {
-    "preset": [
-      "default",
-      {
-        "calc": false
-      }
     ]
   }
 }
