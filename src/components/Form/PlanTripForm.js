@@ -1,61 +1,16 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Text} from '@radix-ui/themes';
 import {IoIosClose} from 'react-icons/io';
+
+import './form.css';
 import {BudgetArray, NumberOfPeople} from './Constants';
+import {useNavigate} from 'react-router-dom';
 import Place from './FormPages/Places';
 import Date from './FormPages/Time';
 import ActivitiesYouWant from './FormPages/Āctivities';
 import Slider from '../Slider/Slider';
 import {Button} from '../Button';
-import HttpAuth from '../../services/HttpAuthService';
-import './form.css';
-import {Modal} from '@mui/material';
-import { LoadingScreen } from '../../screens/LoadingScreen';
-
-const budgetObj = {
-  Economy: '5000',
-  Mid: '15000',
-  Luxury: '20000',
-};
-
-const whoObj = {
-  Solo: {
-    adults: '1',
-    kids: '0',
-  },
-  Family: {
-    adults: '2',
-    kids: '2',
-  },
-  Friends: {
-    adults: '6',
-    kids: '0',
-  },
-  Couple: {
-    adults: '2',
-    kids: '1',
-  },
-};
-
-const parseData = ({data = {}}) => {
-  if (!data) {
-    return {};
-  }
-
-  const obj = {};
-
-  obj.destination = data.place;
-  obj.budget = budgetObj[data?.budget] || '30000';
-  obj.interests = Object.keys(data?.activities || {}).map(key => key);
-  obj.checkinDate = data?.when?.from;
-  obj.checkoutDate = data?.when?.to;
-  obj.members = whoObj[data.who] || {
-    adults: '2',
-    kids: '2',
-  };
-
-  return obj;
-};
+import {AiContext} from '../../context/AiContext';
 
 const Card = ({Icon, title, additionalText, selectedValue, onClick, multi}) => {
   let className = 'people-box';
@@ -135,29 +90,34 @@ const ComponentIndex = [
   ActivitiesYouWant,
 ];
 
+const ShowMagic = ({formState, navigate, newChat}) => {
+  console.log('> formState', formState);
+  navigate('/itineraries', {state: formState});
+};
+
 const PlanTripForm = props => {
-  const {handleClose} = props;
+  const {handleClose, newChat} = props;
   const [sliderCount, updateSliderCount] = useState(0);
   const [formState, updateFormState] = useState({
     data: {},
     errorMessage: '',
   });
-  const [loading, setLoading] = useState(false);
   const Component = ComponentIndex[sliderCount];
+  const navigate = useNavigate();
+
+  const {updateAiData} = useContext(AiContext);
+
   const showErrorMessage = errorMessage => {
     updateFormState(doc => {
       return {...doc, errorMessage};
     });
   };
 
-  const onFormSubmit = async () => {
-    setLoading(true);
-    await HttpAuth.post('/v1/itinerary/generate', parseData(formState));
-    setLoading(false);
-    handleClose();
-  };
-
   const updateData = updatedData => {
+    console.log(
+      '🚀 ~ file: Form2.js:384 ~ updateFormState ~ data:',
+      updatedData,
+    );
     updateFormState(({data, errorMessage}) => {
       return {
         data: {
@@ -212,9 +172,6 @@ const PlanTripForm = props => {
           }}>
           <IoIosClose />
         </div>
-        <Modal open={loading}>
-          <LoadingScreen />
-        </Modal>
         <div
           style={{
             height: '100%',
@@ -232,9 +189,12 @@ const PlanTripForm = props => {
             Plan Your Next Trip
           </Text>
           <Slider
+            totalSteps={ComponentIndex.length}
             currentStep={sliderCount}
             updateSliderCount={updateSliderCount}
+            errorMessage={formState.errorMessage}
           />
+
           <div
             style={{
               display: 'flex',
@@ -297,12 +257,15 @@ const PlanTripForm = props => {
                   title="Next"
                 />
               )}
+
               {sliderCount === ComponentIndex.length - 1 && (
                 <Button
-                  loading={loading}
-                  disable={formState.errorMessage || loading}
+                  disable={formState.errorMessage}
                   title="Lets Generate"
-                  onClick={onFormSubmit}
+                  onClick={() => {
+                    ShowMagic({formState, navigate});
+                    updateAiData(formState);
+                  }}
                 />
               )}
             </div>

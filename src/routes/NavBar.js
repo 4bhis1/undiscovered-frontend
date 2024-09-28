@@ -16,7 +16,7 @@ import mascot from '../assets/logo.png';
 import {useNavigate} from 'react-router-dom';
 import {useAuth} from '../modules/user-management/hooks/useAuth';
 
-function ResponsiveAppBar() {
+function ResponsiveAppBar({isPublic}) {
   const pages = [];
   const navigate = useNavigate();
   const {logout, user} = useAuth();
@@ -125,7 +125,7 @@ function ResponsiveAppBar() {
             ))}
           </Box>
           <Box sx={{flexGrow: 0, marginRight: -2}}>
-            {!user?.name ? (
+            {isPublic ? (
               <div className="login" onClick={() => navigate('/login')}>
                 <button className="login-button">Login</button>
               </div>

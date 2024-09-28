@@ -20,17 +20,7 @@ const ActivitiesYouWant = ({formState, updateFormState}) => {
   const value = 'activities';
 
   return (
-    <div
-      className={'container'}
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        flex: 1,
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-        alignItems: 'center',
-        overflowY: 'auto',
-      }}>
+    <div className={'container'}>
       {ActivitiesArray.map(title => {
         const who = formState[value];
         return (
